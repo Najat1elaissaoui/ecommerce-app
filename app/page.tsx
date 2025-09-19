@@ -18,12 +18,12 @@ export default function HomePage() {
       <main className="overflow-x-hidden">
         {/* قسم البطل مع تصميم عصري */}
         <HeroSection />
-        
+        <ModernProducts />
         {/* قسم كاروسيل المنتجات المميز */}
         <ProductCarouselSection />
         
         {/* قسم المنتجات مع البطاقات المنسقة */}
-        <ModernProducts />
+        
         
         {/* قسم الفيديو من يوتيوب */}
         <ModernVideoSection />
