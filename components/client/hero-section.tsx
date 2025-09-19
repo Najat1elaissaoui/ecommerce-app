@@ -21,7 +21,7 @@ export default function HeroSection() {
       </div>
 
       {/* Images centered between color blocks */}
-      <img
+      {/* <img
         src="/placeholder-user.jpg"
         alt="Product 1"
         className="hidden md:block absolute top-1/2 left-[15%] -translate-x-1/2 -translate-y-1/2 z-10 w-68 h-72 object-cover  shadow-lg"
@@ -32,8 +32,8 @@ export default function HeroSection() {
         alt="Product 2"
         className="hidden md:block absolute top-1/2 left-[35%] -translate-x-1/2 -translate-y-1/2 z-10 w-68 h-72 object-cover shadow-lg"
         style={{ maxHeight: '80%' }}
-      />
-      <img
+      /> */}
+      {/* <img
         src="/arab-male-fitness-trainer.jpg"
         alt="Product 3"
         className="hidden md:block absolute top-1/2 left-[65%] -translate-x-1/2 -translate-y-1/2 z-10 w-68 h-72 object-cover  shadow-lg"
@@ -44,7 +44,7 @@ export default function HeroSection() {
         alt="Product 4"
         className="hidden md:block absolute top-1/2 left-[85%] -translate-x-1/2 -translate-y-1/2 z-10 w-68 h-72 object-cover "
         style={{ maxHeight: '90%' }}
-      />
+      /> */}
 
       {/* Centered text and button */}
       <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center z-20 text-center">
@@ -63,7 +63,7 @@ export default function HeroSection() {
       <div className="flex md:hidden flex-col w-full">
         <div className="flex flex-row w-full h-40">
           <div className="flex-1 bg-[#2ec4c8] flex items-center justify-center relative">
-            <img
+            {/* <img
               src="/placeholder-user.jpg"
               alt="Product 1"
               className="object-contain h-28 w-auto mx-auto rounded-b-xl shadow-lg"
@@ -72,10 +72,10 @@ export default function HeroSection() {
               src="/protein-powder-assortment.png"
               alt="Goli Pre+Probiotic"
               className="absolute left-1/2 -translate-x-1/2 bottom-2 w-16 h-16 object-contain z-10"
-            />
+            /> */}
           </div>
           <div className="flex-1 bg-[#3ed6e0] flex items-center justify-center relative">
-            <img
+            {/* <img
               src="/arab-female-athlete.jpg"
               alt="Product 2"
               className="object-contain h-28 w-auto mx-auto rounded-b-xl shadow-lg"
@@ -88,7 +88,7 @@ export default function HeroSection() {
               src="/creatine-supplement.jpg"
               alt="Goli Ashwagandha"
               className="absolute left-1/2 -translate-x-1/2 bottom-2 w-10 h-10 object-contain z-10"
-            />
+            /> */}
           </div>
         </div>
 
