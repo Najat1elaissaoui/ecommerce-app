@@ -37,9 +37,9 @@ interface AdminProfile {
 export default function ProfilePage() {
   const [profile, setProfile] = useState<AdminProfile>({
     id: 1,
-    name: "أحمد محمد الإداري",
-    email: "admin@store.com",
-    phone: "+966501234567",
+    name: "يوسف الإدريسي",
+    email: "admin@store.ma",
+    phone: "+212612345678",
     created_at: "2024-01-01T00:00:00Z",
     last_login: "2024-01-15T10:00:00Z"
   })
@@ -156,7 +156,8 @@ export default function ProfilePage() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('ar-SA', {
+    // Use Moroccan Arabic locale; fallback to generic Arabic if not supported.
+    return date.toLocaleDateString('ar-MA', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -306,13 +307,9 @@ export default function ProfilePage() {
                     <p className="text-sm text-muted-foreground">{formatDate(profile.created_at)}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <div>
-                    <p className="text-sm font-medium">آخر تسجيل دخول</p>
-                    <p className="text-sm text-muted-foreground">{formatDate(profile.last_login)}</p>
-                  </div>
-                </div>
+                
+                 
+               
               </div>
               
               <Separator />

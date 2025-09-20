@@ -199,16 +199,16 @@ export default function AddProductSteps({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-background rounded-lg shadow-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-background rounded-lg shadow-lg w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] flex flex-col mx-2 sm:mx-0">
         {/* Header */}
-        <div className="border-b p-6">
+        <div className="border-b p-4 sm:p-6 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-xl sm:text-2xl font-bold">
                 {product ? "تعديل المنتج" : "إضافة منتج جديد"}
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-sm sm:text-base">
                 {STEPS[currentStep - 1].description}
               </p>
             </div>
@@ -218,7 +218,7 @@ export default function AddProductSteps({
           </div>
           
           {/* Progress Steps */}
-          <div className="mt-6">
+          <div className="mt-4 sm:mt-6">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium">
                 الخطوة {currentStep} من {STEPS.length}
@@ -237,7 +237,7 @@ export default function AddProductSteps({
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 min-h-0">
           {/* Step 1: Basic Info */}
           {currentStep === 1 && (
             <div className="space-y-6">
@@ -259,7 +259,7 @@ export default function AddProductSteps({
               </Card>
 
               {/* Home Images */}
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Card>
                   <CardHeader>
                     <CardTitle>صورة الصفحة الرئيسية 1</CardTitle>
@@ -425,7 +425,7 @@ export default function AddProductSteps({
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label>السعر</Label>
                       <Input
@@ -600,7 +600,7 @@ export default function AddProductSteps({
                   <CardTitle>اختيار المكونات</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {ingredients.map((ingredient) => (
                       <Card key={ingredient.id} className={`cursor-pointer transition-colors ${formData.selectedIngredients.includes(ingredient.id) ? 'ring-2 ring-primary' : ''}`}>
                         <CardContent className="p-4">
@@ -715,7 +715,7 @@ export default function AddProductSteps({
             <div className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Each Serving Contains</CardTitle>
+                  <CardTitle>محتويات كل حصة</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -735,7 +735,7 @@ export default function AddProductSteps({
 
                   <div className="space-y-3">
                     {formData.servingComponents.map((component) => (
-                      <div key={component.id} className="flex gap-2 items-center">
+                      <div key={component.id} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
                         <Input
                           value={component.name}
                           onChange={(e) => setFormData(prev => ({
@@ -744,7 +744,7 @@ export default function AddProductSteps({
                               c.id === component.id ? { ...c, name: e.target.value } : c
                             )
                           }))}
-                          placeholder="اسم المكون (مثال: Sodium)"
+                          placeholder="اسم المكون (مثال: صوديوم)"
                           className="flex-1"
                         />
                         <Input
@@ -755,8 +755,8 @@ export default function AddProductSteps({
                               c.id === component.id ? { ...c, quantity: e.target.value } : c
                             )
                           }))}
-                          placeholder="الكمية (مثال: 10 mg)"
-                          className="w-32"
+                          placeholder="الكمية (مثال: 10 ملغ)"
+                          className="sm:w-32 w-full"
                         />
                         <Button 
                           variant="outline" 
@@ -765,8 +765,10 @@ export default function AddProductSteps({
                             ...prev,
                             servingComponents: prev.servingComponents.filter(c => c.id !== component.id)
                           }))}
+                          className="w-full sm:w-auto"
                         >
                           <Trash2 className="w-4 h-4" />
+                          <span className="sm:hidden ml-2">حذف</span>
                         </Button>
                       </div>
                     ))}
@@ -786,7 +788,7 @@ export default function AddProductSteps({
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <Label>Suggested Use</Label>
+                    <Label>طريقة الاستعمال المقترحة</Label>
                     <Textarea
                       value={formData.suggestedUse}
                       onChange={(e) => setFormData(prev => ({ ...prev, suggestedUse: e.target.value }))}
@@ -795,7 +797,7 @@ export default function AddProductSteps({
                     />
                   </div>
                   <div>
-                    <Label>Our gummies do not contain</Label>
+                    <Label>لا يحتوي المنتج على</Label>
                     <Textarea
                       value={formData.doesNotContain}
                       onChange={(e) => setFormData(prev => ({ ...prev, doesNotContain: e.target.value }))}
@@ -971,7 +973,7 @@ export default function AddProductSteps({
                         </Button>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <Label>اسم العميل</Label>
                           <Input
@@ -1147,7 +1149,7 @@ export default function AddProductSteps({
                               </Button>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <div>
                                 <Label>اسم العنصر</Label>
                                 <Input
@@ -1252,7 +1254,7 @@ export default function AddProductSteps({
                         />
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <Label>السعر</Label>
                           <Input
@@ -1310,29 +1312,42 @@ export default function AddProductSteps({
         </div>
 
         {/* Footer */}
-        <div className="border-t p-6 flex items-center justify-between">
-          <Button
-            variant="outline"
-            onClick={prevStep}
-            disabled={currentStep === 1}
-            className="gap-2"
-          >
-            <ChevronRight className="w-4 h-4" />
-            السابق
-          </Button>
-          
-          <div className="flex gap-2">
-            {currentStep < STEPS.length ? (
-              <Button onClick={nextStep} className="gap-2">
-                التالي
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-            ) : (
-              <Button onClick={handleSubmit} disabled={loading} className="gap-2">
-                {loading ? "جاري الحفظ..." : "حفظ المنتج"}
-                <Check className="w-4 h-4" />
-              </Button>
-            )}
+        <div className="border-t p-4 sm:p-6 flex-shrink-0">
+          <div className="flex items-center justify-between gap-4">
+            <Button
+              variant="outline"
+              onClick={prevStep}
+              disabled={currentStep === 1}
+              className="gap-2 flex-shrink-0"
+            >
+              <ChevronRight className="w-4 h-4" />
+              <span className="hidden sm:inline">السابق</span>
+            </Button>
+            
+            <div className="flex gap-2 flex-shrink-0">
+              {currentStep < STEPS.length ? (
+                <Button onClick={nextStep} className="gap-2">
+                  <span className="hidden sm:inline">التالي</span>
+                  <span className="sm:hidden">التالي</span>
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+              ) : (
+                <Button onClick={handleSubmit} disabled={loading} className="gap-2">
+                  {loading ? (
+                    <>
+                      <span className="hidden sm:inline">جاري الحفظ...</span>
+                      <span className="sm:hidden">حفظ...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="hidden sm:inline">حفظ المنتج</span>
+                      <span className="sm:hidden">حفظ</span>
+                    </>
+                  )}
+                  <Check className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>

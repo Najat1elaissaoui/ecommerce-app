@@ -26,6 +26,12 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
   const { addItem } = useCart()
   const { toast } = useToast()
 
+  // Helper to format price in Moroccan Dirhams (DHS) with Western (Latin) digits
+  const formatPrice = (value: number) => {
+    // Round to nearest whole number; adapt if fractional part should be shown
+    return Math.round(value).toLocaleString('en-US')
+  }
+
   // Mock products data
   const mockProducts: Product[] = [
     {
@@ -210,7 +216,7 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
                     </Link>
                     <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{product.description_ar}</p>
                     <div className="flex items-center gap-3 mb-6">
-                      <span className="text-2xl font-bold text-primary">{product.price.toLocaleString("ar-SA")} ر.س</span>
+                      <span className="text-2xl font-bold text-primary">{formatPrice(product.price)} DHS</span>
                     </div>
                     <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
@@ -281,7 +287,7 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
                             <span className="text-2xl font-bold text-primary">
-                              {product.price.toLocaleString("ar-SA")} ر.س
+                              {formatPrice(product.price)} DHS
                             </span>
                           </div>
                           <Button

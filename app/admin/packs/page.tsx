@@ -336,7 +336,7 @@ export default function PacksPage() {
                       <SelectContent>
                         {products.map(product => (
                           <SelectItem key={product.id} value={product.id.toString()}>
-                            {product.name_ar} - {product.price} ر.س
+                            {product.name_ar} - {product.price} DHS
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -364,9 +364,9 @@ export default function PacksPage() {
               {formData.selectedProducts.length > 0 && (
                 <div className="bg-muted p-4 rounded-lg space-y-2">
                   <p className="text-sm font-medium">ملخص السعر:</p>
-                  <p className="text-sm">
+                  {/* <p className="text-sm">
                     السعر الأصلي: {calculateOriginalPrice(formData.selectedProducts).toFixed(2)} ر.س
-                  </p>
+                  </p> */}
                   <div className="space-y-2">
                     <Label htmlFor="pack_price">سعر الحزمة</Label>
                     <Input
@@ -443,9 +443,9 @@ export default function PacksPage() {
               <TableRow>
                 <TableHead className="text-right">اسم الحزمة</TableHead>
                 <TableHead className="text-right">المنتجات</TableHead>
-                <TableHead className="text-right">السعر الأصلي</TableHead>
+                {/* <TableHead className="text-right">السعر الأصلي</TableHead> */}
                 <TableHead className="text-right">سعر الحزمة</TableHead>
-                <TableHead className="text-right">التوفير</TableHead>
+                
                 <TableHead className="text-right">الإجراءات</TableHead>
               </TableRow>
             </TableHeader>
@@ -478,20 +478,20 @@ export default function PacksPage() {
                         ))}
                       </div>
                     </TableCell>
-                    <TableCell>{originalPrice.toFixed(2)} ر.س</TableCell>
+                    {/* <TableCell>{originalPrice.toFixed(2)} DHS</TableCell> */}
                     <TableCell className="font-bold text-green-600">
-                      {pack.pack_price.toFixed(2)} ر.س
+                      {pack.pack_price.toFixed(2)} DHS
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <div className="space-y-1">
                         <Badge variant="secondary" className="bg-green-100 text-green-800">
-                          {savings.toFixed(2)} ر.س
+                          {savings.toFixed(2)} DHS
                         </Badge>
                         <p className="text-xs text-muted-foreground">
                           {discountPercent.toFixed(1)}% خصم
                         </p>
                       </div>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <div className="flex gap-2">
                         <Button

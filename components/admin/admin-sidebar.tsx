@@ -43,11 +43,7 @@ const sidebarItems = [
     href: "/admin/profile",
     icon: User,
   },
-  {
-    title: "الإعدادات",
-    href: "/admin/settings",
-    icon: Settings,
-  },
+  
 ]
 
 export default function AdminSidebar() {

@@ -4,34 +4,35 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Eye, Phone, MapPin } from "lucide-react"
+import { formatDhs } from "@/lib/utils"
 
 const recentOrders = [
   {
     id: 1,
-    clientName: "أحمد محمد",
-    phone: "0123456789",
-    city: "الرياض",
-    total: 299.99,
+    clientName: "يوسف بنعيسى",
+    phone: "0612345678",
+    city: "الدار البيضاء",
+    total: 329.99,
     status: "en_attente",
-    createdAt: "منذ 5 دقائق",
+    createdAt: "قبل 5 دقائق",
   },
   {
     id: 2,
-    clientName: "فاطمة علي",
-    phone: "0987654321",
-    city: "جدة",
-    total: 399.99,
+    clientName: "فاطمة الزهراء",
+    phone: "0676543210",
+    city: "الرباط",
+    total: 459.99,
     status: "validee",
-    createdAt: "منذ 15 دقيقة",
+    createdAt: "قبل 12 دقيقة",
   },
   {
     id: 3,
-    clientName: "محمد سالم",
-    phone: "0555123456",
-    city: "الدمام",
-    total: 149.99,
+    clientName: "سارة العلمي",
+    phone: "0655123456",
+    city: "مراكش",
+    total: 189.5,
     status: "expediee",
-    createdAt: "منذ ساعة",
+    createdAt: "قبل ساعة",
   },
 ]
 
@@ -43,18 +44,18 @@ const statusColors = {
 }
 
 const statusLabels = {
-  en_attente: "في الانتظار",
-  validee: "مؤكد",
-  annulee: "ملغي",
-  expediee: "مُرسل",
+  en_attente: "قيد المعالجة",
+  validee: "مؤكدة",
+  annulee: "ملغاة",
+  expediee: "مُرسلة",
 }
 
 export default function RecentOrders() {
   return (
     <Card className="animate-slide-in-right shadow-lg border-0">
       <CardHeader>
-        <CardTitle className="text-primary">الطلبات الأخيرة</CardTitle>
-        <CardDescription>آخر الطلبات المستلمة في النظام</CardDescription>
+        <CardTitle className="text-primary">أحدث الطلبات</CardTitle>
+        <CardDescription>آخر الطلبات المسجلة في المنصة</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -84,7 +85,7 @@ export default function RecentOrders() {
                 </div>
               </div>
               <div className="text-left">
-                <div className="text-lg font-bold text-primary mb-2">{order.total.toLocaleString("ar-SA")} ر.س</div>
+                <div className="text-lg font-bold text-primary mb-2">{formatDhs(order.total)}</div>
                 <Button size="sm" variant="outline" className="gap-1 bg-transparent">
                   <Eye className="w-3 h-3" />
                   عرض

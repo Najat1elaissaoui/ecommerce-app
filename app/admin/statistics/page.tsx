@@ -32,13 +32,12 @@ import {
   TrendingDown, 
   ShoppingCart, 
   Package, 
-  Users, 
   DollarSign,
-  Calendar,
   AlertTriangle,
   CheckCircle,
   Clock
 } from "lucide-react"
+import { formatDhs } from "@/lib/utils"
 
 interface DashboardStats {
   totalProducts: number
@@ -82,6 +81,7 @@ export default function StatisticsPage() {
         const data: ChartData[] = []
         const days = timeRange === 'day' ? 24 : timeRange === 'week' ? 7 : 30
         
+        const frenchMonths = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']
         for (let i = days - 1; i >= 0; i--) {
           const date = new Date()
           if (timeRange === 'day') {
@@ -89,11 +89,20 @@ export default function StatisticsPage() {
           } else {
             date.setDate(date.getDate() - i)
           }
-          
+
+          let label: string
+            
+          if (timeRange === 'day') {
+            label = date.getHours().toString().padStart(2, '0') + ':00'
+          } else if (timeRange === 'week') {
+            // For week range show day + abbreviated French month
+            label = `${date.getDate()} ${frenchMonths[date.getMonth()].slice(0,3)}`
+          } else { // month range
+            label = `${date.getDate()} ${frenchMonths[date.getMonth()]}`
+          }
+
           data.push({
-            date: timeRange === 'day' 
-              ? date.getHours().toString().padStart(2, '0') + ':00'
-              : date.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' }),
+            date: label,
             orders: Math.floor(Math.random() * 10) + 1,
             revenue: Math.floor(Math.random() * 1000) + 200
           })
@@ -123,12 +132,7 @@ export default function StatisticsPage() {
     generateMockData()
   }, [timeRange])
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('ar-SA', {
-      style: 'currency',
-      currency: 'SAR'
-    }).format(value)
-  }
+  const formatCurrency = (value: number) => formatDhs(value)
 
   return (
     <div className="p-6 space-y-6">
@@ -170,20 +174,7 @@ export default function StatisticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">مخزون منخفض</p>
-                <p className="text-2xl font-bold text-red-500">{stats.lowStockProducts}</p>
-              </div>
-              <AlertTriangle className="w-8 h-8 text-red-500" />
-            </div>
-            <div className="mt-4 flex items-center">
-              <span className="text-xs text-muted-foreground">يحتاج إعادة تموين</span>
-            </div>
-          </CardContent>
-        </Card>
+       
 
         <Card>
           <CardContent className="pt-6">
@@ -205,7 +196,7 @@ export default function StatisticsPage() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">الإيرادات الإجمالية</p>
+                <p className="text-sm font-medium text-muted-foreground">إجمالي المداخيل</p>
                 <p className="text-2xl font-bold">{formatCurrency(stats.totalRevenue)}</p>
               </div>
               <DollarSign className="w-8 h-8 text-purple-500" />
@@ -224,8 +215,8 @@ export default function StatisticsPage() {
           <CardHeader>
             <CardTitle>عدد الطلبات</CardTitle>
             <CardDescription>
-              {timeRange === 'day' ? 'الطلبات خلال آخر 24 ساعة' : 
-               timeRange === 'week' ? 'الطلبات خلال آخر أسبوع' : 'الطلبات خلال آخر شهر'}
+              {timeRange === 'day' ? 'الطلبات خلال 24 ساعة الأخيرة' : 
+               timeRange === 'week' ? 'الطلبات خلال الأسبوع الماضي' : 'الطلبات خلال الشهر الماضي'}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -248,8 +239,8 @@ export default function StatisticsPage() {
           <CardHeader>
             <CardTitle>الإيرادات</CardTitle>
             <CardDescription>
-              {timeRange === 'day' ? 'الإيرادات خلال آخر 24 ساعة' : 
-               timeRange === 'week' ? 'الإيرادات خلال آخر أسبوع' : 'الإيرادات خلال آخر شهر'}
+              {timeRange === 'day' ? 'المداخيل خلال 24 ساعة الأخيرة' : 
+               timeRange === 'week' ? 'المداخيل خلال الأسبوع الماضي' : 'المداخيل خلال الشهر الماضي'}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -260,7 +251,7 @@ export default function StatisticsPage() {
                 <YAxis />
                 <Tooltip 
                   labelFormatter={(label) => `التاريخ: ${label}`}
-                  formatter={(value) => [`${formatCurrency(value as number)}`, 'الإيرادات']}
+                  formatter={(value) => [`${formatCurrency(value as number)}`, 'المداخيل']}
                 />
                 <Line type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={2} />
               </LineChart>
@@ -334,14 +325,14 @@ export default function StatisticsPage() {
       {/* Additional Stats */}
       <Card>
         <CardHeader>
-          <CardTitle>معدلات الأداء</CardTitle>
-          <CardDescription>مؤشرات أداء رئيسية للمتجر</CardDescription>
+          <CardTitle>مؤشرات إضافية</CardTitle>
+          <CardDescription>مقاييس مساعدة لتحليل الأداء</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-6 border rounded-lg">
               <div className="text-3xl font-bold text-blue-600 mb-2">95.2%</div>
-              <p className="text-sm text-muted-foreground">معدل إتمام الطلبات</p>
+              <p className="text-sm text-muted-foreground">نسبة إتمام الطلبات</p>
               <div className="mt-2 flex items-center justify-center">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-sm text-green-600">+2.1%</span>
@@ -349,8 +340,8 @@ export default function StatisticsPage() {
             </div>
             
             <div className="text-center p-6 border rounded-lg">
-              <div className="text-3xl font-bold text-green-600 mb-2">₽128.50</div>
-              <p className="text-sm text-muted-foreground">متوسط قيمة الطلب</p>
+              <div className="text-3xl font-bold text-green-600 mb-2">{formatCurrency(128.5)}</div>
+              <p className="text-sm text-muted-foreground">متوسط قيمة الطلب (DHS)</p>
               <div className="mt-2 flex items-center justify-center">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-sm text-green-600">+8.3%</span>
@@ -359,7 +350,7 @@ export default function StatisticsPage() {
             
             <div className="text-center p-6 border rounded-lg">
               <div className="text-3xl font-bold text-purple-600 mb-2">2.3</div>
-              <p className="text-sm text-muted-foreground">متوسط المنتجات لكل طلب</p>
+              <p className="text-sm text-muted-foreground">متوسط عدد المنتجات لكل طلب</p>
               <div className="mt-2 flex items-center justify-center">
                 <TrendingDown className="w-4 h-4 text-red-500 mr-1" />
                 <span className="text-sm text-red-600">-1.2%</span>

@@ -276,19 +276,7 @@ export default function ProductsPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-red-500" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">مخزون منخفض</p>
-                    <p className="text-2xl font-bold">
-                      {products.filter(p => p.quantity <= p.low_stock_threshold && p.quantity > 0).length}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+           
           </div>
 
           {/* Products Table */}
@@ -306,7 +294,7 @@ export default function ProductsPage() {
                     <TableHead className="text-right">اسم المنتج</TableHead>
                     <TableHead className="text-right">السعر</TableHead>
                     <TableHead className="text-right">الكمية</TableHead>
-                    <TableHead className="text-right">حالة المخزون</TableHead>
+                    
                     <TableHead className="text-right">الإجراءات</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -325,16 +313,9 @@ export default function ProductsPage() {
                             )}
                           </div>
                         </TableCell>
-                        <TableCell>{product.price.toFixed(2)} ر.س</TableCell>
+                        <TableCell>{product.price.toFixed(2)} DHS</TableCell>
                         <TableCell>{product.quantity}</TableCell>
-                        <TableCell>
-                          <Badge 
-                            variant={stockStatus.color === "warning" ? "secondary" : stockStatus.color}
-                            className={stockStatus.color === "warning" ? "bg-yellow-100 text-yellow-800" : ""}
-                          >
-                            {stockStatus.status}
-                          </Badge>
-                        </TableCell>
+                        
                         <TableCell>
                           <div className="flex gap-2">
                             <Button

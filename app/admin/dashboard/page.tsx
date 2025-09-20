@@ -46,20 +46,7 @@ export default function AdminDashboardPage() {
       time: 'منذ 5 دقائق',
       status: 'pending'
     },
-    {
-      id: 2,
-      type: 'stock',
-      title: 'مخزون منخفض: بروتين واي',
-      time: 'منذ 15 دقيقة',
-      status: 'warning'
-    },
-    {
-      id: 3,
-      type: 'order',
-      title: 'تم تأكيد طلب #1001',
-      time: 'منذ 30 دقيقة',
-      status: 'success'
-    }
+   
   ])
 
   // Logout function

@@ -40,13 +40,13 @@ export default function ContactSection() {
     {
       icon: Phone,
       title: "اتصل بنا",
-      info: "+971 50 123 4567",
+      info: "+212 12345678",
       description: "متاح 24/7 للاستفسارات"
     },
     {
       icon: Mail,
       title: "البريد الإلكتروني",
-      info: "info@supplements-store.com",
+      info: "info@gmail.com",
       description: "نرد خلال 24 ساعة"
     },
     

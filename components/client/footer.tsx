@@ -58,15 +58,15 @@ export default function Footer() {
             <div className="space-y-3 text-neutral-400">
               <div className="flex items-center gap-3 hover:text-white transition">
                 <Phone className="w-4 h-4" />
-                <span>+966 50 123 4567</span>
+                <span>+212 12345678</span>
               </div>
               <div className="flex items-center gap-3 hover:text-white transition">
                 <Mail className="w-4 h-4" />
-                <span>info@supplements-store.com</span>
+                <span>info@gmail.com</span>
               </div>
               <div className="flex items-center gap-3 hover:text-white transition">
                 <MapPin className="w-4 h-4" />
-                <span>الرياض، المملكة العربية السعودية</span>
+                <span>الرباط، المغرب</span>
               </div>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function Footer() {
             ))}
           </div>
           <p className="text-neutral-500 text-sm text-center">
-            © 2024 متجر المكملات. جميع الحقوق محفوظة.
+            © 2025 متجر المكملات. جميع الحقوق محفوظة.
           </p>
         </div>
       </div>

@@ -64,52 +64,40 @@ export default function NotificationsPage() {
         title: 'طلب جديد',
         message: 'تم استلام طلب جديد',
         client_name: 'أحمد محمد',
-        client_city: 'الرياض',
+        client_city: 'الرباط',
         total_amount: 250.00,
         order_id: 1001,
         is_read: false,
         created_at: new Date(Date.now() - 5 * 60 * 1000).toISOString()
       },
       {
-        id: 2,
-        type: 'stock',
-        title: 'تنبيه مخزون',
-        message: 'مستوى المخزون منخفض',
-        product_name: 'بروتين واي',
-        stock_level: 3,
-        is_read: false,
-        created_at: new Date(Date.now() - 15 * 60 * 1000).toISOString()
-      },
-      {
-        id: 3,
+        id: 1,
         type: 'order',
-        title: 'طلب مؤكد',
-        message: 'تم تأكيد الطلب من قبل العميل',
-        client_name: 'فاطمة أحمد',
-        client_city: 'جدة',
-        total_amount: 180.50,
-        order_id: 1000,
-        is_read: true,
-        created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString()
+        title: 'طلب جديد',
+        message: 'تم استلام طلب جديد',
+        client_name: 'أحمد محمد',
+        client_city: 'الرباط',
+        total_amount: 250.00,
+        order_id: 1001,
+        is_read: false,
+        created_at: new Date(Date.now() - 5 * 60 * 1000).toISOString()
       },
       {
-        id: 4,
-        type: 'stock',
-        title: 'نفاد مخزون',
-        message: 'نفد مخزون المنتج بالكامل',
-        product_name: 'فيتامين د3',
-        stock_level: 0,
-        is_read: true,
-        created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+        id: 1,
+        type: 'order',
+        title: 'طلب جديد',
+        message: 'تم استلام طلب جديد',
+        client_name: 'أحمد محمد',
+        client_city: 'الرباط',
+        total_amount: 250.00,
+        order_id: 1001,
+        is_read: false,
+        created_at: new Date(Date.now() - 5 * 60 * 1000).toISOString()
       },
-      {
-        id: 5,
-        type: 'system',
-        title: 'تحديث النظام',
-        message: 'تم تحديث النظام إلى الإصدار الجديد',
-        is_read: true,
-        created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-      }
+      
+      
+     
+      
     ]
 
     setNotifications(mockNotifications)
@@ -222,17 +210,7 @@ export default function NotificationsPage() {
     const now = new Date()
     const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60))
     
-    if (diffInMinutes < 1) {
-      return 'الآن'
-    } else if (diffInMinutes < 60) {
-      return `منذ ${diffInMinutes} دقيقة`
-    } else if (diffInMinutes < 1440) {
-      const hours = Math.floor(diffInMinutes / 60)
-      return `منذ ${hours} ساعة`
-    } else {
-      const days = Math.floor(diffInMinutes / 1440)
-      return `منذ ${days} يوم`
-    }
+    
   }
 
   const unreadCount = notifications.filter(n => !n.is_read).length
@@ -286,35 +264,12 @@ export default function NotificationsPage() {
               <SelectContent>
                 <SelectItem value="all">جميع الإشعارات</SelectItem>
                 <SelectItem value="unread">غير مقروءة</SelectItem>
-                <SelectItem value="order">طلبات</SelectItem>
-                <SelectItem value="stock">مخزون</SelectItem>
-                <SelectItem value="system">نظام</SelectItem>
+                
               </SelectContent>
             </Select>
           </div>
 
-          {/* Settings */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex items-center space-x-2 space-x-reverse">
-              <Switch
-                id="sound"
-                checked={soundEnabled}
-                onCheckedChange={setSoundEnabled}
-              />
-              <Label htmlFor="sound" className="flex items-center gap-2">
-                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-                تفعيل الأصوات
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2 space-x-reverse">
-              <Switch
-                id="auto-refresh"
-                checked={autoRefresh}
-                onCheckedChange={setAutoRefresh}
-              />
-              <Label htmlFor="auto-refresh">التحديث التلقائي</Label>
-            </div>
-          </div>
+          
 
           {/* Actions */}
           <div className="flex gap-2">
@@ -392,11 +347,9 @@ export default function NotificationsPage() {
                                 <p><strong>المدينة:</strong> {notification.client_city}</p>
                               )}
                               {notification.total_amount && (
-                                <p><strong>المبلغ:</strong> {notification.total_amount.toFixed(2)} ر.س</p>
+                                <p><strong>المبلغ:</strong> {notification.total_amount.toFixed(2)} dhs</p>
                               )}
-                              {notification.order_id && (
-                                <p><strong>رقم الطلب:</strong> #{notification.order_id}</p>
-                              )}
+                              
                             </div>
                           )}
 
@@ -417,21 +370,7 @@ export default function NotificationsPage() {
                           )}
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-muted-foreground whitespace-nowrap">
-                            {formatTime(notification.created_at)}
-                          </span>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              deleteNotification(notification.id)
-                            }}
-                          >
-                            <X className="w-4 h-4" />
-                          </Button>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
@@ -459,20 +398,7 @@ export default function NotificationsPage() {
             </div>
           </CardContent>
         </Card>
-        
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-orange-500" />
-              <div>
-                <p className="text-sm text-muted-foreground">تنبيهات المخزون</p>
-                <p className="text-2xl font-bold">
-                  {notifications.filter(n => n.type === 'stock').length}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+       
         
         <Card>
           <CardContent className="pt-6">

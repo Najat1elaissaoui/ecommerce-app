@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Package, AlertTriangle, ShoppingCart, Clock, TrendingUp } from "lucide-react"
+import { formatDhs } from "@/lib/utils"
 
 interface DashboardStatsProps {
   stats: {
@@ -15,20 +16,20 @@ interface DashboardStatsProps {
 export default function DashboardStats({ stats }: DashboardStatsProps) {
   const statCards = [
     {
-      title: "إجمالي المنتجات",
+      title: "عدد المنتجات",
       value: stats.totalProducts,
       icon: Package,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
-      change: "+12%",
+      change: "+10%",
     },
     {
-      title: "منتجات قليلة المخزون",
-      value: 8,
+      title: "منتجات منخفضة المخزون",
+      value: 5,
       icon: AlertTriangle,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
-      change: "-5%",
+      change: "-3%",
     },
     {
       title: "طلبات هذا الشهر",
@@ -36,23 +37,23 @@ export default function DashboardStats({ stats }: DashboardStatsProps) {
       icon: ShoppingCart,
       color: "text-green-600",
       bgColor: "bg-green-50",
-      change: "+23%",
+      change: "+18%",
     },
     {
-      title: "طلبات في الانتظار",
-      value: 15,
+      title: "طلبات قيد المعالجة",
+      value: 9,
       icon: Clock,
       color: "text-yellow-600",
       bgColor: "bg-yellow-50",
-      change: "+8%",
+      change: "+5%",
     },
     {
-      title: "إجمالي الإيرادات",
-      value: `${stats.totalRevenue.toLocaleString("ar-SA")} ر.س`,
+      title: "إجمالي المداخيل",
+      value: formatDhs(stats.totalRevenue),
       icon: TrendingUp,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
-      change: "+18%",
+      change: "+15%",
     },
   ]
 
@@ -68,9 +69,9 @@ export default function DashboardStats({ stats }: DashboardStatsProps) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900 mb-1">
-              {typeof stat.value === "number" ? stat.value.toLocaleString("ar-SA") : stat.value}
+              {typeof stat.value === "number" ? stat.value.toLocaleString("en-US") : stat.value}
             </div>
-            <p className="text-xs text-green-600 font-medium">{stat.change} من الشهر الماضي</p>
+            <p className="text-xs text-green-600 font-medium">{stat.change} مقارنة بالشهر الماضي</p>
           </CardContent>
         </Card>
       ))}

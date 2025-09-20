@@ -15,7 +15,7 @@ export default function ModernVideoSection() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-20 bg-gradient-to-b from-white to-gray-50" dir="rtl">
       <div className="container mx-auto px-4">
         
         {/* Section Header */}
@@ -34,13 +34,12 @@ export default function ModernVideoSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
             شاهد منتجاتنا
             <span className="block bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
-              في العمل
+              أثناء الاستخدام
             </span>
           </h2>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            اكتشف كيف تحول مكملاتنا المميزة أداء رياضيينا. 
-            مشاهدة واحدة تساوي ألف كلمة.
+            اكتشف كيف تُحسّن مكملاتنا المميزة أداء الرياضيين. مشاهدة واحدة تغني عن ألف كلمة.
           </p>
         </motion.div>
 
@@ -101,17 +100,17 @@ export default function ModernVideoSection() {
                     <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
                       <div className="flex items-center justify-between text-white">
                         <div>
-                          <h3 className="font-bold text-lg mb-1">Supplement Showcase</h3>
-                          <p className="text-sm opacity-90">Découvrez nos produits premium</p>
+                          <h3 className="font-bold text-lg mb-1">عرض المكمّلات</h3>
+                          <p className="text-sm opacity-90">اكتشف منتجاتنا المميزة</p>
                         </div>
                         <div className="flex items-center space-x-4 text-sm">
                           <div className="flex items-center">
                             <Users className="w-4 h-4 mr-1" />
-                            <span>2.5K vues</span>
+                            <span>2500 مشاهدة</span>
                           </div>
                           <div className="flex items-center">
                             <Star className="w-4 h-4 mr-1 fill-yellow-400 text-yellow-400" />
-                            <span>4.9</span>
+                            <span>4.9 تقييم</span>
                           </div>
                         </div>
                       </div>
@@ -164,24 +163,24 @@ export default function ModernVideoSection() {
             <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-pink-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
               <Play className="w-8 h-8 text-white" />
             </div>
-            <h4 className="text-lg font-bold text-gray-900 mb-2">Premium Content</h4>
-            <p className="text-gray-600">Contenu exclusif sur nos produits</p>
+            <h4 className="text-lg font-bold text-gray-900 mb-2">محتوى حصري</h4>
+            <p className="text-gray-600">محتوى مميز حول منتجاتنا</p>
           </div>
           
           <div className="text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
               <Users className="w-8 h-8 text-white" />
             </div>
-            <h4 className="text-lg font-bold text-gray-900 mb-2">Real Athletes</h4>
-            <p className="text-gray-600">Témoignages d'athlètes professionnels</p>
+            <h4 className="text-lg font-bold text-gray-900 mb-2">رياضيون حقيقيون</h4>
+            <p className="text-gray-600">شهادات لرياضيين محترفين</p>
           </div>
           
           <div className="text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
               <Award className="w-8 h-8 text-white" />
             </div>
-            <h4 className="text-lg font-bold text-gray-900 mb-2">Proven Results</h4>
-            <p className="text-gray-600">Résultats scientifiquement prouvés</p>
+            <h4 className="text-lg font-bold text-gray-900 mb-2">نتائج مثبتة</h4>
+            <p className="text-gray-600">نتائج مدعومة علميًا</p>
           </div>
         </motion.div>
 
@@ -195,17 +194,17 @@ export default function ModernVideoSection() {
         >
           <div className="bg-gradient-to-r from-red-50 to-pink-50 rounded-3xl p-8 border border-red-100">
             <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Prêt à Commencer Votre Transformation ?
+              هل أنت مستعد لبدء تحولك؟
             </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Rejoignez les milliers d'athlètes qui ont déjà transformé leur performance avec nos suppléments premium.
+              انضم إلى الآلاف من الرياضيين الذين طوروا أداءهم مع مكملاتنا المميزة.
             </p>
             <motion.button
               className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-xl transition-all duration-300 group"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
-              Découvrir Nos Produits
+              اكتشف منتجاتنا
               <motion.span
                 className="inline-block ml-2"
                 animate={{ x: [0, 5, 0] }}

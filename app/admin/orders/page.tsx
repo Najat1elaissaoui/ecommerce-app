@@ -32,6 +32,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Search, Eye, Filter, Calendar, User, MapPin, Clock, CheckCircle, XCircle, Truck } from "lucide-react"
 import { Order, OrderItem } from "@/lib/types"
+import { formatDhs } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 
 const statusColors = {
@@ -74,10 +75,10 @@ export default function OrdersPage() {
     const mockOrders: Order[] = [
       {
         id: 1,
-        client_name: "أحمد محمد",
-        client_phone: "+966501234567",
-        client_city: "الرياض",
-        comment: "توصيل سريع من فضلكم",
+        client_name: "يوسف بنعيسى",
+        client_phone: "+212612345678",
+        client_city: "الدار البيضاء",
+        comment: "المرجو الاتصال قبل الوصول",
         total_amount: 180.00,
         status: "en_attente",
         admin_note: "",
@@ -106,9 +107,9 @@ export default function OrdersPage() {
       },
       {
         id: 2,
-        client_name: "فاطمة علي",
-        client_phone: "+966507654321",
-        client_city: "جدة",
+        client_name: "سارة العلمي",
+        client_phone: "+212655443322",
+        client_city: "الرباط",
         comment: "",
         total_amount: 95.00,
         status: "validee",
@@ -138,13 +139,13 @@ export default function OrdersPage() {
       },
       {
         id: 3,
-        client_name: "محمد الأحمد",
-        client_phone: "+966512345678",
-        client_city: "الدمام",
+        client_name: "مروان أيت عمر",
+        client_phone: "+212633221100",
+        client_city: "مراكش",
         comment: "",
         total_amount: 200.00,
         status: "expediee",
-        admin_note: "تم الإرسال مع شركة أرامكس",
+        admin_note: "تم الإرسال مع شركة محلية",
         created_at: "2024-01-13T08:00:00Z",
         updated_at: "2024-01-14T14:00:00Z",
         items: [
@@ -253,7 +254,7 @@ export default function OrdersPage() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('ar-SA', {
+    return date.toLocaleDateString('ar-MA', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -436,7 +437,7 @@ export default function OrdersPage() {
                       </div>
                     </TableCell>
                     <TableCell>{order.client_city}</TableCell>
-                    <TableCell className="font-medium">{order.total_amount.toFixed(2)} ر.س</TableCell>
+                    <TableCell className="font-medium">{formatDhs(order.total_amount)}</TableCell>
                     <TableCell>
                       <Badge variant={statusColors[order.status]} className="gap-1">
                         <StatusIcon className="w-3 h-3" />
@@ -481,7 +482,7 @@ export default function OrdersPage() {
                                     <Label className="text-sm font-medium">معلومات الطلب</Label>
                                     <div className="space-y-1">
                                       <p><strong>التاريخ:</strong> {formatDate(selectedOrder.created_at)}</p>
-                                      <p><strong>المبلغ:</strong> {selectedOrder.total_amount.toFixed(2)} ر.س</p>
+                                      <p><strong>المبلغ:</strong> {formatDhs(selectedOrder.total_amount)}</p>
                                       <p><strong>الحالة:</strong> {statusLabels[selectedOrder.status]}</p>
                                     </div>
                                   </div>
@@ -505,8 +506,8 @@ export default function OrdersPage() {
                                           <TableRow key={item.id}>
                                             <TableCell>{item.item_name_ar}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.unit_price.toFixed(2)} ر.س</TableCell>
-                                            <TableCell>{(item.unit_price * item.quantity).toFixed(2)} ر.س</TableCell>
+                                            <TableCell>{formatDhs(item.unit_price)}</TableCell>
+                                            <TableCell>{formatDhs(item.unit_price * item.quantity)}</TableCell>
                                           </TableRow>
                                         ))}
                                       </TableBody>
