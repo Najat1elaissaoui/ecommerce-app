@@ -149,7 +149,7 @@ export default function ProductServingSection({ serving }: ProductServingSection
         </div>
 
         {/* Bottom disclaimer */}
-        <div className="mt-16 text-center">
+        {/* <div className="mt-16 text-center">
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-4xl mx-auto">
             <p className="text-white/90 text-sm leading-relaxed">
               <strong>Disclaimer:</strong> Ces déclarations n'ont pas été évaluées par la Food and Drug Administration. 
@@ -158,7 +158,7 @@ export default function ProductServingSection({ serving }: ProductServingSection
               allaitez ou avez des problèmes de santé.
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   )

@@ -109,7 +109,7 @@ export default function ProductPacksSection({ packs, productName }: ProductPacks
             <div className="space-y-4">
               
               {/* Option Subscribe & Save */}
-              <Card className="border-2 border-gray-200 rounded-2xl overflow-hidden">
+              {/* <Card className="border-2 border-gray-200 rounded-2xl overflow-hidden">
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center">
                     <div className="flex-1">
@@ -134,7 +134,7 @@ export default function ProductPacksSection({ packs, productName }: ProductPacks
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               {/* Option One-time Purchase - Style rouge de l'image 2 */}
               <Card className="border-2 border-red-600 rounded-2xl overflow-hidden bg-gradient-to-r from-red-600 to-red-700 text-white shadow-xl">
@@ -142,21 +142,21 @@ export default function ProductPacksSection({ packs, productName }: ProductPacks
                   <div className="flex justify-between items-center">
                     <div className="flex-1">
                       <div className="flex items-baseline gap-2 mb-2">
-                        <span className="text-lg font-semibold">One-time Purchase</span>
+                        <span className="text-lg font-semibold">Prix</span>
                       </div>
                       <div className="flex items-baseline gap-2">
                         <span className="text-4xl font-bold">
-                          ${((selectedPackData?.price || 0) * 1.1).toFixed(2)}
+                          dhs{((selectedPackData?.price || 0) * 1.1).toFixed(2)}
                         </span>
-                        <span className="text-lg">each</span>
+                        {/* <span className="text-lg">each</span>
                         <span className="text-sm opacity-90">
-                          Total: ${(((selectedPackData?.price || 0) * 1.1) * (selectedPackData?.quantity || 1)).toFixed(2)}
+                          Total: dhs{(((selectedPackData?.price || 0) * 1.1) * (selectedPackData?.quantity || 1)).toFixed(2)}
                         </span>
                         {selectedPackData?.originalPrice && (
                           <span className="text-sm opacity-70 line-through ml-2">
-                            ${(selectedPackData.originalPrice * 1.1).toFixed(2)}
+                            dhs{(selectedPackData.originalPrice * 1.1).toFixed(2)}
                           </span>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>
@@ -201,10 +201,10 @@ export default function ProductPacksSection({ packs, productName }: ProductPacks
               
               {/* Security badges */}
               <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-600">
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
                   <span>Paiement sécurisé</span>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-green-600" />
                   <span>Livraison gratuite</span>

@@ -230,8 +230,8 @@ export default function ModernProductsSection() {
 
                     {/* Enhanced Price Display */}
                     <div className="flex items-center justify-between mb-8">
-                      <span className="text-3xl font-black text-gray-900">{product.price.toLocaleString("fr-MA")} DH</span>
-                      
+                      {/* <span className="text-3xl font-black text-gray-900">{product.price.toLocaleString("fr-MA")} DH</span>
+                       */}
                       {/* Price badge */}
                       <div className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">
                         أفضل سعر
@@ -240,7 +240,7 @@ export default function ModernProductsSection() {
 
                     {/* Enhanced Actions */}
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
-                      <Button 
+                      {/* <Button 
                         onClick={() => handleAddToCart(product)}
                         disabled={product.quantity === 0}
                         className="flex-1 w-full bg-black hover:bg-gray-800 text-white font-bold py-3 sm:py-4 rounded-2xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
@@ -250,11 +250,11 @@ export default function ModernProductsSection() {
                           <span className="hidden xs:inline">{product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}</span>
                           <span className="xs:hidden">{product.quantity === 0 ? "غير متوفر" : "إضافة"}</span>
                         </span>
-                      </Button>
+                      </Button> */}
                       
                       <Link href={`/products/${product.id}`} className="flex-1">
                          <Button 
-                          className="w-full bg-white hover:bg-gray-50 text-black border-2 border-gray-200 hover:border-gray-300 font-bold py-3 sm:py-4 rounded-2xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                          className="w-full bg-black  text-white border-2 border-gray-200 hover:border-gray-300 font-bold py-3 sm:py-4 rounded-2xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
                         >
                          <span className="relative z-10 flex items-center justify-center text-xs sm:text-sm">
                              <span className="hidden xs:inline">عرض التفاصيل</span>

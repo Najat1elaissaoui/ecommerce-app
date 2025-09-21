@@ -58,19 +58,7 @@ export default function ProductBenefitsSection({ benefits, image }: ProductBenef
         
         {/* Header inspiré de l'image 3 */}
         <div className="text-center mb-16 text-white">
-          <p className="text-lg font-medium mb-4 text-white/90">
-            Apple Cider Vinegar has been used for centuries as a traditional remedy for
-          </p>
-          
-          {/* Deux badges comme dans l'image 3 */}
-          <div className="flex justify-center gap-6 mb-12">
-            <div className="bg-white text-red-600 px-8 py-4 rounded-lg font-bold text-xl shadow-xl">
-              Digestion
-            </div>
-            <div className="bg-white text-red-600 px-8 py-4 rounded-lg font-bold text-xl shadow-xl">
-              Gut Health
-            </div>
-          </div>
+         
 
           {/* Titre principal */}
           <h2 className="text-4xl lg:text-5xl font-bold mb-8">
@@ -178,11 +166,7 @@ export default function ProductBenefitsSection({ benefits, image }: ProductBenef
         </div>
 
         {/* Note en bas */}
-        <div className="text-center mt-12">
-          <p className="text-white/80 text-sm">
-            <sup>†</sup> Ces déclarations n'ont pas été évaluées par la FDA. Ce produit n'est pas destiné à diagnostiquer, traiter, guérir ou prévenir une maladie.
-          </p>
-        </div>
+       
       </div>
     </section>
   )
