@@ -15,13 +15,25 @@ interface ProductHeroSectionProps {
   description: string
   category: string
   price?: number // Prix optionnel maintenant
+  productColor?: {
+    main: string   // Couleur principale du produit
+    light: string  // Version plus claire
+    dark: string   // Version plus foncée
+    contrastText: string // Texte contrasté qui se lit bien sur la couleur principale
+  }
 }
 
 export default function ProductHeroSection({ 
   name, 
   image, 
   description, 
-  category
+  category,
+  productColor = {
+    main: "#7C3AED",      // Couleur par défaut (violet)
+    light: "#9F67FF",     // Version plus claire
+    dark: "#5B21B6",      // Version plus foncée
+    contrastText: "#FFFFFF" // Texte blanc pour contraste
+  }
 }: ProductHeroSectionProps) {
   const [addedToCart, setAddedToCart] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -72,7 +84,7 @@ export default function ProductHeroSection({
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: "easeInOut"
+        ease: easeInOut
       }
     }
   }
@@ -97,7 +109,7 @@ export default function ProductHeroSection({
       transition: {
         duration: 4,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: easeInOut
       }
     }
   }
@@ -105,13 +117,16 @@ export default function ProductHeroSection({
   return (
     <section 
       ref={ref}
-      className="w-full min-h-screen relative overflow-hidden bg-gradient-to-br from-violet-900 via-purple-800 to-indigo-900"
+      className="w-full min-h-screen relative overflow-hidden"
+      style={{
+        background: `linear-gradient(to bottom right, ${productColor.dark}, ${productColor.main}, ${productColor.dark})`
+      }}
     >
       {/* Animated background elements */}
       <motion.div 
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(147, 51, 234, 0.3) 0%, transparent 70%)`
+          background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, ${productColor.light}33 0%, transparent 70%)`
         }}
       />
       
@@ -163,7 +178,10 @@ export default function ProductHeroSection({
             {/* Category badge */}
             <motion.div variants={itemVariants}>
               <Badge 
-                className="px-6 py-3 text-sm font-bold bg-gradient-to-r from-pink-500 to-violet-500 text-white border-0 rounded-full shadow-lg"
+                className="px-6 py-3 text-sm font-bold text-white border-0 rounded-full shadow-lg"
+                style={{
+                  background: `linear-gradient(to right, ${productColor.main}, ${productColor.light})`
+                }}
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 {category.toUpperCase()}
@@ -173,7 +191,10 @@ export default function ProductHeroSection({
             {/* Main title */}
             <motion.div variants={itemVariants} className="space-y-4">
               <motion.p 
-                className="text-lg font-medium bg-gradient-to-r from-pink-300 to-violet-300 bg-clip-text text-transparent"
+                className="text-lg font-medium bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: `linear-gradient(to right, ${productColor.light}, #ffffff)`
+                }}
                 animate={{ 
                   backgroundPosition: ["0%", "100%", "0%"]
                 }}
@@ -238,11 +259,12 @@ export default function ProductHeroSection({
                 <Button
                   size="lg"
                   onClick={handleAddToCart}
-                  className={`px-12 py-6 text-lg font-bold rounded-2xl transition-all duration-500 flex items-center gap-4 shadow-2xl ${
-                    addedToCart 
-                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
-                      : 'bg-gradient-to-r from-pink-500 to-violet-600 hover:from-pink-600 hover:to-violet-700'
-                  }`}
+                  className={`px-12 py-6 text-lg font-bold rounded-2xl transition-all duration-500 flex items-center gap-4 shadow-2xl`}
+                  style={{
+                    background: addedToCart 
+                      ? 'linear-gradient(to right, #10B981, #059669)'
+                      : `linear-gradient(to right, ${productColor.main}, ${productColor.dark})`
+                  }}
                 >
                   <motion.div
                     animate={addedToCart ? { rotate: 360 } : { rotate: 0 }}
@@ -269,7 +291,10 @@ export default function ProductHeroSection({
             <motion.div 
               variants={glowVariants}
               animate="animate"
-              className="absolute inset-0 bg-gradient-to-r from-pink-400/30 via-violet-400/30 to-blue-400/30 rounded-full blur-3xl scale-150"
+              className="absolute inset-0 rounded-full blur-3xl scale-150"
+              style={{
+                background: `linear-gradient(to right, ${productColor.light}4D, ${productColor.main}4D, ${productColor.light}4D)`
+              }}
             />
             
             <motion.div 
@@ -298,7 +323,10 @@ export default function ProductHeroSection({
               
               {/* Floating elements around product */}
               <motion.div 
-                className="absolute -top-8 -right-8 w-20 h-20 bg-gradient-to-r from-pink-400/20 to-violet-400/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30"
+                className="absolute -top-8 -right-8 w-20 h-20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30"
+                style={{
+                  background: `linear-gradient(to right, ${productColor.main}33, ${productColor.light}33)`
+                }}
                 animate={{ 
                   rotate: 360,
                   scale: [1, 1.2, 1],
@@ -309,7 +337,10 @@ export default function ProductHeroSection({
               </motion.div>
               
               <motion.div 
-                className="absolute bottom-16 -left-8 w-16 h-16 bg-gradient-to-r from-blue-400/20 to-emerald-400/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20"
+                className="absolute bottom-16 -left-8 w-16 h-16 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20"
+                style={{
+                  background: `linear-gradient(to right, ${productColor.light}33, ${productColor.main}33)`
+                }}
                 animate={{ 
                   y: [-5, 5, -5],
                   x: [-2, 2, -2],
@@ -320,7 +351,10 @@ export default function ProductHeroSection({
               </motion.div>
 
               <motion.div 
-                className="absolute top-1/2 -right-6 w-12 h-12 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20"
+                className="absolute top-1/2 -right-6 w-12 h-12 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20"
+                style={{
+                  background: `linear-gradient(to right, ${productColor.light}33, ${productColor.dark}33)`
+                }}
                 animate={{ 
                   scale: [1, 1.3, 1],
                   rotate: [0, 180, 360],

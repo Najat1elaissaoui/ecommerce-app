@@ -10,12 +10,13 @@ import Footer from "@/components/client/footer"
 import Header from "@/components/client/header"
 import HeroSection from "@/components/client/hero-section"
 import ProductCarouselSection from "@/components/client/product-carousel-section"
+// Removed SlidingAnnouncement import as it's now in layout.tsx
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background" dir="rtl" lang="ar">
       <Header />
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden pt-28">
         {/* قسم البطل مع تصميم عصري */}
         <HeroSection />
         <ModernProducts />

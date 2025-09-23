@@ -13,9 +13,23 @@ interface Ingredient {
 
 interface ProductIngredientsSectionProps {
   ingredients: Ingredient[]
+  productColor?: {
+    main: string   // Couleur principale du produit
+    light: string  // Version plus claire
+    dark: string   // Version plus foncée
+    contrastText: string // Texte contrasté qui se lit bien sur la couleur principale
+  }
 }
 
-export default function ProductIngredientsSection({ ingredients }: ProductIngredientsSectionProps) {
+export default function ProductIngredientsSection({ 
+  ingredients,
+  productColor = {
+    main: "#7C3AED",      // Violet par défaut
+    light: "#9F67FF",     // Version plus claire
+    dark: "#5B21B6",      // Version plus foncée
+    contrastText: "#FFFFFF" // Texte blanc pour contraste
+  }
+}: ProductIngredientsSectionProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   const containerVariants = {
@@ -39,7 +53,9 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
   }
 
   return (
-    <section className="w-full py-24 bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+    <section className="w-full py-24" style={{
+      background: `linear-gradient(to bottom right, #f9fafb, white, ${productColor.light}0D)`
+    }}>
       <div className="container mx-auto px-4">
         
         {/* Header minimaliste */}
@@ -58,7 +74,9 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             Pure
-            <span className="font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent"> Ingredients</span>
+            <span className="font-bold bg-clip-text text-transparent" style={{ 
+              backgroundImage: `linear-gradient(to right, ${productColor.main}, ${productColor.light})` 
+            }}> Ingredients</span>
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-500 max-w-2xl mx-auto font-light"
@@ -92,9 +110,7 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
                 {/* Gradient background animé */}
                 <motion.div 
                   className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                    index % 3 === 0 ? 'bg-gradient-to-br from-emerald-400/20 to-blue-400/20' :
-                    index % 3 === 1 ? 'bg-gradient-to-br from-purple-400/20 to-pink-400/20' :
-                    'bg-gradient-to-br from-orange-400/20 to-red-400/20'
+                    `bg-gradient-to-br from-${productColor.light}33 to-${productColor.main}33`
                   }`}
                   layoutId={`bg-${index}`}
                 />
@@ -104,7 +120,10 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
                   <div className="relative h-64 flex items-center justify-center p-8 overflow-hidden">
                     {/* Cercles décoratifs */}
                     <motion.div 
-                      className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gradient-to-r from-emerald-100 to-blue-100 opacity-60"
+                      className="absolute top-4 right-4 w-12 h-12 rounded-full opacity-60"
+                      style={{ 
+                        background: `linear-gradient(to right, ${productColor.light}33, ${productColor.main}33)` 
+                      }}
                       animate={{ 
                         scale: hoveredIndex === index ? [1, 1.2, 1] : 1,
                         rotate: hoveredIndex === index ? 360 : 0
@@ -112,7 +131,10 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
                       transition={{ duration: 2, repeat: hoveredIndex === index ? Infinity : 0 }}
                     />
                     <motion.div 
-                      className="absolute bottom-4 left-4 w-8 h-8 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 opacity-60"
+                      className="absolute bottom-4 left-4 w-8 h-8 rounded-full opacity-60"
+                      style={{ 
+                        background: `linear-gradient(to right, ${productColor.main}33, ${productColor.dark}33)` 
+                      }}
                       animate={{ 
                         scale: hoveredIndex === index ? [1, 1.3, 1] : 1
                       }}
@@ -136,11 +158,8 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
 
                     {/* Effet de glow au hover */}
                     <motion.div 
-                      className={`absolute inset-0 blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 ${
-                        index % 3 === 0 ? 'bg-emerald-300' :
-                        index % 3 === 1 ? 'bg-purple-300' :
-                        'bg-orange-300'
-                      }`}
+                      className="absolute inset-0 blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500"
+                      style={{ backgroundColor: productColor.light }}
                       animate={{
                         scale: hoveredIndex === index ? [1, 1.2, 1] : 1
                       }}
@@ -169,11 +188,10 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
 
                   {/* Ligne d'accent en bas */}
                   <motion.div 
-                    className={`absolute bottom-0 left-0 right-0 h-1 ${
-                      index % 3 === 0 ? 'bg-gradient-to-r from-emerald-400 to-blue-400' :
-                      index % 3 === 1 ? 'bg-gradient-to-r from-purple-400 to-pink-400' :
-                      'bg-gradient-to-r from-orange-400 to-red-400'
-                    }`}
+                    className="absolute bottom-0 left-0 right-0 h-1"
+                    style={{ 
+                      background: `linear-gradient(to right, ${productColor.main}, ${productColor.light})` 
+                    }}
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
                     viewport={{ once: true }}
@@ -185,28 +203,7 @@ export default function ProductIngredientsSection({ ingredients }: ProductIngred
           ))}
         </motion.div>
 
-        {/* Section finale minimaliste */}
-        {/* <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="mt-24 text-center"
-        >
-          <div className="max-w-2xl mx-auto">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="bg-white/50 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/20"
-            >
-              <h3 className="text-3xl font-light text-gray-900 mb-4">
-                Qualité <span className="font-bold">Premium</span>
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Chaque ingrédient est soigneusement sélectionné pour sa pureté exceptionnelle et son efficacité prouvée scientifiquement.
-              </p>
-            </motion.div>
-          </div>
-        </motion.div> */}
+       
       </div>
     </section>
   )

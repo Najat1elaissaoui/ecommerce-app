@@ -22,9 +22,24 @@ interface Benefits {
 interface ProductBenefitsSectionProps {
   benefits: Benefits
   image: string
+  productColor?: {
+    main: string   // Couleur principale du produit
+    light: string  // Version plus claire
+    dark: string   // Version plus foncée
+    contrastText: string // Texte contrasté qui se lit bien sur la couleur principale
+  }
 }
 
-export default function ProductBenefitsSection({ benefits, image }: ProductBenefitsSectionProps) {
+export default function ProductBenefitsSection({ 
+  benefits, 
+  image,
+  productColor = {
+    main: "#AE3131",      // Rouge par défaut
+    light: "#D15858",     // Version plus claire
+    dark: "#8C1E1E",      // Version plus foncée
+    contrastText: "#FFFFFF" // Texte blanc pour contraste
+  }
+}: ProductBenefitsSectionProps) {
   const [expandedBenefit, setExpandedBenefit] = useState<number | null>(null)
 
   const toggleBenefit = (index: number) => {
@@ -46,7 +61,7 @@ export default function ProductBenefitsSection({ benefits, image }: ProductBenef
   return (
     <section 
       className="w-full py-20 relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 50%, #991B1B 100%)" }}
+      style={{ background: `linear-gradient(135deg, ${productColor.light} 0%, ${productColor.main} 50%, ${productColor.dark} 100%)` }}
     >
       {/* Background decoration */}
       <div className="absolute inset-0">
@@ -83,29 +98,29 @@ export default function ProductBenefitsSection({ benefits, image }: ProductBenef
                   <div className="flex items-center gap-4">
                     <div 
                       className="p-3 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: colors.primary.orange + "20" }}
+                      style={{ backgroundColor: productColor.main + "20" }}
                     >
-                      <div style={{ color: colors.primary.orange }}>
+                      <div style={{ color: productColor.main }}>
                         {getBenefitIcon(benefit.name)}
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-red-600 transition-colors">
+                      <h3 className={`text-xl font-bold text-gray-900 group-hover:text-[${productColor.main}] transition-colors`}>
                         {benefit.name}
                         {benefit.name.includes('Production') && (
-                          <sup className="text-sm text-red-600">†</sup>
+                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
                         )}
                         {benefit.name.includes('Function') && (
-                          <sup className="text-sm text-red-600">†</sup>
+                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
                         )}
                         {benefit.name.includes('Health') && (
-                          <sup className="text-sm text-red-600">†</sup>
+                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
                         )}
                         {benefit.name.includes('Metabolism') && (
-                          <sup className="text-sm text-red-600">†</sup>
+                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
                         )}
                         {benefit.name.includes('Support') && (
-                          <sup className="text-sm text-red-600">†</sup>
+                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
                         )}
                       </h3>
                     </div>
@@ -116,13 +131,13 @@ export default function ProductBenefitsSection({ benefits, image }: ProductBenef
                     <div 
                       className="p-2 rounded-full transition-transform duration-300"
                       style={{ 
-                        backgroundColor: expandedBenefit === index ? colors.primary.orange + "20" : "transparent",
+                        backgroundColor: expandedBenefit === index ? productColor.main + "20" : "transparent",
                         transform: expandedBenefit === index ? 'rotate(180deg)' : 'rotate(0deg)'
                       }}
                     >
                       <ChevronDown 
                         className="w-5 h-5"
-                        style={{ color: colors.primary.orange }}
+                        style={{ color: productColor.main }}
                       />
                     </div>
                   )}

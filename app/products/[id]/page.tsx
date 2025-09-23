@@ -1,6 +1,7 @@
 "use client"
 
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import ProductHeroSection from '@/components/client/product-hero-section'
 import ProductPacksSection from '@/components/client/product-packs-section'
 import ProductBenefitsSection from '@/components/client/product-benefits-section'
@@ -10,11 +11,20 @@ import ProductServingSection from '@/components/client/product-serving-section'
 import ProductOpinionsSection from '@/components/client/product-opinions-section'
 import Header from '@/components/client/header'
 import Footer from '@/components/client/footer'
+import { Button } from '@/components/ui/button'
 
 // Type pour les données produit (basé sur le système admin à 10 étapes)
 interface ProductData {
   id: number
   name: string
+  
+  // Couleurs du produit pour le thème visuel
+  productColor?: {
+    main: string   // Couleur principale du produit
+    light: string  // Version plus claire
+    dark: string   // Version plus foncée
+    contrastText: string // Texte contrasté qui se lit bien sur la couleur principale
+  }
   
   // Étape 1 - Informations de base
   homeImage1: string
@@ -96,6 +106,13 @@ interface ProductData {
 const sampleProductData: ProductData = {
   id: 1,
   name: "Apple Cider Vinegar Gummies",
+  
+  productColor: {
+    main: "#AE3131",      // Rouge pour ce produit
+    light: "#D15858",     // Version plus claire
+    dark: "#8C1E1E",      // Version plus foncée
+    contrastText: "#FFFFFF" // Texte blanc pour contraste
+  },
   
   homeImage1: "/protein-powder-assortment.png",
   homeImage2: "/creatine-supplement.jpg", 
@@ -215,6 +232,12 @@ const productsData: Record<string, ProductData> = {
     ...sampleProductData,
     id: 2,
     name: "Whey Protein Powder",
+    productColor: {
+      main: "#0088CC",      // Bleu pour ce produit
+      light: "#4AAFDF",     // Version plus claire
+      dark: "#006699",      // Version plus foncée
+      contrastText: "#FFFFFF" // Texte blanc pour contraste
+    },
     basicInfo: {
       description: "Premium whey protein for muscle building and recovery",
       category: "Protein",
@@ -226,6 +249,12 @@ const productsData: Record<string, ProductData> = {
     ...sampleProductData,
     id: 3,
     name: "Creatine Monohydrate",
+    productColor: {
+      main: "#7851A9",      // Violet pour ce produit
+      light: "#9B7AC5",     // Version plus claire
+      dark: "#5A3D81",      // Version plus foncée
+      contrastText: "#FFFFFF" // Texte blanc pour contraste
+    },
     basicInfo: {
       description: "Pure creatine monohydrate for strength and power",
       category: "Performance",
@@ -238,6 +267,12 @@ const productsData: Record<string, ProductData> = {
     ...sampleProductData,
     id: 4,
     name: "Multi-Vitamin Complex",
+    productColor: {
+      main: "#FF8C00",      // Orange pour ce produit
+      light: "#FFAA42",     // Version plus claire
+      dark: "#D97700",      // Version plus foncée
+      contrastText: "#FFFFFF" // Texte blanc pour contraste
+    },
     basicInfo: {
       description: "Complete daily vitamin and mineral support",
       category: "Wellness",
@@ -249,6 +284,12 @@ const productsData: Record<string, ProductData> = {
     ...sampleProductData,
     id: 5,
     name: "Omega-3 Fish Oil",
+    productColor: {
+      main: "#00A86B",      // Vert pour ce produit
+      light: "#35C992",     // Version plus claire
+      dark: "#008554",      // Version plus foncée
+      contrastText: "#FFFFFF" // Texte blanc pour contraste
+    },
     basicInfo: {
       description: "High-quality omega-3 fatty acids for heart and brain health",
       category: "Wellness", 
@@ -286,24 +327,32 @@ export default async function ProductDetailPage({ params }: Props) {
           description={product.detailedDescription}
           category={product.basicInfo.category}
           price={product.basicInfo.price}
+          productColor={product.productColor}
         />
 
         {/* Section 2: Packs et prix (Étape 7 admin) */}
         <ProductPacksSection 
           packs={product.packs}
           productName={product.name}
+          productColor={product.productColor}
         />
 
         {/* Section 3: Bénéfices (Étape 3 admin) */}
         <ProductBenefitsSection 
           benefits={product.benefits}
           image={product.homeImage2}
+          productColor={product.productColor}
         />
 
         {/* Section 4: Ingrédients (Étape 4 admin) */}
-        <ProductIngredientsSection 
-          ingredients={product.ingredients}
-        />
+        <div className="relative">
+          <ProductIngredientsSection 
+            ingredients={product.ingredients}
+            productColor={product.productColor}
+          />
+          
+         
+        </div>
 
         {/* Section 5: Vidéo (Étape 5 admin - optionnel) */}
         {product.video && (
@@ -315,6 +364,7 @@ export default async function ProductDetailPage({ params }: Props) {
         {/* Section 6: Composition et usage (Étape 6 admin) */}
         <ProductServingSection 
           serving={product.serving}
+          productColor={product.productColor}
         />
 
         {/* Section 7: Opinions clients (Étape 8 admin - optionnel) */}

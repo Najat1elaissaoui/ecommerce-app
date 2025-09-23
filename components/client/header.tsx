@@ -34,8 +34,10 @@ export default function Header() {
     <>
       <header
         className={cn(
-          "fixed top-0 right-0 left-0 z-50 transition-all duration-300",
-          isScrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent",
+          "fixed right-0 left-0 z-40 transition-all duration-300",
+          "bg-white shadow-lg", // Toujours en blanc avec une ombre
+          // Ajustement pour la bannière défilante
+          "top-9" // 36px pour la bannière compacte
         )}
       >
         <div className="container mx-auto px-4">

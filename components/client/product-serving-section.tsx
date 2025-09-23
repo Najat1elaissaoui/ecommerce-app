@@ -17,15 +17,31 @@ interface Serving {
   doesNotContain: string[]
 }
 
-interface ProductServingSectionProps {
-  serving: Serving
+interface ProductColor {
+  main: string
+  light: string
+  dark: string
+  contrastText: string
 }
 
-export default function ProductServingSection({ serving }: ProductServingSectionProps) {
+interface ProductServingSectionProps {
+  serving: Serving
+  productColor?: ProductColor
+}
+
+export default function ProductServingSection({ serving, productColor }: ProductServingSectionProps) {
+  // Couleurs par défaut si aucune n'est fournie
+  const colors = productColor || {
+    main: "#DC2626",
+    light: "#EF4444",
+    dark: "#991B1B",
+    contrastText: "#FFFFFF"
+  };
+
   return (
     <section 
       className="w-full py-20 relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 50%, #991B1B 100%)" }}
+      style={{ background: `linear-gradient(135deg, ${colors.light} 0%, ${colors.main} 50%, ${colors.dark} 100%)` }}
     >
       {/* Background decoration */}
       <div className="absolute inset-0">
@@ -69,9 +85,9 @@ export default function ProductServingSection({ serving }: ProductServingSection
                 {/* Header avec background coloré */}
                 <div 
                   className="px-6 py-4 text-center"
-                  style={{ backgroundColor: colors.primary.orange + "20" }}
+                  style={{ backgroundColor: colors.light + "20" }}
                 >
-                  <h3 className="text-2xl font-bold" style={{ color: colors.primary.orange }}>
+                  <h3 className="text-2xl font-bold" style={{ color: colors.main }}>
                     Each Gummy Contains:
                   </h3>
                 </div>
@@ -98,7 +114,7 @@ export default function ProductServingSection({ serving }: ProductServingSection
             {/* Full List of Ingredients */}
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
               <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Info className="w-5 h-5" style={{ color: colors.primary.orange }} />
+                <Info className="w-5 h-5" style={{ color: colors.main }} />
                 Full List of Ingredients
               </h4>
               <p className="text-sm text-gray-700 leading-relaxed">
@@ -122,7 +138,7 @@ export default function ProductServingSection({ serving }: ProductServingSection
             {/* Our Gummies DO NOT Contain - Style de l'image 5 */}
             <div 
               className="rounded-2xl p-6 shadow-xl text-white"
-              style={{ background: colors.primary.orangeGradient }}
+              style={{ background: `linear-gradient(to right, ${colors.main}, ${colors.dark})` }}
             >
               <h4 className="font-bold mb-4 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
