@@ -1,25 +1,21 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { colors } from "@/lib/colors"
+import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { ShoppingCart, Check, Sparkles, Heart, Shield, Leaf } from "lucide-react"
-import { useState, useEffect } from "react"
-import { motion, useAnimation, useInView, easeInOut } from "framer-motion"
-import { useRef } from "react"
+import Link from "next/link"
 
 interface ProductHeroSectionProps {
   name: string
   image: string
   description: string
   category: string
-  price?: number // Prix optionnel maintenant
+  price?: number
   productColor?: {
-    main: string   // Couleur principale du produit
-    light: string  // Version plus claire
-    dark: string   // Version plus foncée
-    contrastText: string // Texte contrasté qui se lit bien sur la couleur principale
+    main: string
+    light: string
+    dark: string
+    contrastText: string
   }
 }
 
@@ -29,347 +25,165 @@ export default function ProductHeroSection({
   description, 
   category,
   productColor = {
-    main: "#7C3AED",      // Couleur par défaut (violet)
-    light: "#9F67FF",     // Version plus claire
-    dark: "#5B21B6",      // Version plus foncée
-    contrastText: "#FFFFFF" // Texte blanc pour contraste
+    main: "#7C3AED",
+    light: "#9F67FF",
+    dark: "#5B21B6",
+    contrastText: "#FFFFFF"
   }
 }: ProductHeroSectionProps) {
-  const [addedToCart, setAddedToCart] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-  const controls = useAnimation()
-
-  useEffect(() => {
-    if (isInView) {
-      controls.start("visible")
-    }
-  }, [isInView, controls])
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 20,
-        y: (e.clientY / window.innerHeight) * 20,
-      })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
-  const handleAddToCart = () => {
-    setAddedToCart(true)
-    setTimeout(() => setAddedToCart(false), 3000)
-    console.log("Produit ajouté au panier:", name)
-  }
-
-  // Animations variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        duration: 0.6
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: easeInOut
-      }
-    }
-  }
-
-  const floatingVariants = {
-    animate: {
-      y: [-10, 10, -10],
-      x: [-5, 5, -5],
-      rotate: [0, 5, -5, 0],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: easeInOut
-      }
-    }
-  }
-
-  const glowVariants = {
-    animate: {
-      scale: [1, 1.2, 1],
-      opacity: [0.3, 0.6, 0.3],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: easeInOut
-      }
-    }
-  }
 
   return (
     <section 
-      ref={ref}
-      className="w-full min-h-screen relative overflow-hidden"
+      className="w-full py-12 md:py-20 relative overflow-hidden"
       style={{
         background: `linear-gradient(to bottom right, ${productColor.dark}, ${productColor.main}, ${productColor.dark})`
       }}
     >
-      {/* Animated background elements */}
-      <motion.div 
-        className="absolute inset-0"
-        style={{
-          background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, ${productColor.light}33 0%, transparent 70%)`
-        }}
-      />
-      
-      {/* Floating orbs */}
-      <motion.div 
-        variants={floatingVariants}
-        animate="animate"
-        className="absolute top-20 right-20 w-32 h-32 bg-pink-400/20 rounded-full blur-xl"
-      />
-      <motion.div 
-        variants={floatingVariants}
-        animate="animate"
-        style={{ animationDelay: '2s' }}
-        className="absolute bottom-32 left-16 w-48 h-48 bg-blue-400/10 rounded-full blur-2xl"
-      />
-      <motion.div 
-        variants={floatingVariants}
-        animate="animate"
-        style={{ animationDelay: '4s' }}
-        className="absolute top-1/2 left-1/4 w-24 h-24 bg-emerald-400/20 rounded-full blur-lg"
-      />
-
-      {/* Geometric shapes */}
-      <motion.div
-        className="absolute top-1/4 right-1/4 w-6 h-6 border-2 border-white/30"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 left-1/3 w-4 h-4 bg-gradient-to-r from-pink-400 to-violet-400 rounded-full"
-        animate={{ 
-          scale: [1, 1.5, 1],
-          opacity: [0.7, 1, 0.7]
-        }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate={controls}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen"
-        >
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Left side - Product Info */}
           <div className="text-white space-y-8">
             
             {/* Category badge */}
-            <motion.div variants={itemVariants}>
+            <div>
               <Badge 
                 className="px-6 py-3 text-sm font-bold text-white border-0 rounded-full shadow-lg"
                 style={{
                   background: `linear-gradient(to right, ${productColor.main}, ${productColor.light})`
                 }}
               >
-                <Sparkles className="w-4 h-4 mr-2" />
                 {category.toUpperCase()}
               </Badge>
-            </motion.div>
+            </div>
 
             {/* Main title */}
-            <motion.div variants={itemVariants} className="space-y-4">
-              <motion.p 
-                className="text-lg font-medium bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: `linear-gradient(to right, ${productColor.light}, #ffffff)`
-                }}
-                animate={{ 
-                  backgroundPosition: ["0%", "100%", "0%"]
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                WORLD'S FIRST
-              </motion.p>
-              <motion.h1 
-                className="text-5xl lg:text-7xl font-black leading-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                 {name}
-              </motion.h1>
-            </motion.div>
+              </h1>
+            </div>
 
             {/* Description */}
-            <motion.p 
-              variants={itemVariants}
-              className="text-xl text-gray-200 leading-relaxed max-w-2xl font-light"
-            >
+            <p className="text-xl text-gray-200 leading-relaxed">
               {description}
-            </motion.p>
+            </p>
 
-            {/* Modern benefits with icons */}
-            <motion.div 
-              variants={itemVariants}
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8"
-            >
-              {[
-                { icon: Leaf, label: "100% Natural", color: "from-green-400 to-emerald-500" },
-                { icon: Shield, label: "FDA Approved", color: "from-blue-400 to-cyan-500" },
-                { icon: Heart, label: "Heart Health", color: "from-pink-400 to-rose-500" },
-                { icon: Sparkles, label: "Premium Quality", color: "from-yellow-400 to-orange-500" }
-              ].map((benefit, index) => (
-                <motion.div
-                  key={benefit.label}
-                  className="group relative"
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
+            {/* Shop Now button - desktop version */}
+            <div className="hidden md:block mt-6">
+              <Link href="#product-packs" scroll={false}>
+                <button 
+                  className="bg-white hover:bg-gray-100 text-black text-sm font-bold uppercase tracking-wider px-8 py-3 border-none"
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-r ${benefit.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-300`} />
-                  <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 text-center">
-                    <benefit.icon className="w-8 h-8 mx-auto mb-2 text-white group-hover:text-white transition-colors" />
-                    <span className="text-sm font-semibold text-gray-200 group-hover:text-white transition-colors">
-                      {benefit.label}
-                    </span>
+                  تسوق الآن
+                </button>
+              </Link>
+              
+              {/* Product features icons */}
+              <div className="flex items-center space-x-10 mt-8">
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M19 14C17.89 14 17 13.1 17 12C17 10.9 17.89 10 19 10C20.11 10 21 10.9 21 12C21 13.1 20.11 14 19 14ZM19 8C16.78 8 15 9.79 15 12C15 14.21 16.78 16 19 16C21.22 16 23 14.21 23 12C23 9.79 21.22 8 19 8ZM15 17.5V19H23V17.5H15ZM7.5 14C5.57 14 4 12.43 4 10.5C4 8.57 5.57 7 7.5 7C9.43 7 11 8.57 11 10.5C11 12.43 9.43 14 7.5 14ZM7.5 5C4.46 5 2 7.46 2 10.5C2 13.54 4.46 16 7.5 16C10.54 16 13 13.54 13 10.5C13 7.46 10.54 5 7.5 5ZM2 17.5V19H13V17.5H2Z" fill="#212121"/>
+                    </svg>
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Action button */}
-            <motion.div 
-              variants={itemVariants}
-              className="pt-8"
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  size="lg"
-                  onClick={handleAddToCart}
-                  className={`px-12 py-6 text-lg font-bold rounded-2xl transition-all duration-500 flex items-center gap-4 shadow-2xl`}
-                  style={{
-                    background: addedToCart 
-                      ? 'linear-gradient(to right, #10B981, #059669)'
-                      : `linear-gradient(to right, ${productColor.main}, ${productColor.dark})`
-                  }}
-                >
-                  <motion.div
-                    animate={addedToCart ? { rotate: 360 } : { rotate: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    {addedToCart ? (
-                      <Check className="w-6 h-6" />
-                    ) : (
-                      <ShoppingCart className="w-6 h-6" />
-                    )}
-                  </motion.div>
-                  {addedToCart ? 'AJOUTÉ AU PANIER!' : 'DÉCOUVRIR MAINTENANT'}
-                </Button>
-              </motion.div>
-            </motion.div>
+                  <span className="text-xs text-white">Vegan</span>
+                </div>
+                
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21 11H3V9H21V11ZM21 13H3V15H21V13Z" fill="#212121"/>
+                    </svg>
+                  </div>
+                  <span className="text-xs text-white">Gluten-Free</span>
+                </div>
+                
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17 14L22 9L20.6 7.6L17 11.2L14.4 8.6L13 10L17 14ZM7 14C9.21 14 11 12.21 11 10C11 7.79 9.21 6 7 6C4.79 6 3 7.79 3 10C3 12.21 4.79 14 7 14ZM7 8C8.1 8 9 8.9 9 10C9 11.1 8.1 12 7 12C5.9 12 5 11.1 5 10C5 8.9 5.9 8 7 8ZM7 15C3.13 15 0 16.34 0 18V20H14V18C14 16.34 10.87 15 7 15Z" fill="#212121"/>
+                    </svg>
+                  </div>
+                  <span className="text-xs text-white">Non-GMO</span>
+                </div>
+                
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="#212121"/>
+                    </svg>
+                  </div>
+                  <span className="text-xs text-white">Gelatin-Free</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right side - Product Image */}
-          <motion.div 
-            variants={itemVariants}
-            className="relative"
-          >
-            {/* Glow effect */}
-            <motion.div 
-              variants={glowVariants}
-              animate="animate"
-              className="absolute inset-0 rounded-full blur-3xl scale-150"
-              style={{
-                background: `linear-gradient(to right, ${productColor.light}4D, ${productColor.main}4D, ${productColor.light}4D)`
-              }}
-            />
+          <div className="relative flex justify-center">
+            <div className="max-w-md">
+              <Image
+                src={image}
+                alt={name}
+                width={500}
+                height={600}
+                className="w-full h-auto object-contain"
+                priority
+              />
+            </div>
+          </div>
+          
+          {/* Mobile version of Shop Now and features - at the bottom */}
+          <div className="md:hidden flex flex-col items-center space-y-6 col-span-1 mt-4">
+            <a href="#order-form-section" className="w-full" style={{ display: 'block' }}>
+              <button 
+                className="bg-white hover:bg-gray-100 text-black text-sm font-bold uppercase tracking-wider px-8 py-3 border-none w-full"
+              >
+                تسوق الآن
+              </button>
+            </a>
             
-            <motion.div 
-              className="relative z-10 max-w-md mx-auto lg:max-w-none"
-              whileHover={{ 
-                scale: 1.05,
-                rotate: [0, 1, -1, 0],
-                transition: { duration: 0.5 }
-              }}
-            >
-              <motion.div
-                animate={{ 
-                  y: [-10, 10, -10],
-                  transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                }}
-              >
-                <Image
-                  src={image}
-                  alt={name}
-                  width={500}
-                  height={600}
-                  className="w-full h-auto object-contain drop-shadow-2xl"
-                  priority
-                />
-              </motion.div>
-              
-              {/* Floating elements around product */}
-              <motion.div 
-                className="absolute -top-8 -right-8 w-20 h-20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30"
-                style={{
-                  background: `linear-gradient(to right, ${productColor.main}33, ${productColor.light}33)`
-                }}
-                animate={{ 
-                  rotate: 360,
-                  scale: [1, 1.2, 1],
-                  transition: { duration: 8, repeat: Infinity }
-                }}
-              >
-                <Sparkles className="w-8 h-8 text-white" />
-              </motion.div>
-              
-              <motion.div 
-                className="absolute bottom-16 -left-8 w-16 h-16 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20"
-                style={{
-                  background: `linear-gradient(to right, ${productColor.light}33, ${productColor.main}33)`
-                }}
-                animate={{ 
-                  y: [-5, 5, -5],
-                  x: [-2, 2, -2],
-                  transition: { duration: 3, repeat: Infinity }
-                }}
-              >
-                <Heart className="w-6 h-6 text-white" />
-              </motion.div>
-
-              <motion.div 
-                className="absolute top-1/2 -right-6 w-12 h-12 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20"
-                style={{
-                  background: `linear-gradient(to right, ${productColor.light}33, ${productColor.dark}33)`
-                }}
-                animate={{ 
-                  scale: [1, 1.3, 1],
-                  rotate: [0, 180, 360],
-                  transition: { duration: 5, repeat: Infinity }
-                }}
-              >
-                <Shield className="w-5 h-5 text-white" />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+            <div className="flex items-center justify-between w-full px-2 mt-2">
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 14C17.89 14 17 13.1 17 12C17 10.9 17.89 10 19 10C20.11 10 21 10.9 21 12C21 13.1 20.11 14 19 14ZM19 8C16.78 8 15 9.79 15 12C15 14.21 16.78 16 19 16C21.22 16 23 14.21 23 12C23 9.79 21.22 8 19 8ZM15 17.5V19H23V17.5H15ZM7.5 14C5.57 14 4 12.43 4 10.5C4 8.57 5.57 7 7.5 7C9.43 7 11 8.57 11 10.5C11 12.43 9.43 14 7.5 14ZM7.5 5C4.46 5 2 7.46 2 10.5C2 13.54 4.46 16 7.5 16C10.54 16 13 13.54 13 10.5C13 7.46 10.54 5 7.5 5ZM2 17.5V19H13V17.5H2Z" fill="#212121"/>
+                  </svg>
+                </div>
+                <span className="text-xs text-white">Vegan</span>
+              </div>
+                
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 11H3V9H21V11ZM21 13H3V15H21V13Z" fill="#212121"/>
+                  </svg>
+                </div>
+                <span className="text-xs text-white">Gluten-Free</span>
+              </div>
+                
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 14L22 9L20.6 7.6L17 11.2L14.4 8.6L13 10L17 14ZM7 14C9.21 14 11 12.21 11 10C11 7.79 9.21 6 7 6C4.79 6 3 7.79 3 10C3 12.21 4.79 14 7 14ZM7 8C8.1 8 9 8.9 9 10C9 11.1 8.1 12 7 12C5.9 12 5 11.1 5 10C5 8.9 5.9 8 7 8ZM7 15C3.13 15 0 16.34 0 18V20H14V18C14 16.34 10.87 15 7 15Z" fill="#212121"/>
+                  </svg>
+                </div>
+                <span className="text-xs text-white">Non-GMO</span>
+              </div>
+                
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-white p-1 w-8 h-8 flex items-center justify-center mb-1">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="#212121"/>
+                  </svg>
+                </div>
+                <span className="text-xs text-white">Gelatin-Free</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      {/* Bottom gradient transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   )
 }

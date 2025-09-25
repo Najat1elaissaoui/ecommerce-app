@@ -8,6 +8,7 @@ import ProductBenefitsSection from '@/components/client/product-benefits-section
 import ProductIngredientsSection from '@/components/client/product-ingredients-section'
 import ProductVideoSection from '@/components/client/product-video-section'
 import ProductServingSection from '@/components/client/product-serving-section'
+import GoldenHabitsSection from '@/components/client/golden-habits-section'
 import ProductOpinionsSection from '@/components/client/product-opinions-section'
 import Header from '@/components/client/header'
 import Footer from '@/components/client/footer'
@@ -105,121 +106,128 @@ interface ProductData {
 // Données d'exemple (normalement récupérées depuis une API/base de données)
 const sampleProductData: ProductData = {
   id: 1,
-  name: "Apple Cider Vinegar Gummies",
-  
+  name: "علكة خل التفاح",
   productColor: {
-    main: "#AE3131",      // Rouge pour ce produit
-    light: "#D15858",     // Version plus claire
-    dark: "#8C1E1E",      // Version plus foncée
-    contrastText: "#FFFFFF" // Texte blanc pour contraste
+    main: "#AE3131",
+    light: "#D15858",
+    dark: "#8C1E1E",
+    contrastText: "#FFFFFF"
   },
-  
   homeImage1: "/protein-powder-assortment.png",
-  homeImage2: "/creatine-supplement.jpg", 
+  homeImage2: "/creatine-supplement.jpg",
   basicInfo: {
-    description: "World's first Apple Cider Vinegar Gummies with delicious flavor profile",
-    category: "Wellness",
+    description: "أول علكة خل تفاح في العالم بطعم لذيذ وفوائد صحية متعددة.",
+    category: "مكمل غذائي",
     price: 17.39
   },
-  
-  detailedDescription: "WORLD'S FIRST Apple Cider Vinegar Gummies. Infused with a delicious flavor profile. Source of quality vitamins & nutrients for many health benefits. Taste the Apple. Not the Vinegar.",
+  detailedDescription: "علكة خل التفاح الأولى عالميًا. غنية بالفيتامينات والعناصر الغذائية لدعم الصحة العامة. استمتع بطعم التفاح بدون طعم الخل القوي!",
   productImage: "/creatine-supplement.jpg",
-  
   benefits: {
-    title: "Health Benefits",
+    title: "فوائد صحية",
     items: [
-      { 
-        name: "Cellular Energy Production", 
-        description: "Goli ACV Gummies contain Vitamin B12 which helps convert the food you eat into cellular energy.",
-        image: "/placeholder.jpg"
-      },
-      { name: "Healthy Immune Function" },
-      { name: "Heart Health" },
-      { name: "Healthy Nutrient Metabolism" },
-      { name: "Added Antioxidant Support" },
-      { name: "Overall Good Health" }
+      { name: "تعزيز الطاقة الخلوية", description: "علكة Goli ACV تحتوي على فيتامين B12 الذي يساعد في تحويل الطعام إلى طاقة." },
+      { name: "دعم المناعة الصحية", description: "تدعم جهاز المناعة بفضل مضادات الأكسدة الطبيعية." },
+      { name: "صحة القلب", description: "تساهم في تحسين صحة القلب والأوعية الدموية." },
+      { name: "تحسين التمثيل الغذائي", description: "تساعد في تنظيم عمليات الأيض وحرق الدهون." },
+      { name: "مضادات أكسدة إضافية", description: "تحتوي على مكونات غنية بمضادات الأكسدة لمحاربة الجذور الحرة." },
+      { name: "صحة عامة أفضل", description: "تدعم الصحة العامة والشعور بالنشاط والحيوية." },
+      { name: "دعم صحة الجهاز الهضمي", description: "تسهل عملية الهضم وتحسن صحة الأمعاء." },
+      { name: "تقوية العظام", description: "تحتوي على عناصر تدعم قوة العظام والأسنان." },
+      { name: "تحسين صحة البشرة", description: "تمنح البشرة إشراقة طبيعية وتقلل من ظهور العيوب." },
+      { name: "تعزيز صحة الشعر", description: "تساعد في تقوية الشعر ومنع تساقطه." },
+      { name: "توازن مستويات السكر في الدم", description: "تساهم في الحفاظ على مستويات سكر طبيعية." },
+      { name: "تقليل الشعور بالتعب", description: "تمد الجسم بالطاقة وتقلل من الإرهاق." },
+      { name: "دعم صحة الكبد", description: "تساعد في إزالة السموم من الكبد وتعزيز وظائفه." },
+      { name: "تحسين المزاج", description: "تحتوي على مكونات تساهم في تحسين المزاج والشعور بالسعادة." },
+      { name: "تعزيز صحة الجهاز العصبي", description: "تدعم صحة الأعصاب والتركيز الذهني." },
+      { name: "مناسبة للنباتيين", description: "خالية من الجيلاتين والمنتجات الحيوانية." },
+      { name: "خالية من الجلوتين", description: "مناسبة لمن يعانون من حساسية الجلوتين." },
+      { name: "خالية من الألوان الصناعية", description: "مصنوعة من مكونات طبيعية فقط." },
+      { name: "خالية من المواد الحافظة", description: "لا تحتوي على أي مواد حافظة صناعية." },
+      { name: "طعم لذيذ", description: "نكهة التفاح الطبيعية تجعلها سهلة الاستهلاك يومياً." }
     ]
   },
-  
   ingredients: [
     {
-      name: "Apple Cider Vinegar",
+      name: "خل التفاح الطبيعي",
       image: "/placeholder.jpg",
-      description: "Fresh, real apples are crushed and juiced to produce what is called a cider. The apple cider undergoes a unique fermentation process to create Apple Cider Vinegar."
+      description: "تفاح طازج يُعصر ويخمر لإنتاج خل التفاح الغني بالفوائد."
     },
     {
-      name: "Beetroot", 
+      name: "الشمندر",
       image: "/placeholder.jpg",
-      description: "The vibrant color and distinctive flavor of beetroots enhance the appearance and flavor profile of delicious Goli ACV Gummies."
+      description: "يعطي اللون والنكهة المميزة للعلكة."
     },
     {
-      name: "Pomegranate",
-      image: "/placeholder.jpg", 
-      description: "The rich color and unique flavor of pomegranate help give Goli ACV Gummies their signature red appearance and delicious taste."
+      name: "الرمان",
+      image: "/placeholder.jpg",
+      description: "يمنح العلكة لونها الأحمر وطعمها الفريد."
     }
   ],
-  
   video: {
     url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     thumbnail: "/placeholder.jpg",
-    title: "How Apple Cider Vinegar Gummies Work"
+    title: "كيف تعمل علكة خل التفاح؟"
   },
-  
   serving: {
     servingInfo: [
-      { component: "Total Carbohydrate", quantity: "3.5 g" },
-      { component: "Total Sugars", quantity: "2 g" },
-      { component: "Apple Cider Vinegar", quantity: "500 mg" },
-      { component: "Beetroot", quantity: "40 mcg" },
-      { component: "Pomegranate", quantity: "40 mcg" },
-      { component: "Vitamin B12 (50% Daily Value)", quantity: "1.2 mcg" }
+      { component: "الكربوهيدرات الكلية", quantity: "3.5 جم" },
+      { component: "السكريات الكلية", quantity: "2 جم" },
+      { component: "خل التفاح", quantity: "500 ملجم" },
+      { component: "الشمندر", quantity: "40 ميكروجم" },
+      { component: "الرمان", quantity: "40 ميكروجم" },
+      { component: "فيتامين B12 (50% من الاحتياج اليومي)", quantity: "1.2 ميكروجم" }
     ],
-    suggestedUse: "1-2 gummies, 3 times daily",
-    doesNotContain: ["Yeast", "wheat", "milk", "eggs", "gluten", "soy", "gelatin", "peanuts", "shellfish", "dairy", "synthetic colors", "agave", "or salicylates"]
+    suggestedUse: "1-2 علكة، 3 مرات يوميًا",
+    doesNotContain: ["خميرة", "قمح", "حليب", "بيض", "جلوتين", "صويا", "جيلاتين", "فول سوداني", "محار", "ألبان", "ألوان صناعية", "أغاف", "ساليسيلات"]
   },
-  
   packs: [
     {
       id: 1,
-      name: "1-PACK",
+      name: "عبوة واحدة",
       image: "/creatine-supplement.jpg",
       price: 19.32,
       originalPrice: 26.00,
       quantity: 1,
-      discount: "42% OFF"
+      discount: "خصم 42%"
     },
     {
       id: 2,
-      name: "3-PACK", 
+      name: "3 عبوات",
       image: "/creatine-supplement.jpg",
       price: 17.39,
       originalPrice: 25.00,
       quantity: 3,
-      discount: "42% OFF",
+      discount: "خصم 42%",
       popular: true
     },
     {
       id: 3,
-      name: "5-PACK",
-      image: "/creatine-supplement.jpg", 
+      name: "5 عبوات",
+      image: "/creatine-supplement.jpg",
       price: 15.99,
       originalPrice: 23.00,
       quantity: 5,
-      discount: "42% OFF"
+      discount: "خصم 42%"
     }
   ],
-  
   opinions: [
     {
-      customerName: "Sarah M.",
+      customerName: "سارة م.",
       rating: 5,
-      comment: "Amazing taste and really effective! I've been taking these for 2 months and feel great.",
+      comment: "الطعم رائع والنتيجة مذهلة! أستخدمها منذ شهرين وأشعر بتحسن كبير.",
       date: "2024-01-15"
     },
     {
-      customerName: "Ahmed K.",
+      customerName: "أحمد ك.",
       rating: 4,
-      comment: "Good product, helps with digestion. Recommend it!",
+      comment: "منتج ممتاز، ساعدني في الهضم. أنصح به!",
+      date: "2024-01-10"
+    },
+    {
+      customerName: "أحمد ك.",
+      rating: 4,
+      comment: "منتج ممتاز، ساعدني في الهضم. أنصح به!",
       date: "2024-01-10"
     }
   ]
@@ -356,16 +364,50 @@ export default async function ProductDetailPage({ params }: Props) {
 
         {/* Section 5: Vidéo (Étape 5 admin - optionnel) */}
         {product.video && (
-          <ProductVideoSection 
-            video={product.video}
-          />
+          <>
+            <ProductVideoSection 
+              video={product.video}
+            />
+            {/* Data Golden Habits centralisée pour backend */}
+            {(() => {
+              const goldenHabitsData = [
+                {
+                  icon: "/creatine-supplement.jpg",
+                  title: "محطة الترطيب",
+                  description: "الماء وبشرتك يسيران جنبًا إلى جنب! عدم شرب كمية كافية من الماء يمكن أن يؤدي إلى بشرة أقل إشراقًا. إذا كنت تجد صعوبة في شرب الماء، جرب إضافة شرائح الليمون للحصول على دفعة من فيتامين C ولإعطاء براعم التذوق شيئًا جديدًا!"
+                },
+                {
+                  icon: "/creatine-supplement.jpg",
+                  title: "واقي الشمس هو صديقك المفضل",
+                  description: "الفتيات يرغبن في الشمس... لكن ماذا عن بشرتك؟ تأكدي من وضع واقي الشمس طوال العام، في المطر أو الشمس، لحماية بشرتك من الأشعة فوق البنفسجية. كوني آمنة تحت أشعة الشمس!"
+                },
+                {
+                  icon: "/creatine-supplement.jpg",
+                  title: "الترطيب من الصباح حتى المساء",
+                  description: "لكن أولاً، رطبي! مرطب جيد وخالٍ من العطور هو مفتاح روتين العناية بالبشرة المتوازن. أفضل أوقات الترطيب هي بعد الاستحمام مباشرة وقبل النوم. نظفي، رطبي، نامي، وكرري!"
+                },
+                {
+                  icon: "/creatine-supplement.jpg",
+                  title: "تناولي مكونات تعزز الكولاجين",
+                  description: "البشرة الجميلة تتطلب دمج مكونات تعزز الكولاجين في نظامك الغذائي. جربي علكة Goli® Superfruits الغنية بفيتامين C وسيليكا الخيزران، مكونان يساعدان في تعزيز تكوين الكولاجين في البشرة! تألقي دائمًا!"
+                }
+              ];
+              return (
+                <GoldenHabitsSection
+                  sectionTitle="٤ عادات ذهبية لأشخاص ذوي بشرة رائعة"
+                  habits={goldenHabitsData}
+                  colors={product.productColor}
+                />
+              );
+            })()}
+          </>
         )}
 
         {/* Section 6: Composition et usage (Étape 6 admin) */}
         <ProductServingSection 
           serving={product.serving}
           productColor={product.productColor}
-        />
+         />
 
         {/* Section 7: Opinions clients (Étape 8 admin - optionnel) */}
         {product.opinions && product.opinions.length > 0 && (

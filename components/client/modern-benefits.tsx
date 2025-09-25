@@ -47,7 +47,7 @@ const features = [
   {
     icon: Truck,
     title: "شحن مجاني سريع",
-    description: "توصيل مجاني للطلبات فوق 50$ خلال 2-3 أيام عمل",
+    description: "توصيل مجاني للطلبات فوق 50dhs خلال 2-3 أيام عمل",
     color: "from-indigo-400 to-blue-500",
     stats: "24-48 ساعة"
   },
@@ -100,12 +100,12 @@ export default function ModernBenefitsSection() {
   return (
     <div>
       {/* Main Benefits Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-12 md:py-20 bg-white">
+        <div className="container mx-auto px-3 md:px-4">
           
           {/* Section Header */}
           <motion.div 
-            className="text-center mb-20"
+            className="text-center mb-10 md:mb-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -131,7 +131,7 @@ export default function ModernBenefitsSection() {
 
           {/* Features Grid */}
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -147,20 +147,20 @@ export default function ModernBenefitsSection() {
                 }}
                 className="group"
               >
-                <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 overflow-hidden">
+                <div className="relative bg-white rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 overflow-hidden">
                   
                   {/* Background Gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
                   
                   {/* Icon */}
-                  <div className="relative mb-6">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300`}>
-                      <feature.icon className="w-8 h-8 text-white" />
+                  <div className="relative mb-4 md:mb-6">
+                    <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br ${feature.color} rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                      <feature.icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
                     </div>
                     
                     {/* Stats Badge */}
                     <div className="absolute -top-2 -right-2">
-                      <div className={`bg-gradient-to-r ${feature.color} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
+                      <div className={`bg-gradient-to-r ${feature.color} text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg`}>
                         {feature.stats}
                       </div>
                     </div>
@@ -189,12 +189,12 @@ export default function ModernBenefitsSection() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900">
-        <div className="container mx-auto px-4">
+      <section className="py-10 md:py-16 bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900">
+        <div className="container mx-auto px-3 md:px-4">
           
           {/* Stats Grid */}
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 md:gap-8"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -210,15 +210,15 @@ export default function ModernBenefitsSection() {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="mb-4 flex justify-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
-                    <stat.icon className="w-8 h-8 text-white" />
+                <div className="mb-3 md:mb-4 flex justify-center">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg">
+                    <stat.icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
                   </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-black text-white mb-2">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white mb-1 md:mb-2">
                   {stat.value}
                 </div>
-                <div className="text-blue-200 font-medium">
+                <div className="text-xs sm:text-sm text-blue-200 font-medium">
                   {stat.label}
                 </div>
               </motion.div>

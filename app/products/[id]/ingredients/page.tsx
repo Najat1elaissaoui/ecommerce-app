@@ -47,17 +47,17 @@ const sampleProductData: ProductData = {
   ingredients: [
     {
       name: "Apple Cider Vinegar",
-      image: "/placeholder.jpg",
+      image: "/creatine-supplement.jpg",
       description: "Fresh, real apples are crushed and juiced to produce what is called a cider. The apple cider undergoes a unique fermentation process to create Apple Cider Vinegar."
     },
     {
       name: "Beetroot", 
-      image: "/placeholder.jpg",
+      image: "/creatine-supplement.jpg",
       description: "The vibrant color and distinctive flavor of beetroots enhance the appearance and flavor profile of delicious Goli ACV Gummies."
     },
     {
       name: "Pomegranate",
-      image: "/placeholder.jpg", 
+      image: "/creatine-supplement.jpg", 
       description: "The rich color and unique flavor of pomegranate help give Goli ACV Gummies their signature red appearance and delicious taste."
     }
   ],

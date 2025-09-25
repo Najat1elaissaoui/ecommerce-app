@@ -43,28 +43,7 @@ export default function CheckoutForm() {
     agreeToTerms: false,
   })
 
-  const cities = [
-    "الرياض",
-    "جدة",
-    "مكة المكرمة",
-    "المدينة المنورة",
-    "الدمام",
-    "الخبر",
-    "الطائف",
-    "بريدة",
-    "تبوك",
-    "خميس مشيط",
-    "حائل",
-    "الجبيل",
-    "الخرج",
-    "الأحساء",
-    "نجران",
-    "ينبع",
-    "أبها",
-    "عرعر",
-    "سكاكا",
-    "جازان",
-  ]
+ 
 
   const paymentMethods = [
     {
@@ -264,17 +243,7 @@ export default function CheckoutForm() {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="comment">ملاحظات إضافية (اختياري)</Label>
-                  <Textarea
-                    id="comment"
-                    value={formData.comment}
-                    onChange={(e) => handleInputChange("comment", e.target.value)}
-                    placeholder="أي ملاحظات خاصة بالطلب..."
-                    className="text-right"
-                    rows={3}
-                  />
-                </div>
+               
               </CardContent>
             </Card>
 

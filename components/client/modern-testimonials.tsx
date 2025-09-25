@@ -91,68 +91,68 @@ export default function ModernTestimonials({ opinions = defaultOpinions }: Moder
   }
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4">
+    <section className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className="container mx-auto px-3 md:px-4">
         
         {/* Section Header */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-600 px-6 py-3 rounded-full text-sm font-semibold mb-6">
-            <Star className="w-5 h-5 mr-2 fill-current" />
+          <div className="inline-flex items-center bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-600 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-semibold mb-4 md:mb-6">
+            <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-2 fill-current" />
             آراء العملاء
           </div>
           
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Real Stories,
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 md:mb-6">
+            قصص حقيقية،
             <span className="block bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-              Real Results
+              نتائج حقيقية
             </span>
           </h2>
           
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             لا تأخذ كلامنا فقط. إليك ما يقوله عملاؤنا عن رحلة تحولهم.
           </p>
 
           {/* Overall Stats */}
-          <div className="flex justify-center items-center gap-8 mt-8">
+          <div className="flex justify-center items-center gap-4 sm:gap-8 mt-6 md:mt-8">
             <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
+              <div className="flex items-center justify-center mb-1 sm:mb-2">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
+                  <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-yellow-400 fill-current" />
                 ))}
               </div>
-              <div className="text-3xl font-bold text-gray-900">4.9</div>
-              <div className="text-sm text-gray-600">Average Rating</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">4.9</div>
+              <div className="text-xs sm:text-sm text-gray-600">متوسط التقييم</div>
             </div>
-            <div className="w-px h-12 bg-gray-300" />
+            <div className="w-px h-8 sm:h-10 md:h-12 bg-gray-300" />
             <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">10,000+</div>
-              <div className="text-sm text-gray-600">مراجعات محققة</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">10,000+</div>
+              <div className="text-xs sm:text-sm text-gray-600">مراجعات محققة</div>
             </div>
           </div>
         </motion.div>
 
         {/* Static Testimonials Grid */}
         <motion.div 
-          className="mb-16"
+          className="mb-10 md:mb-16"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {displayOpinions.map((opinion, index) => (
               <motion.div 
                 key={`${index}-${opinion.customerName}`}
                 variants={cardVariants}
               >
                 <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 sm:p-6">
                     <div className="flex flex-col h-full">
                       
                       {/* Avatar and verification */}
@@ -163,7 +163,7 @@ export default function ModernTestimonials({ opinions = defaultOpinions }: Moder
                             alt={opinion.customerName}
                             width={60}
                             height={60}
-                            className="w-15 h-15 rounded-full object-cover shadow-md"
+                            className="w-12 h-12 sm:w-14 sm:h-14 md:w-15 md:h-15 rounded-full object-cover shadow-md"
                           />
                           {opinion.verified && (
                             <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-1 shadow-lg">
@@ -223,37 +223,37 @@ export default function ModernTestimonials({ opinions = defaultOpinions }: Moder
 
         {/* Trust Badges */}
         <motion.div 
-          className="mt-16 p-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl border border-blue-100"
+          className="mt-10 md:mt-16 p-5 sm:p-6 md:p-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl sm:rounded-2xl md:rounded-3xl border border-blue-100"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          <div className="text-center mb-5 md:mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
               موثوق من عملاء حول العالم
             </h3>
-            <p className="text-gray-600">
+            <p className="text-sm sm:text-base text-gray-600">
               انضم إلى الآلاف من العملاء الراضين الذين حولوا رحلتهم الرياضية
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-2">98%</div>
-              <div className="text-sm text-gray-600">رضا العملاء</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 mb-1 sm:mb-2">98%</div>
+              <div className="text-xs sm:text-sm text-gray-600">رضا العملاء</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">24/7</div>
-              <div className="text-sm text-gray-600">Customer Support</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-1 sm:mb-2">24/7</div>
+              <div className="text-xs sm:text-sm text-gray-600">دعم العملاء</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">50k+</div>
-              <div className="text-sm text-gray-600">5-Star Reviews</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-600 mb-1 sm:mb-2">50k+</div>
+              <div className="text-xs sm:text-sm text-gray-600">تقييم 5 نجوم</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-orange-600 mb-2">1M+</div>
-              <div className="text-sm text-gray-600">Happy Customers</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-orange-600 mb-1 sm:mb-2">1M+</div>
+              <div className="text-xs sm:text-sm text-gray-600">عميل سعيد</div>
             </div>
           </div>
         </motion.div>

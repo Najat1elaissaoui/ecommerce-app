@@ -95,10 +95,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
                         <div className="text-left">
                           <p className="font-bold text-primary">
-                            {(item.price * item.quantity).toLocaleString("ar-SA")} ر.س
+                            {(item.price * item.quantity).toLocaleString("fr-FR")} د.م.
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {item.price.toLocaleString("ar-SA")} ر.س للقطعة
+                            {item.price.toLocaleString("fr-FR")} د.م. للقطعة
                           </p>
                         </div>
                       </div>
@@ -126,7 +126,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>المجموع الفرعي</span>
-                    <span>{total.toLocaleString("ar-SA")} ر.س</span>
+                    <span>{total.toLocaleString("fr-FR")} د.م.</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>الشحن</span>
@@ -135,7 +135,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <Separator />
                   <div className="flex justify-between text-lg font-bold">
                     <span>المجموع الكلي</span>
-                    <span className="text-primary">{total.toLocaleString("ar-SA")} ر.س</span>
+                    <span className="text-primary">{total.toLocaleString("fr-FR")} د.م.</span>
                   </div>
                 </div>
 

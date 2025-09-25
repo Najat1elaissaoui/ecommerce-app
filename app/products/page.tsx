@@ -1,13 +1,14 @@
 "use client"
 
-import { Suspense, useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { Suspense, useState, useEffect } from "react"
+import { motion } from "framer-motion"
 import ProductsGrid from "@/components/client/products-grid"
 import ProductsFilters from "@/components/client/products-filters"
 import ProductsHeader from "@/components/client/products-header"
 import Header from "@/components/client/header"
 import Footer from "@/components/client/footer"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Button } from "@/components/ui/button"
+import { Filter, X } from "lucide-react"
 
 interface ProductsPageProps {
   searchParams: {
@@ -20,160 +21,90 @@ interface ProductsPageProps {
 
 export default function ProductsPage({ searchParams }: ProductsPageProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const { scrollYProgress } = useScroll()
-  
-  // Parallax effects
-  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3])
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  // Staggered container variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 60,
-      scale: 0.9
-    },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 15
-      }
-    }
-  }
+  // Pour éviter les erreurs d'hydratation
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       
-      {/* Animated Background Elements */}
+      {/* Fond d'écran subtil et moderne */}
       <div className="fixed inset-0 pointer-events-none">
-        {/* Floating particles */}
-        <motion.div 
-          className="absolute inset-0"
-          style={{ y: yBg, opacity }}
-        >
-          {[...Array(12)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                x: [0, Math.random() * 20 - 10, 0],
-                opacity: [0.3, 0.8, 0.3],
-                scale: [0.8, 1.2, 0.8]
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 2
-              }}
-            />
-          ))}
-        </motion.div>
-
-        {/* Gradient orbs */}
-        <motion.div
-          className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
+        {/* Gradient de fond */}
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white opacity-70" />
         
-        <motion.div
-          className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-pink-400/20 to-orange-600/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.5, 0.2]
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
+        {/* Pattern subtil */}
+        <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-repeat opacity-5" />
+        
+        {/* Orbes gradients */}
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-pink-400/10 to-orange-600/10 rounded-full blur-3xl" />
       </div>
 
       <Header />
       
-      <motion.main 
-        className="pt-20 relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.div 
-          className="container mx-auto px-4 py-8"
-          variants={itemVariants}
-        >
-          <motion.div variants={itemVariants}>
+      <main className="pt-20 relative z-10">
+        <div className="container mx-auto px-4 py-6 md:py-8">
+          {/* En-tête de la page produits */}
+          <div className="opacity-0 animate-[fadeIn_0.5s_0.2s_forwards]">
             <ProductsHeader viewMode={viewMode} onViewModeChange={setViewMode} />
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-4 gap-8"
-            variants={containerVariants}
-          >
-            {/* Filters Sidebar */}
-            <motion.div 
-              className="lg:col-span-1"
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
+          {/* Bouton filtres mobile */}
+          <div className="lg:hidden my-4 opacity-0 animate-[fadeIn_0.5s_0.3s_forwards]">
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-2 py-5"
+              onClick={() => setMobileFiltersOpen(true)}
             >
-              <motion.div
-                className="sticky top-28"
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
-              >
+              <Filter className="w-4 h-4" /> 
+              تصفية المنتجات
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Filtres pour mobile - modal */}
+            {mounted && mobileFiltersOpen && (
+              <div className="fixed inset-0 bg-black/50 z-50 lg:hidden animate-[fadeIn_0.3s_ease-out_forwards]">
+                <div className="absolute top-0 left-0 bottom-0 w-[85%] max-w-md bg-white shadow-xl animate-[slideInRight_0.3s_ease-out_forwards]">
+                  <div className="p-4 border-b flex items-center justify-between">
+                    <h3 className="font-bold text-lg">تصفية المنتجات</h3>
+                    <Button variant="ghost" size="sm" onClick={() => setMobileFiltersOpen(false)}>
+                      <X className="w-5 h-5" />
+                    </Button>
+                  </div>
+                  <div className="p-4 overflow-y-auto max-h-[calc(100vh-6rem)]">
+                    <ProductsFilters />
+                  </div>
+                  <div className="p-4 border-t">
+                    <Button className="w-full" onClick={() => setMobileFiltersOpen(false)}>
+                      تطبيق الفلترة
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Filtres pour desktop */}
+            <div className="hidden lg:block lg:col-span-1 opacity-0 animate-[fadeInRight_0.5s_0.4s_forwards]">
+              <div className="sticky top-28">
                 <ProductsFilters />
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
-            {/* Products Grid */}
-            <motion.div 
-              className="lg:col-span-3"
-              variants={itemVariants}
-            >
+            {/* Grille de produits */}
+            <div className="lg:col-span-3 opacity-0 animate-[fadeInUp_0.5s_0.5s_forwards]">
               <Suspense fallback={<ProductsGridSkeleton viewMode={viewMode} />}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                >
-                  <ProductsGrid searchParams={searchParams} viewMode={viewMode} />
-                </motion.div>
+                <ProductsGrid searchParams={searchParams} viewMode={viewMode} />
               </Suspense>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      </motion.main>
+            </div>
+          </div>
+        </div>
+      </main>
       
       <Footer />
     </div>

@@ -16,33 +16,44 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background" dir="rtl" lang="ar">
       <Header />
-      <main className="overflow-x-hidden pt-28">
+      <main className="overflow-x-hidden pt-20 md:pt-28">
         {/* قسم البطل مع تصميم عصري */}
         <HeroSection />
-        <ModernProducts />
+        
+        {/* قسم المنتجات المميزة */}
+        <div className="mt-4 mb-8 md:my-10">
+          <ModernProducts />
+        </div>
+        
         {/* قسم كاروسيل المنتجات المميز */}
-        <ProductCarouselSection />
-        
-        {/* قسم المنتجات مع البطاقات المنسقة */}
-        
+        <div className="py-4 md:py-10">
+          <ProductCarouselSection />
+        </div>
         
         {/* قسم الفيديو من يوتيوب */}
-        <ModernVideoSection />
+        <div className="py-4 md:py-10 overflow-hidden">
+          <ModernVideoSection />
+        </div>
         
         {/* قسم المزايا والجودة */}
-        <ModernBenefits />
+        <div className="py-6 md:py-14">
+          <ModernBenefits />
+        </div>
         
         {/* قسم شهادات العملاء العصري */}
-        <ModernTestimonials />
-        
-        {/* قسم الهدف - تصميم مطابق للصورة */}
-        {/* <PurposeSection /> */}
+        <div className="py-6 md:py-14">
+          <ModernTestimonials />
+        </div>
         
         {/* قسم الدعوة النهائية للعمل */}
-        <FinalCTA />
+        <div className="my-6 md:my-16">
+          <FinalCTA />
+        </div>
         
         {/* قسم التواصل */}
-        <ContactSection />
+        <div className="mt-6 md:mt-12">
+          <ContactSection />
+        </div>
       </main>
       <Footer />
     </div>

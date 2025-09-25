@@ -101,7 +101,7 @@ export default function FinalCTA() {
                 { icon: Star, text: "جودة مميزة مضمونة" },
                 { icon: Zap, text: "نتائج سريعة في 2-3 أسابيع" },
                 { icon: Award, text: "مختبر معملياً ومعتمد من FDA" },
-                { icon: ArrowRight, text: "شحن مجاني للطلبات فوق 50$" }
+                { icon: ArrowRight, text: "شحن مجاني للطلبات فوق 50dhs" }
               ].map((feature, index) => (
                 <div key={index} className="flex items-center space-x-3 text-blue-100 space-x-reverse">
                   <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -120,18 +120,7 @@ export default function FinalCTA() {
               transition={{ delay: 1 }}
               viewport={{ once: true }}
             >
-              <Link href="/products">
-                <Button 
-                  size="lg"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-bold group relative overflow-hidden shadow-xl"
-                >
-                  <span className="relative z-10 flex items-center">
-                    احصل على خصم 25%
-                    <ArrowRight className="mr-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Button>
-              </Link>
+              
               
               <Button 
                 variant="outline" 

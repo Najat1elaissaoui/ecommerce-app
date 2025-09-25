@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { colors } from "@/lib/colors"
 import Image from "next/image"
 import { Check, ShoppingCart, Send, MessageCircle } from "lucide-react"
 import { useState } from "react"
+import { useCart } from "@/lib/cart-context"
+import { useToast } from "../ui/use-toast"
+import { Product } from "@/lib/types"
 
 interface Pack {
   id: number
@@ -47,19 +49,24 @@ export default function ProductPacksSection({
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
-    address: "",
-    message: ""
+    address: ""
   })
 
   const handleCheckout = () => {
-    setIsAddingToCart(true)
-    setTimeout(() => setIsAddingToCart(false), 1000)
-    
-    // Ici on ajouterait la logique du panier
     const pack = packs.find(p => p.id === selectedPack)
-    console.log("Pack sélectionné pour checkout:", pack)
+    if (!pack) return;
+    addItem({
+      id: pack.id,
+      name_ar: productName + ' - ' + pack.name,
+      price: pack.price,
+      type: "pack",
+      image: pack.image,
+    });
+    toast({
+      title: "تم إضافة الباقة للسلة",
+      description: `تم إضافة ${productName} - ${pack.name} إلى سلة التسوق`,
+    });
   }
   
   const handleDirectOrder = async (e: React.FormEvent) => {
@@ -72,7 +79,7 @@ export default function ProductPacksSection({
     
     setTimeout(() => {
       setIsSubmittingForm(false)
-      setFormData({ name: "", email: "", phone: "", address: "", message: "" })
+      setFormData({ name: "", phone: "", address: "" })
       // Vous pouvez ajouter un message de succès ici
     }, 2000)
   }
@@ -83,11 +90,26 @@ export default function ProductPacksSection({
       [e.target.name]: e.target.value
     }))
   }
+  const handleAddToCart = (product: Product) => {
+    addItem({
+      id: product.id,
+      name_ar: product.name_ar,
+      price: product.price,
+      type: "product",
+      image: product.images?.[0],
+    })
+    toast({
+      title: "تم إضافة المنتج للسلة",
+      description: `تم إضافة ${product.name_ar} إلى سلة التسوق`,
+    })
+  }
+  const { addItem } = useCart()
+  const { toast } = useToast()
 
   const selectedPackData = packs.find(p => p.id === selectedPack)
 
   return (
-    <section className="w-full py-20" style={{
+    <section className="w-full py-20" id="product-packs" style={{
       background: `linear-gradient(to bottom right, ${productColor.light}20, white, ${productColor.light}20)`
     }}>
       <div className="container mx-auto px-4">
@@ -98,267 +120,287 @@ export default function ProductPacksSection({
             اختر الباقة المناسبة
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto" dir="rtl">
-            وفّر أكثر مع عروض الباقات المتعددة
+            احصل على أفضل العروض مع باقتنا المميزة
           </p>
         </div>
-
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-          
-          {/* Left side - Pack options et pricing */}
-          <div className="relative lg:col-span-1 order-2 lg:order-1">
-            {/* Badge de réduction - Style de l'image 2 */}
-            <div className="absolute -top-6 -right-6 z-20">
-              <div className="bg-black text-white rounded-full w-24 h-24 flex flex-col items-center justify-center font-bold shadow-2xl transform rotate-12">
-                <span className="text-2xl">42%</span>
-                <span className="text-xs">خصم</span>
+        
+        {/* Badge de réduction */}
+        {/* <div className="relative max-w-6xl mx-auto">
+          <div className="absolute -top-6 -right-6 z-20 lg:block hidden">
+            <div className="text-white rounded-full w-24 h-24 flex flex-col items-center justify-center font-bold shadow-2xl transform rotate-12" style={{
+              backgroundColor: productColor.main
+            }}>
+              <span className="text-2xl">42%</span>
+              <span className="text-xs">خصم</span>
+            </div>
+          </div>
+        </div> */}
+        
+        {/* Mobile layout - Like image reference */}
+        <div className="md:hidden max-w-6xl mx-auto mb-8">
+          <div className="flex flex-row items-center gap-4 rounded-lg p-4">
+            {/* Image du pack */}
+            <div className="w-1/3 relative">
+              <Image
+                src={selectedPackData?.image || packs[0].image}
+                alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
+                width={100}
+                height={100}
+                className="object-contain h-24 w-full"
+              />
+              <div className="absolute -top-2 -right-2">
+                <div className="text-white rounded-full w-12 h-12 flex flex-col items-center justify-center font-bold text-xs" style={{
+                  backgroundColor: productColor.main
+                }}>
+                  <span>42%</span>
+                  <span>خصم</span>
+                </div>
               </div>
             </div>
-
-            {/* Direct order form */}
-            <Card className="border-2 shadow-xl rounded-2xl overflow-hidden h-full" style={{
-              borderColor: `${productColor.light}33`
+            
+            {/* Price info - single card in Arabic */}
+            <div className="w-2/3 text-right rounded-lg p-3" dir="rtl" style={{
+              backgroundColor: productColor.main,
+              color: 'white'
             }}>
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center" dir="rtl">
-                  الطلب المباشر
-                </h3>
-                <p className="text-gray-600 mb-6 text-center" dir="rtl">
-                  املأ هذا النموذج للطلب بدون سلة التسوق
-                </p>
-                
-                <form onSubmit={handleDirectOrder} className="space-y-5" dir="rtl">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      * الاسم الكامل
-                    </label>
-                    <Input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="الاسم الكامل"
-                      required
-                      className="w-full text-right"
-                      dir="rtl"
-                    />
+              <div className="mb-1">
+                <div className="text-white text-xs font-bold px-2 py-1 rounded-sm inline-block mb-1" style={{ 
+                  backgroundColor: productColor.dark
+                }}>
+                  خصم 10% وإلغاء في أي وقت
+                </div>
+              </div>
+              <div className="mb-1">
+                <span className="text-sm font-medium">شراء لمرة واحدة</span>
+              </div>
+              <div className="text-xl font-bold">
+                {((selectedPackData?.price || 0)).toFixed(2)} د.م.
+              </div>
+              <div className="flex gap-1 items-center justify-end">
+                <span className="text-xs line-through opacity-70">
+                  {((selectedPackData?.price || 0) * 1.2).toFixed(2)} د.م.
+                </span>
+                <span className="text-xs">المجموع:</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Pack selection buttons - mobile */}
+          <div className="flex flex-row items-center justify-between mt-3 gap-2" dir="rtl">
+            {packs.map((pack) => (
+              <Button
+                key={pack.id}
+                variant={selectedPack === pack.id ? "default" : "outline"}
+                onClick={() => setSelectedPack(pack.id)}
+                className="px-3 py-1 text-xs rounded-md flex-1 text-center transition-all duration-300"
+                style={{
+                  backgroundColor: selectedPack === pack.id ? productColor.main : 'white',
+                  borderColor: productColor.main,
+                  color: selectedPack === pack.id ? 'white' : productColor.main
+                }}
+              >
+                {`PACK-${pack.quantity}`}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop layout - Buttons directly below card */}
+        <div className="hidden md:block max-w-6xl mx-auto">
+          <div className="flex flex-row gap-8">
+            {/* Left side - Card with pricing info and buttons */}
+            <div className="w-1/2">
+              <div className="rounded-lg p-6 text-white" style={{
+                backgroundColor: productColor.main
+              }}>
+                <div className="flex justify-between items-center mb-2" dir="rtl">
+                  <div className="text-white text-xs font-bold px-2 py-1 rounded-sm" style={{ 
+                    backgroundColor: productColor.dark 
+                  }}>
+                    خصم 10% وإلغاء في أي وقت
                   </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        * البريد الإلكتروني
-                      </label>
-                      <Input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="your@email.com"
-                        required
-                        className="w-full text-left"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        * رقم الهاتف
-                      </label>
-                      <Input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        placeholder="0XXXXXXXXX"
-                        required
-                        className="w-full text-right"
-                        dir="rtl"
-                      />
-                    </div>
+                </div>
+                <div className="text-right" dir="rtl">
+                  <h3 className="text-xl font-bold mb-1">شراء لمرة واحدة</h3>
+                  <div className="flex items-baseline gap-2 justify-end">
+                    <span>للوحدة</span>
+                    <span className="text-5xl font-bold">
+                      {((selectedPackData?.price || 0)).toFixed(2)} د.م.
+                    </span>
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      * عنوان التوصيل
-                    </label>
-                    <Input
-                      type="text"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      placeholder="العنوان الكامل"
-                      required
-                      className="w-full text-right"
-                      dir="rtl"
-                    />
+                  <div className="flex items-center mt-1 justify-end">
+                    <span className="text-sm text-white opacity-70 line-through">
+                      {((selectedPackData?.price || 0) * 1.2).toFixed(2)} د.م.
+                    </span>
+                    <span className="text-sm mr-1">:المجموع</span>
                   </div>
+                </div>
+              </div>
+              
+              {/* Pack selection buttons directly below card */}
+              <div className="flex flex-row items-center justify-between gap-3 mt-3" dir="rtl">
+                {packs.map((pack) => (
+                  <Button
+                    key={pack.id}
+                    variant={selectedPack === pack.id ? "default" : "outline"}
+                    onClick={() => setSelectedPack(pack.id)}
+                    className="py-2 px-5 flex-1 text-center transition-all duration-300"
+                    style={{
+                      backgroundColor: selectedPack === pack.id ? productColor.main : 'white',
+                      borderColor: productColor.main,
+                      color: selectedPack === pack.id ? 'white' : productColor.main
+                    }}
+                  >
+                    {`PACK-${pack.quantity}`}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Right side - Product image without background */}
+            <div className="w-1/2">
+              <div className="relative">
+                <div className="absolute -top-6 -right-6 z-20">
+                  <div className="text-white rounded-full w-24 h-24 flex flex-col items-center justify-center font-bold shadow-lg" style={{
+                    backgroundColor: productColor.main
+                  }}>
+                    <span className="text-2xl">42%</span>
+                    <span className="text-xs">خصم</span>
+                  </div>
+                </div>
+                <div className="relative z-10 flex justify-center">
+                  <Image
+                    src={selectedPackData?.image || packs[0].image}
+                    alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
+                    width={300}
+                    height={300}
+                    className="object-contain h-72 w-auto"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Form at the bottom for all views */}
+        <div className="max-w-6xl mx-auto mt-10 mb-20" id="order-form-section">
+          <Card className="border-2 shadow-xl rounded-2xl overflow-hidden" style={{
+            borderColor: `${productColor.light}33`
+          }}>
+            <CardContent className="p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 text-center" dir="rtl">
+                الطلب المباشر
+              </h3>
+              
+              <form onSubmit={handleDirectOrder} className="space-y-4" dir="rtl">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    * الاسم الكامل
+                  </label>
+                  <Input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="الاسم الكامل"
+                    required
+                    className="w-full text-right"
+                    dir="rtl"
+                  />
+                </div>
 
-                  
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    * رقم الهاتف
+                  </label>
+                  <Input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="0XXXXXXXXX"
+                    required
+                    className="w-full text-right"
+                    dir="rtl"
+                  />
+                </div>
 
-                  <div className="pt-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    * عنوان التوصيل
+                  </label>
+                  <Input
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    placeholder="العنوان الكامل"
+                    required
+                    className="w-full text-right"
+                    dir="rtl"
+                  />
+                </div>
+
+                <div className="pt-4">
+                  <div className="flex flex-row gap-2 w-full">
                     <Button
                       type="submit"
                       size="lg"
-                      className="w-full py-6 text-xl font-bold rounded-2xl text-white transition-all duration-300 shadow-xl"
+                      className="flex-1 py-4 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-lg min-w-0"
                       style={{
                         backgroundColor: productColor.main
                       }}
                       disabled={isSubmittingForm}
                     >
                       {isSubmittingForm ? (
-                        <div className="flex items-center justify-center gap-3">
-                          <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
+                        <div className="flex items-center justify-center gap-2" dir="rtl">
+                          <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
                           جاري المعالجة...
                         </div>
                       ) : (
-                        <div className="flex items-center justify-center gap-3">
-                          <Send className="w-6 h-6" />
+                        <div className="flex items-center justify-center gap-2" dir="rtl">
+                          <Send className="w-5 h-5" />
                           اطلب الآن
                         </div>
                       )}
                     </Button>
-                    
-                    {/* Security & Guarantee Info */}
-                    <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <span>ضمان 30 يوم</span>
-                        <Check className="w-4 h-4 text-green-600" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span>توصيل مجاني</span>
-                        <Check className="w-4 h-4 text-green-600" />
-                      </div>
-                    </div>
-                    
-                    {/* WhatsApp Support */}
-                    <div className="mt-6 text-center">
-                      <p className="text-sm text-gray-600 mb-3">
-                        تحتاج مساعدة في طلبك؟
-                      </p>
-                      <Button 
-                        type="button"
-                        className="bg-green-500 hover:bg-green-600 text-white rounded-full py-2 px-5 text-sm flex items-center gap-2 mx-auto"
-                        onClick={() => window.open('https://wa.me/212XXXXXXXX', '_blank')}
-                      >
-                        <MessageCircle className="w-4 h-4" />
-                        تواصل معنا عبر واتساب
-                      </Button>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={handleCheckout}
+                      className="flex items-center justify-center p-0 w-14 h-9 rounded-xl bg-black text-white hover:bg-gray-900 transition-colors min-w-0"
+                      title="Checkout"
+                      style={{ minWidth: '3.5rem', minHeight: '2rem' }}
+                    >
+                      <ShoppingCart className="w-6 h-6" />
+                    </button>
                   </div>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right side - Pack image et pricing */}
-          <div className="space-y-8 lg:col-span-1 order-1 lg:order-2">
-            
-            {/* Image du pack sélectionné */}
-            <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
-              <div className="relative z-10 flex justify-center">
-                <Image
-                  src={selectedPackData?.image || packs[0].image}
-                  alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
-                  width={400}
-                  height={300}
-                  className="object-contain h-80 w-auto drop-shadow-xl"
-                />
-              </div>
-              
-              {/* Decorative elements */}
-              <div className="absolute bottom-4 right-4 w-16 h-16 rounded-full" style={{ backgroundColor: `${productColor.main}1A` }}></div>
-              <div className="absolute top-8 right-8 w-8 h-8 rounded-full" style={{ backgroundColor: `${productColor.main}33` }}></div>
-            </div>
-
-            {/* Pack selection buttons */}
-            <div className="flex flex-wrap gap-4 mt-8 justify-center" dir="rtl">
-              {packs.map((pack) => (
-                <Button
-                  key={pack.id}
-                  variant={selectedPack === pack.id ? "default" : "outline"}
-                  onClick={() => setSelectedPack(pack.id)}
-                  className="px-6 py-3 rounded-full font-semibold transition-all duration-300"
-                  style={{
-                    backgroundColor: selectedPack === pack.id ? productColor.main : 'transparent',
-                    borderColor: selectedPack === pack.id ? 'transparent' : '#d1d5db',
-                    color: selectedPack === pack.id ? 'white' : '#374151',
-                    boxShadow: selectedPack === pack.id ? '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)' : 'none'
-                  }}
-                >
-                  {pack.name}
-                </Button>
-              ))}
-            </div>
-
-            {/* Pricing cards - Style de l'image 2 */}
-            <div className="space-y-4" dir="rtl">
-              {/* Option One-time Purchase - Style rouge de l'image 2 */}
-              <Card className="border-2 rounded-2xl overflow-hidden text-white shadow-xl" style={{
-                borderColor: productColor.main,
-                background: `linear-gradient(to right, ${productColor.main}, ${productColor.dark})`
-              }}>
-                <CardContent className="p-1">
-                  <div className="flex justify-between items-center">
-                    <div className="flex-1 text-center">
-                      <div className="flex justify-center items-baseline gap-2 mb-2">
-                        <span className="text-lg font-semibold">السعر</span>
-                      </div>
-                      <div className="flex justify-center items-baseline gap-2">
-                        <span className="text-4xl font-bold">
-                          {((selectedPackData?.price || 0) * 1.1).toFixed(2)} د.م.
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Discount badge et features
-            <div className="text-center py-4" dir="rtl">
-              <Badge 
-                className="bg-green-600 text-white px-4 py-2 text-lg font-bold rounded-full shadow-lg"
-              >
-                خصم 42%
-              </Badge>
-              <p className="text-sm text-gray-600 mt-2">
-                وفر حتى 22.83 درهم مع هذه الباقة
-              </p>
-            </div> */}
-
-            {/* Checkout button - Style noir comme l'image 2 */}
-            <div className="pt-1">
-              <Button
-                size="default"
-                onClick={handleCheckout}
-                disabled={isAddingToCart}
-                className="w-full py-1 text-lg font-bold rounded-2xl bg-black hover:bg-gray-800 text-white transition-all duration-300 shadow-xl h-10"
-              >
-                {isAddingToCart ? (
-                  <div className="flex items-center gap-1">
-                    <div className="animate-spin w-3 h-4 border-2 border-white border-t-transparent rounded-full"></div>
-                    جاري الإضافة...
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <ShoppingCart className="w-2 h-1" />
-                    إضافة إلى السلة
-                  </div>
-                )}
-              </Button>
-              
-              {/* Security badges */}
-              <div className="flex items-center justify-center gap-4 mt-3 text-xs text-gray-600">
-                <div className="flex items-center gap-2">
-                  <span>ضمان 30 يوم</span>
-                  <Check className="w-4 h-4 text-green-600" />
                 </div>
-                <div className="flex items-center gap-2">
-                  <span>توصيل مجاني</span>
-                  <Check className="w-4 h-4 text-green-600" />
-                </div>
-              </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* Fixed bottom button for "Add to Cart" that stays visible when scrolling */}
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
+          <Button
+            size="lg"
+            onClick={() => {
+              const formSection = document.getElementById('order-form-section');
+              if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="w-full py-4 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-md"
+            style={{
+              backgroundColor: productColor.main,
+              color: productColor.contrastText
+            }}
+          >
+            <div className="flex items-center justify-center gap-2" dir="rtl">
+              <ShoppingCart className="w-5 h-5" />
+              إضافة إلى السلة
             </div>
-          </div>
+          </Button>
         </div>
       </div>
     </section>

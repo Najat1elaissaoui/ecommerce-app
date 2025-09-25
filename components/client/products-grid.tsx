@@ -188,7 +188,7 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
               {products.map((product, index) => (
                 <Card
                   key={product.id}
-                  className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg animate-slide-in-left w-full max-w-sm"
+                  className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg animate-slide-in-left w-full max-w-sm flex flex-col min-h-[420px]"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <CardHeader className="relative p-0">
@@ -198,34 +198,29 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
                         alt={product.name_ar}
                         className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <div className="absolute top-4 left-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button size="sm" variant="secondary" className="w-8 h-8 p-0">
-                          <Heart className="w-4 h-4" />
-                        </Button>
-                        <Button size="sm" variant="secondary" className="w-8 h-8 p-0">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </div>
+                      {/* Icons removed */}
                     </div>
                   </CardHeader>
-                  <CardContent className="p-6">
-                    <Link href={`/products/${product.id}`}>
-                      <h3 className="text-lg font-semibold text-foreground mb-2 hover:text-primary transition-colors line-clamp-2">
-                        {product.name_ar}
-                      </h3>
-                    </Link>
-                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{product.description_ar}</p>
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className="text-2xl font-bold text-primary">{formatPrice(product.price)} DHS</span>
+                  <CardContent className="p-6 flex flex-col flex-1 justify-between">
+                    <div>
+                      <Link href={`/products/${product.id}`}>
+                        <h3 className="text-lg font-semibold text-foreground mb-2 hover:text-primary transition-colors line-clamp-2">
+                          {product.name_ar}
+                        </h3>
+                      </Link>
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{product.description_ar}</p>
                     </div>
-                    <Button
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
-                      onClick={() => handleAddToCart(product)}
-                      disabled={product.quantity === 0}
-                    >
-                      <ShoppingCart className="w-4 h-4" />
-                      {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
-                    </Button>
+                    <div className="flex items-center gap-3 mt-auto w-full">
+                      <span className="text-2xl font-bold text-primary">{formatPrice(product.price)} DHS</span>
+                      <Button
+                        className="ml-auto bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-6"
+                        onClick={() => handleAddToCart(product)}
+                        disabled={product.quantity === 0}
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                        {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -247,14 +242,7 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
                             alt={product.name_ar}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                          <div className="absolute top-3 left-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button size="sm" variant="secondary" className="w-8 h-8 p-0">
-                              <Heart className="w-4 h-4" />
-                            </Button>
-                            <Button size="sm" variant="secondary" className="w-8 h-8 p-0">
-                              <Eye className="w-4 h-4" />
-                            </Button>
-                          </div>
+                          {/* Icons removed */}
                         </div>
                       </div>
                       <div className="flex-1 flex flex-col justify-between">

@@ -116,55 +116,37 @@ export default function ModernProductsSection() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
       <div className="container mx-auto px-4">
         
         {/* Section Header */}
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div className="text-center mb-10 md:mb-16 opacity-0 animate-[fadeInUp_0.8s_0.2s_forwards]">
           <div className="inline-flex items-center bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-medium mb-4">
             <Zap className="w-4 h-4 ml-2" />
             المنتجات المميزة
           </div>
           
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 md:mb-6">
             اشعل
             <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               تحولك
             </span>
           </h2>
           
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             مكملات غذائية فاخرة مصممة من قبل الخبراء، موثوقة من قبل الأبطال
           </p>
-        </motion.div>
+        </div>
 
-        {/* Products Grid */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
+        {/* Products Grid - Improved responsive layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {sampleProducts.map((product, index) => (
-            <motion.div
+            <div
               key={`${product.id}-${index}`}
-              variants={cardVariants}
-              onHoverStart={() => setHoveredCard(product.id)}
-              onHoverEnd={() => setHoveredCard(null)}
-              whileHover={{ 
-                y: -12,
-                rotateY: hoveredCard === product.id ? 2 : 0,
-                transition: { duration: 0.3, ease: "easeOut" }
-              }}
+              className="opacity-0 animate-[fadeInUp_0.8s_forwards]"
+              style={{ animationDelay: `${0.3 + index * 0.1}s` }}
             >
-              <Card className="group relative overflow-hidden bg-white rounded-3xl shadow-xl border-0 hover:shadow-2xl transition-all duration-500 transform-gpu">
+              <Card className="group relative overflow-hidden bg-white rounded-3xl shadow-xl border-0 hover:shadow-2xl transition-all duration-500 transform-gpu hover:-translate-y-2 active:translate-y-0">
                 {/* Glowing border effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
                 
@@ -173,93 +155,49 @@ export default function ModernProductsSection() {
 
                 <CardContent className="relative p-0 z-10">
                   {/* Product Image */}
-                  <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 rounded-t-3xl">
-                    {/* Animated background pattern */}
-                    <div className="absolute  opacity-50" />
-                    
-                    <Image
-                      src={product.images?.[0] || "/protein-powder-assortment.png"}
-                      alt={product.name_ar}
-                      fill
-                      className=" transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
-                    />
-                    
-                    {/* Dynamic overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    {/* Floating quick action */}
-                    <motion.div 
-                      className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                      initial={{ scale: 0.8, rotate: -10 }}
-                      whileHover={{ scale: 1, rotate: 0 }}
-                    >
-                      <Button
-                        size="sm"
-                        className="bg-white/90 backdrop-blur-sm text-gray-900 hover:bg-white shadow-lg border-0 rounded-full px-3 py-2"
-                      >
-                        <Heart className="w-4 h-4" />
-                      </Button>
-                    </motion.div>
-                    
-                    {/* Quick view button with enhanced styling */}
-                    <motion.div 
-                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-                      initial={{ scale: 0.7, y: 20 }}
-                      whileHover={{ scale: 1, y: 0 }}
-                    >
-                      <Link href={`/products/${product.id}`}>
-                        <Button 
-                          className="bg-white/95 backdrop-blur-md text-gray-900 hover:bg-white font-bold px-8 py-3 rounded-2xl shadow-2xl border border-white/20 transform hover:scale-105 transition-all duration-300"
+                    <div className="relative aspect-[1/1] w-full h-48 md:h-64 flex items-center justify-center bg-white rounded-t-3xl overflow-hidden">
+                      <Image
+                        src={product.images?.[0] || "/protein-powder-assortment.png"}
+                        alt={product.name_ar}
+                        fill
+                        className="object-contain w-full h-full"
+                        sizes="(max-width: 768px) 100vw, 100vw"
+                      />
+                      {/* Touch-friendly action for mobile */}
+                      <div className="md:hidden absolute bottom-3 left-3 z-10">
+                        <Button
                           size="sm"
+                          className="bg-white/90 text-gray-900 shadow-lg border-0 rounded-full w-10 h-10 flex items-center justify-center"
+                          onClick={() => handleAddToCart(product)}
                         >
-                          <span className="flex items-center">
-                            عرض سريع
-                            <ArrowRight className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-                          </span>
+                          <ShoppingCart className="w-5 h-5" />
                         </Button>
-                      </Link>
-                    </motion.div>
-                  </div>
-
-                  {/* Enhanced Product Info */}
-                  <div className="p-8">
-                    {/* Product Name with enhanced typography */}
-                    <h3 className="text-2xl font-black text-gray-900 mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all duration-300 leading-tight">
-                      {product.name_ar}
-                    </h3>
-
-                    {/* Enhanced Price Display */}
-                    <div className="flex items-center justify-between mb-8">
-                      {/* <span className="text-3xl font-black text-gray-900">{product.price.toLocaleString("fr-MA")} DH</span>
-                       */}
-                      {/* Price badge */}
-                      <div className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">
-                        أفضل سعر
                       </div>
                     </div>
 
+                  {/* Enhanced Product Info */}
+                  <div className="p-4 md:p-6">
+                    {/* Product Name with enhanced typography */}
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all duration-300 leading-tight">
+                      {product.name_ar}
+                    </h3>
+
+                    {/* Price only, no rating */}
+                    <div className="mb-4">
+                      <span className="text-xl font-black text-gray-900">{product.price.toLocaleString("fr-MA")} DH</span>
+                    </div>
+
                     {/* Enhanced Actions */}
-                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
-                      {/* <Button 
-                        onClick={() => handleAddToCart(product)}
-                        disabled={product.quantity === 0}
-                        className="flex-1 w-full bg-black hover:bg-gray-800 text-white font-bold py-3 sm:py-4 rounded-2xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
-                      >
-                        <span className="relative z-10 flex items-center justify-center text-xs sm:text-sm">
-                          <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" />
-                          <span className="hidden xs:inline">{product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}</span>
-                          <span className="xs:hidden">{product.quantity === 0 ? "غير متوفر" : "إضافة"}</span>
-                        </span>
-                      </Button> */}
+                    <div className="flex flex-row gap-2">
+                     
                       
                       <Link href={`/products/${product.id}`} className="flex-1">
                          <Button 
-                          className="w-full bg-black  text-white border-2 border-gray-200 hover:border-gray-300 font-bold py-3 sm:py-4 rounded-2xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                          className="w-full bg-black text-white font-bold py-2 rounded-xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
                         >
                          <span className="relative z-10 flex items-center justify-center text-xs sm:text-sm">
-                             <span className="hidden xs:inline">عرض التفاصيل</span>
-                             <span className="xs:hidden">تفاصيل</span>
-                            <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 group-hover:translate-x-1 transition-transform" />
+                             <span>عرض التفاصيل</span>
+                            <ArrowRight className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
                           </span>
                         </Button>
                       </Link>
@@ -267,40 +205,19 @@ export default function ModernProductsSection() {
                   </div>
                 </CardContent>
 
-                {/* Enhanced Hover Effect with animated gradient */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl"
-                  animate={{
-                    background: hoveredCard === product.id 
-                      ? ["linear-gradient(45deg, rgba(59,130,246,0.1), rgba(147,51,234,0.1), rgba(236,72,153,0.1))",
-                         "linear-gradient(90deg, rgba(147,51,234,0.1), rgba(236,72,153,0.1), rgba(59,130,246,0.1))",
-                         "linear-gradient(135deg, rgba(236,72,153,0.1), rgba(59,130,246,0.1), rgba(147,51,234,0.1))"]
-                      : "linear-gradient(45deg, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0))"
-                  }}
-                  transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                />
-                
-                {/* Shine effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-pulse" />
-                </div>
+                {/* Mobile touch effect */}
+                <div className="absolute inset-0 bg-black/5 opacity-0 active:opacity-100 md:active:opacity-0 transition-opacity duration-200 rounded-3xl pointer-events-none" />
               </Card>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* View All Products Button */}
-        <motion.div 
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div className="text-center mt-10 md:mt-16 opacity-0 animate-[fadeInUp_0.8s_0.7s_forwards]">
           <Link href="/products">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white px-12 py-4 text-lg font-semibold rounded-xl group relative overflow-hidden"
+              className="bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white px-8 md:px-12 py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl group relative overflow-hidden"
             >
               <span className="relative z-10 flex items-center">
                 عرض جميع المنتجات
@@ -309,40 +226,48 @@ export default function ModernProductsSection() {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Button>
           </Link>
-        </motion.div>
+        </div>
 
-        {/* Trust Badges */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          viewport={{ once: true }}
-        >
-          <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-              <Award className="w-8 h-8 text-white" />
+        {/* Trust Badges - Improved for mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 md:mt-20">
+          {[
+            {
+              icon: <Award className="w-6 h-6 md:w-8 md:h-8 text-white" />,
+              title: "جودة فاخرة",
+              desc: "مختبرة معملياً ومعتمدة للنقاء",
+              color: "from-green-400 to-green-600",
+              delay: "0.8s"
+            },
+            {
+              icon: <Zap className="w-6 h-6 md:w-8 md:h-8 text-white" />,
+              title: "نتائج سريعة",
+              desc: "شاهد التحسن خلال أسابيع",
+              color: "from-blue-400 to-blue-600",
+              delay: "0.9s"
+            },
+            {
+              icon: <Star className="w-6 h-6 md:w-8 md:h-8 text-white" />,
+              title: "الأعلى تقييماً",
+              desc: "موثوق من قبل الملايين",
+              color: "from-purple-400 to-purple-600",
+              delay: "1.0s"
+            }
+          ].map((badge, index) => (
+            <div 
+              key={index} 
+              className="flex flex-row md:flex-col items-center md:items-center text-right md:text-center bg-white/50 backdrop-blur-sm p-4 md:p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 opacity-0 animate-[fadeIn_0.8s_forwards]"
+              style={{ animationDelay: badge.delay }}
+            >
+              <div className={`w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br ${badge.color} rounded-2xl md:mx-auto mb-0 md:mb-4 ml-4 md:ml-0 flex items-center justify-center`}>
+                {badge.icon}
+              </div>
+              <div>
+                <h4 className="text-base md:text-lg font-bold text-gray-900 mb-1 md:mb-2">{badge.title}</h4>
+                <p className="text-sm md:text-base text-gray-600">{badge.desc}</p>
+              </div>
             </div>
-            <h4 className="text-lg font-bold text-gray-900 mb-2">جودة فاخرة</h4>
-            <p className="text-gray-600">مختبرة معملياً ومعتمدة للنقاء</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-              <Zap className="w-8 h-8 text-white" />
-            </div>
-            <h4 className="text-lg font-bold text-gray-900 mb-2">نتائج سريعة</h4>
-            <p className="text-gray-600">شاهد التحسن خلال أسابيع</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-              <Star className="w-8 h-8 text-white" />
-            </div>
-            <h4 className="text-lg font-bold text-gray-900 mb-2">الأعلى تقييماً</h4>
-            <p className="text-gray-600">موثوق من قبل الملايين حول العالم</p>
-          </div>
-        </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )

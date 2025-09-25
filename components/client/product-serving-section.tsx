@@ -25,11 +25,12 @@ interface ProductColor {
 }
 
 interface ProductServingSectionProps {
-  serving: Serving
-  productColor?: ProductColor
+  serving: Serving;
+  productColor?: ProductColor;
+  image?: string;
 }
 
-export default function ProductServingSection({ serving, productColor }: ProductServingSectionProps) {
+export default function ProductServingSection({ serving, productColor, image }: ProductServingSectionProps) {
   // Couleurs par défaut si aucune n'est fournie
   const colors = productColor || {
     main: "#DC2626",
@@ -37,6 +38,7 @@ export default function ProductServingSection({ serving, productColor }: Product
     dark: "#991B1B",
     contrastText: "#FFFFFF"
   };
+  const imageSrc = image || "/creatine-supplement.jpg";
 
   return (
     <section 
@@ -56,7 +58,7 @@ export default function ProductServingSection({ serving, productColor }: Product
           <div className="relative">
             <div className="relative z-10">
               <Image
-                src="/creatine-supplement.jpg" // Image du produit
+                src={imageSrc}
                 alt="Product nutrition"
                 width={500}
                 height={600}

@@ -245,9 +245,9 @@ export default function ProductCarouselSection() {
   const indices = getCardIndices()
 
   return (
-    <section className="py-12 bg-white overflow-hidden w-full">
-      <div className="w-full px-4 md:px-6 max-w-[90rem] mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">Discover</h2>
+    <section className="py-8 md:py-12 bg-white overflow-hidden w-full">
+      <div className="w-full px-3 md:px-6 max-w-[90rem] mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-8">اكتشف منتجاتنا</h2>
         
         {/* Nouvelle mise en page du carrousel avec cartes alignées horizontalement */}
         <div 
@@ -287,7 +287,7 @@ export default function ProductCarouselSection() {
               onClick={() => !transitioning && setActiveIndex(indices.left)}
             >
               <div
-                className={`${productCards[indices.left].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[240px] w-[340px] md:w-[420px] lg:w-[460px] transition-all duration-300`}
+                className={`${productCards[indices.left].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[190px] sm:h-[220px] md:h-[240px] w-[260px] sm:w-[320px] md:w-[400px] lg:w-[460px] transition-all duration-300`}
               >
                 <div className="grid grid-cols-2 h-full">
                   {/* Image à gauche */}
@@ -343,7 +343,7 @@ export default function ProductCarouselSection() {
               key={activeIndex} // Force re-render on change
             >
               <div
-                className={`${productCards[indices.active].backgroundColor} rounded-2xl overflow-hidden shadow-2xl h-[280px] w-[380px] md:w-[520px] lg:w-[580px] transition-all duration-300`}
+                className={`${productCards[indices.active].backgroundColor} rounded-2xl overflow-hidden shadow-2xl h-[220px] sm:h-[250px] md:h-[280px] w-[300px] sm:w-[350px] md:w-[480px] lg:w-[580px] transition-all duration-300`}
               >
                 <div className="grid grid-cols-2 h-full">
                   {/* Image à gauche */}
@@ -400,7 +400,7 @@ export default function ProductCarouselSection() {
               onClick={() => !transitioning && setActiveIndex(indices.right)}
             >
               <div
-                className={`${productCards[indices.right].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[240px] w-[340px] md:w-[420px] lg:w-[460px] transition-all duration-300`}
+                className={`${productCards[indices.right].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[190px] sm:h-[220px] md:h-[240px] w-[260px] sm:w-[320px] md:w-[400px] lg:w-[460px] transition-all duration-300`}
               >
                 <div className="grid grid-cols-2 h-full">
                   {/* Image à gauche */}
