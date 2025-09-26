@@ -234,71 +234,71 @@ const productsData: Record<string, ProductData> = {
   "2": {
     ...sampleProductData,
     id: 2,
-    name: "Whey Protein Powder",
+    name: "بروتين مصل اللبن المميز",
     productColor: {
-      main: "#0088CC",      // Bleu pour ce produit
-      light: "#4AAFDF",     // Version plus claire
-      dark: "#006699",      // Version plus foncée
-      contrastText: "#FFFFFF" // Texte blanc pour contraste
+      main: "#0088CC",
+      light: "#4AAFDF",
+      dark: "#006699",
+      contrastText: "#FFFFFF"
     },
     basicInfo: {
-      description: "Premium whey protein for muscle building and recovery",
-      category: "Protein",
+      description: "بروتين مصل اللبن عالي الجودة لبناء العضلات والتعافي بعد التمارين.",
+      category: "مكمل غذائي",
       price: 24.99
     },
-    detailedDescription: "Premium whey protein isolate with superior absorption. Perfect for post-workout recovery and muscle building. Contains all essential amino acids."
+    detailedDescription: "بروتين مصل اللبن المعزول الممتاز مع امتصاص فائق. مثالي للتعافي بعد التمارين وبناء العضلات. يحتوي على جميع الأحماض الأمينية الأساسية."
   },
   "3": {
     ...sampleProductData,
     id: 3,
-    name: "Creatine Monohydrate",
+    name: "كرياتين مونوهيدرات نقي",
     productColor: {
-      main: "#7851A9",      // Violet pour ce produit
-      light: "#9B7AC5",     // Version plus claire
-      dark: "#5A3D81",      // Version plus foncée
-      contrastText: "#FFFFFF" // Texte blanc pour contraste
+      main: "#7851A9",
+      light: "#9B7AC5",
+      dark: "#5A3D81",
+      contrastText: "#FFFFFF"
     },
     basicInfo: {
-      description: "Pure creatine monohydrate for strength and power",
-      category: "Performance",
+      description: "كرياتين مونوهيدرات نقي لزيادة القوة والطاقة.",
+      category: "مكمل غذائي",
       price: 19.99
     },
-    detailedDescription: "100% pure creatine monohydrate. Clinically proven to increase strength, power, and muscle mass. Unflavored and easily mixable.",
+    detailedDescription: "كرياتين مونوهيدرات نقي 100%. مثبت سريريًا لزيادة القوة والطاقة وكتلة العضلات. بدون نكهة وسهل الخلط.",
     productImage: "/creatine-supplement.jpg"
   },
   "4": {
     ...sampleProductData,
     id: 4,
-    name: "Multi-Vitamin Complex",
+    name: "مجمع الفيتامينات المتكامل",
     productColor: {
-      main: "#FF8C00",      // Orange pour ce produit
-      light: "#FFAA42",     // Version plus claire
-      dark: "#D97700",      // Version plus foncée
-      contrastText: "#FFFFFF" // Texte blanc pour contraste
+      main: "#FF8C00",
+      light: "#FFAA42",
+      dark: "#D97700",
+      contrastText: "#FFFFFF"
     },
     basicInfo: {
-      description: "Complete daily vitamin and mineral support",
-      category: "Wellness",
+      description: "تركيبة شاملة من الفيتامينات والمعادن لدعم الصحة العامة.",
+      category: "مكمل غذائي",
       price: 14.99
     },
-    detailedDescription: "Comprehensive multi-vitamin formula with essential vitamins and minerals. Supports overall health and fills nutritional gaps in your diet."
+    detailedDescription: "تركيبة متعددة الفيتامينات شاملة مع الفيتامينات والمعادن الأساسية. تدعم الصحة العامة وتسد الفجوات الغذائية في نظامك الغذائي."
   },
   "5": {
     ...sampleProductData,
     id: 5,
-    name: "Omega-3 Fish Oil",
+    name: "زيت السمك أوميغا-3 عالي الجودة",
     productColor: {
-      main: "#00A86B",      // Vert pour ce produit
-      light: "#35C992",     // Version plus claire
-      dark: "#008554",      // Version plus foncée
-      contrastText: "#FFFFFF" // Texte blanc pour contraste
+      main: "#00A86B",
+      light: "#35C992",
+      dark: "#008554",
+      contrastText: "#FFFFFF"
     },
     basicInfo: {
-      description: "High-quality omega-3 fatty acids for heart and brain health",
-      category: "Wellness", 
+      description: "أحماض أوميغا-3 الدهنية عالية الجودة لصحة القلب والدماغ.",
+      category: "مكمل غذائي",
       price: 22.99
     },
-    detailedDescription: "Premium omega-3 fish oil with EPA and DHA. Supports cardiovascular health, brain function, and reduces inflammation."
+    detailedDescription: "زيت السمك أوميغا-3 الممتاز مع EPA وDHA. يدعم صحة القلب والدماغ ويقلل الالتهابات."
   }
 }
 

@@ -40,7 +40,7 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
       price: 299.99,
       quantity: 50,
       description_ar: "بروتين عالي الجودة لبناء العضلات وزيادة القوة",
-      images: ["/protein-powder-assortment.png"],
+      images: ["/creatine-supplement.jpg"],
       low_stock_threshold: 5,
       is_active: true,
       created_at: new Date().toISOString(),
