@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { colors } from "@/lib/colors"
 import Image from "next/image"
 import { Check, ShoppingCart, Send, MessageCircle } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useCart } from "@/lib/cart-context"
 import { useToast } from "../ui/use-toast"
 import { Product } from "@/lib/types"
@@ -51,7 +51,25 @@ export default function ProductPacksSection({
     name: "",
     phone: "",
     address: ""
-  })
+  });
+  // Show/hide fixed button based on form visibility
+  const [showFixedButton, setShowFixedButton] = useState(true);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!formRef.current) return;
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        setShowFixedButton(!entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0.2,
+      }
+    );
+    observer.observe(formRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleCheckout = () => {
     const pack = packs.find(p => p.id === selectedPack)
@@ -136,7 +154,7 @@ export default function ProductPacksSection({
           </div>
         </div> */}
         
-        {/* Mobile layout - Like image reference */}
+        {/* Mobile layout - Only significant info: pack name, quantity, price */}
         <div className="md:hidden max-w-6xl mx-auto mb-8">
           <div className="flex flex-row items-center gap-4 rounded-lg p-4">
             {/* Image du pack */}
@@ -148,40 +166,15 @@ export default function ProductPacksSection({
                 height={100}
                 className="object-contain h-24 w-full"
               />
-              <div className="absolute -top-2 -right-2">
-                <div className="text-white rounded-full w-12 h-12 flex flex-col items-center justify-center font-bold text-xs" style={{
-                  backgroundColor: productColor.main
-                }}>
-                  <span>42%</span>
-                  <span>خصم</span>
-                </div>
-              </div>
             </div>
-            
-            {/* Price info - single card in Arabic */}
-            <div className="w-2/3 text-right rounded-lg p-3" dir="rtl" style={{
+            {/* Info significative */}
+            <div className="w-2/3 rounded-lg p-3 flex flex-col items-center justify-center text-center" dir="rtl" style={{
               backgroundColor: productColor.main,
               color: 'white'
             }}>
-              <div className="mb-1">
-                <div className="text-white text-xs font-bold px-2 py-1 rounded-sm inline-block mb-1" style={{ 
-                  backgroundColor: productColor.dark
-                }}>
-                  خصم 10% وإلغاء في أي وقت
-                </div>
-              </div>
-              <div className="mb-1">
-                <span className="text-sm font-medium">شراء لمرة واحدة</span>
-              </div>
-              <div className="text-xl font-bold">
-                {((selectedPackData?.price || 0)).toFixed(2)} د.م.
-              </div>
-              <div className="flex gap-1 items-center justify-end">
-                <span className="text-xs line-through opacity-70">
-                  {((selectedPackData?.price || 0) * 1.2).toFixed(2)} د.م.
-                </span>
-                <span className="text-xs">المجموع:</span>
-              </div>
+              <div className="text-lg font-bold mb-1 w-full">{selectedPackData?.name}</div>
+              <div className="text-sm mb-1 w-full">الكمية: {selectedPackData?.quantity}</div>
+              <div className="text-2xl font-extrabold w-full">{((selectedPackData?.price || 0)).toFixed(2)} د.م.</div>
             </div>
           </div>
           
@@ -205,38 +198,18 @@ export default function ProductPacksSection({
           </div>
         </div>
 
-        {/* Desktop layout - Buttons directly below card */}
+        {/* Desktop layout - Only significant info: pack name, quantity, price */}
         <div className="hidden md:block max-w-6xl mx-auto">
           <div className="flex flex-row gap-8">
             {/* Left side - Card with pricing info and buttons */}
-            <div className="w-1/2">
-              <div className="rounded-lg p-6 text-white" style={{
+            <div className="w-1/2 flex flex-col justify-center">
+              <div className="rounded-lg p-8 text-white flex flex-col items-center justify-center text-center min-h-[200px]" style={{
                 backgroundColor: productColor.main
               }}>
-                <div className="flex justify-between items-center mb-2" dir="rtl">
-                  <div className="text-white text-xs font-bold px-2 py-1 rounded-sm" style={{ 
-                    backgroundColor: productColor.dark 
-                  }}>
-                    خصم 10% وإلغاء في أي وقت
-                  </div>
-                </div>
-                <div className="text-right" dir="rtl">
-                  <h3 className="text-xl font-bold mb-1">شراء لمرة واحدة</h3>
-                  <div className="flex items-baseline gap-2 justify-end">
-                    <span>للوحدة</span>
-                    <span className="text-5xl font-bold">
-                      {((selectedPackData?.price || 0)).toFixed(2)} د.م.
-                    </span>
-                  </div>
-                  <div className="flex items-center mt-1 justify-end">
-                    <span className="text-sm text-white opacity-70 line-through">
-                      {((selectedPackData?.price || 0) * 1.2).toFixed(2)} د.م.
-                    </span>
-                    <span className="text-sm mr-1">:المجموع</span>
-                  </div>
-                </div>
+                <div className="text-2xl font-extrabold mb-2 w-full">{selectedPackData?.name}</div>
+                <div className="text-lg mb-2 w-full">الكمية: {selectedPackData?.quantity}</div>
+                <div className="text-4xl font-black w-full">{((selectedPackData?.price || 0)).toFixed(2)} د.م.</div>
               </div>
-              
               {/* Pack selection buttons directly below card */}
               <div className="flex flex-row items-center justify-between gap-3 mt-3" dir="rtl">
                 {packs.map((pack) => (
@@ -256,34 +229,21 @@ export default function ProductPacksSection({
                 ))}
               </div>
             </div>
-            
-            {/* Right side - Product image without background */}
-            <div className="w-1/2">
-              <div className="relative">
-                <div className="absolute -top-6 -right-6 z-20">
-                  <div className="text-white rounded-full w-24 h-24 flex flex-col items-center justify-center font-bold shadow-lg" style={{
-                    backgroundColor: productColor.main
-                  }}>
-                    <span className="text-2xl">42%</span>
-                    <span className="text-xs">خصم</span>
-                  </div>
-                </div>
-                <div className="relative z-10 flex justify-center">
-                  <Image
-                    src={selectedPackData?.image || packs[0].image}
-                    alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
-                    width={300}
-                    height={300}
-                    className="object-contain h-72 w-auto"
-                  />
-                </div>
-              </div>
+            {/* Right side - Product image */}
+            <div className="w-1/2 flex items-center justify-center">
+              <Image
+                src={selectedPackData?.image || packs[0].image}
+                alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
+                width={300}
+                height={300}
+                className="object-contain h-72 w-auto"
+              />
             </div>
           </div>
         </div>
         
         {/* Form at the bottom for all views */}
-        <div className="max-w-6xl mx-auto mt-10 mb-20" id="order-form-section">
+  <div className="max-w-6xl mx-auto mt-10 mb-20" id="order-form-section" ref={formRef}>
           <Card className="border-2 shadow-xl rounded-2xl overflow-hidden" style={{
             borderColor: `${productColor.light}33`
           }}>
@@ -380,28 +340,29 @@ export default function ProductPacksSection({
           </Card>
         </div>
         
-        {/* Fixed bottom button for "Add to Cart" that stays visible when scrolling */}
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
-          <Button
-            size="lg"
-            onClick={() => {
-              const formSection = document.getElementById('order-form-section');
-              if (formSection) {
-                formSection.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-            className="w-full py-4 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-md"
-            style={{
-              backgroundColor: productColor.main,
-              color: productColor.contrastText
-            }}
-          >
-            <div className="flex items-center justify-center gap-2" dir="rtl">
-              <ShoppingCart className="w-5 h-5" />
-              إضافة إلى السلة
-            </div>
-          </Button>
-        </div>
+        {/* Fixed bottom button for "Add to Cart" that stays visible when scrolling, except when form is in view */}
+        {showFixedButton && (
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
+            <Button
+              size="lg"
+              onClick={() => {
+                const formSection = document.getElementById('order-form-section');
+                if (formSection) {
+                  formSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="w-full py-4 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-md"
+              style={{
+                backgroundColor: productColor.main,
+                color: productColor.contrastText
+              }}
+            >
+                <div className="flex items-center justify-center gap-2" dir="rtl">
+                  اطلب الآن
+                </div>
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   )

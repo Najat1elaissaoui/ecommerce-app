@@ -15,7 +15,7 @@ export default function ModernVideoSection() {
   }
 
   return (
-    <section className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50" dir="rtl">
+    <section className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 pt-0">
       <div className="container mx-auto px-3 md:px-4">
         
         {/* Section Header */}

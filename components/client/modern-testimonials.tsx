@@ -91,8 +91,8 @@ export default function ModernTestimonials({ opinions = defaultOpinions }: Moder
   }
 
   return (
-    <section className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-3 md:px-4">
+    <section className="py-2 md:py-2 bg-gradient-to-b from-gray-50 to-white pt-0">
+      <div className="container mx-auto px-3 md:px-4 pt-0">
         
         {/* Section Header */}
         <motion.div 

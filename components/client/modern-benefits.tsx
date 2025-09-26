@@ -100,23 +100,23 @@ export default function ModernBenefitsSection() {
   return (
     <div>
       {/* Main Benefits Section */}
-      <section className="py-12 md:py-20 bg-white">
+  <section className="py-6 md:py-10 bg-white pt-0">
         <div className="container mx-auto px-3 md:px-4">
           
           {/* Section Header */}
           <motion.div 
-            className="text-center mb-10 md:mb-20"
+            className="text-center mb-6 md:mb-10"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-purple-100 text-blue-600 px-6 py-3 rounded-full text-sm font-semibold mb-6">
+            <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-purple-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-3">
               <CheckCircle className="w-5 h-5 ml-2" />
               لماذا تختارنا
             </div>
             
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-3">
               علم تحقيق
               <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 الأداء المثالي
@@ -131,7 +131,7 @@ export default function ModernBenefitsSection() {
 
           {/* Features Grid */}
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 md:gap-4"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -147,7 +147,7 @@ export default function ModernBenefitsSection() {
                 }}
                 className="group"
               >
-                <div className="relative bg-white rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 overflow-hidden">
+                <div className="relative bg-white rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-6 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 overflow-hidden">
                   
                   {/* Background Gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
@@ -168,7 +168,7 @@ export default function ModernBenefitsSection() {
 
                   {/* Content */}
                   <div className="relative z-10">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                       {feature.title}
                     </h3>
                     <p className="text-gray-600 leading-relaxed">
@@ -189,12 +189,12 @@ export default function ModernBenefitsSection() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-10 md:py-16 bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900">
+  <section className="py-6 md:py-10 bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900">
         <div className="container mx-auto px-3 md:px-4">
           
           {/* Stats Grid */}
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 md:gap-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -227,7 +227,7 @@ export default function ModernBenefitsSection() {
 
           {/* Call to Action */}
           <motion.div 
-            className="text-center mt-16"
+            className="text-center mt-8 pt-0"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -258,11 +258,11 @@ export default function ModernBenefitsSection() {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+  <section className="py-10 bg-gradient-to-b from-gray-50 to-white pt-0">
         <div className="container mx-auto px-4">
           
           <motion.div 
-            className="text-center mb-16"
+            className="text-center mb-8"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -276,11 +276,11 @@ export default function ModernBenefitsSection() {
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-6 items-center">
             
             {/* Process Steps */}
             <motion.div 
-              className="space-y-8"
+              className="space-y-4"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -320,7 +320,7 @@ export default function ModernBenefitsSection() {
                     {process.step}
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-gray-900 mb-2">
+                    <h4 className="text-xl font-bold text-gray-900 mb-1">
                       {process.title}
                     </h4>
                     <p className="text-gray-600 leading-relaxed">

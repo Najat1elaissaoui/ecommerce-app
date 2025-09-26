@@ -34,7 +34,7 @@ export default function ProductHeroSection({
 
   return (
     <section 
-      className="w-full py-12 md:py-20 relative overflow-hidden"
+  className="w-full relative overflow-hidden p-0 m-0"
       style={{
         background: `linear-gradient(to bottom right, ${productColor.dark}, ${productColor.main}, ${productColor.dark})`
       }}

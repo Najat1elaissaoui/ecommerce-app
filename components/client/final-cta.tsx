@@ -8,7 +8,7 @@ import Image from "next/image"
 
 export default function FinalCTA() {
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden pt-2">
       
       {/* Background Elements */}
       <div className="absolute inset-0">

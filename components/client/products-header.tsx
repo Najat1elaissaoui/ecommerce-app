@@ -87,7 +87,7 @@ export default function ProductsHeader({
 
   return (
     <motion.div 
-      className="mb-8 max-w-7xl mx-auto px-4 relative"
+      className="mb-8 max-w-7xl mx-auto px-4 relative pt-10"
       onMouseMove={handleMouseMove}
       variants={containerVariants}
       initial="hidden"

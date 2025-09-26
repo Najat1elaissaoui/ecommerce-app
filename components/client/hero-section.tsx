@@ -10,7 +10,7 @@ import { useState, useEffect } from "react"
 
 export default function HeroSection() {
   return (
-    <section className="w-full min-h-[400px] md:min-h-[720px] relative overflow-hidden">
+  <section className="w-full min-h-[400px] md:min-h-[720px] relative overflow-hidden p-0 m-0">
       {/* Desktop layout: colored blocks and overlapping images */}
       <div className="hidden md:flex absolute inset-0 w-full h-full z-0">
         <div className="flex-1 bg-[#2ec4c8]" />
@@ -60,12 +60,14 @@ export default function HeroSection() {
       </div>
 
       {/* Mobile layout - single color red background */}
-      <div className="flex md:hidden flex-col w-full">
-        <div className="bg-[#d32f2f] min-h-[400px] flex flex-col items-center justify-center text-white text-center py-8 px-2 relative">
-          <h1 className="text-2xl font-bold tracking-tight mb-2">تذوق أهدافك</h1>
-          <a href="#products" className="inline-flex items-center justify-center bg-black text-white text-base font-semibold rounded px-6 py-3 mt-2 shadow-lg hover:bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-white">
-            تسوق الآن <span className="mr-2 text-xl">&#8592;</span>
-          </a>
+      <div className="flex md:hidden flex-col w-full min-h-[400px] relative ">
+        <div className="bg-[#d32f2f] absolute inset-0 w-full h-full flex flex-col justify-center items-center text-white text-center px-4">
+          <div className="w-full flex flex-col items-center justify-center pt-20">
+            <h1 className="text-3xl font-bold tracking-tight mb-6 mt-4 w-full text-center">تذوق أهدافك</h1>
+            <a href="/products" className="inline-flex items-center justify-center bg-black text-white text-base font-semibold rounded px-8 py-3 mt-2 shadow-lg hover:bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-white w-full max-w-xs mx-auto">
+              تسوق الآن <span className="mr-2 text-xl">&#8592;</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>

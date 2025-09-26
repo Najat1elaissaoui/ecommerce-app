@@ -38,7 +38,7 @@ export default function Benefits() {
   ]
 
   return (
-    <section className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
+  <section className="bg-gradient-to-br from-primary/5 to-accent/5">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 animate-slide-in-right">

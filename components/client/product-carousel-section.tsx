@@ -245,7 +245,7 @@ export default function ProductCarouselSection() {
   const indices = getCardIndices()
 
   return (
-    <section className="py-8 md:py-12 bg-white overflow-hidden w-full">
+    <section className="py-8 md:py-12 bg-white overflow-hidden w-full pt-0">
       <div className="w-full px-3 md:px-6 max-w-[90rem] mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-8">اكتشف منتجاتنا</h2>
         
@@ -261,188 +261,108 @@ export default function ProductCarouselSection() {
           onTouchEnd={handleDragEnd}
         >
           {/* Conteneur des cartes sur une ligne avec effet de défilement */}
-          <motion.div 
+          <div 
             className="flex justify-center items-center relative"
             id="product-carousel"
-            animate={{ 
-              x: scrollProgress,
-            }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 400, 
-              damping: 35
-            }}
             ref={carouselRef}
           >
             {/* Carte de gauche */}
-            <motion.div
-              className="relative mx-2 md:mx-4"
-              animate={{ 
-                scale: [0.98, 1, 0.98],
-                opacity: indices.left === activeIndex ? 1 : 0.85
-              }}
-              transition={{ 
-                scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-              }}
+            <div
+              className="relative scale-75 opacity-80"
               onClick={() => !transitioning && setActiveIndex(indices.left)}
             >
               <div
-                className={`${productCards[indices.left].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[190px] sm:h-[220px] md:h-[240px] w-[260px] sm:w-[320px] md:w-[400px] lg:w-[460px] transition-all duration-300`}
+                className={`${productCards[indices.left].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[220px] sm:h-[250px] md:h-[270px] w-[260px] sm:w-[320px] md:w-[380px] lg:w-[420px] flex flex-row items-stretch`}
               >
-                <div className="grid grid-cols-2 h-full">
-                  {/* Image à gauche */}
-                  <div className="relative flex items-center justify-center p-4">
-                    <motion.div
-                      animate={{ 
-                        y: [0, -6, 0],
-                      }}
-                      transition={{ 
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <Image
-                        src={productCards[indices.left].image}
-                        alt={productCards[indices.left].title}
-                        width={140}
-                        height={140}
-                        className="object-contain drop-shadow-lg"
-                      />
-                    </motion.div>
-                  </div>
-                  
-                  {/* Texte à droite */}
-                  <div className="p-4 flex flex-col justify-between">
-                    <div>
-                      <p className="text-white/90 text-xs">Discover</p>
-                      <h3 className="text-white text-lg font-bold">{productCards[indices.left].title}</h3>
-                      <p className="text-white/90 text-xs line-clamp-2 mt-1">{productCards[indices.left].description}</p>
-                    </div>
-                    
-                    <Button 
-                      className="bg-black/80 hover:bg-black text-white px-3 py-1 text-xs rounded-full w-full mt-2"
-                    >
-                      {productCards[indices.left].buttonText}
-                    </Button>
-                  </div>
+                <div className="flex flex-col justify-center w-2/3 p-3 gap-2">
+                  <h3 className="text-white text-base font-bold text-right w-full">{productCards[indices.left].title}</h3>
+                  <p className="text-white/90 text-xs text-right w-full line-clamp-2">{productCards[indices.left].description}</p>
+                  <Button
+                    className="bg-black/80 hover:bg-black text-white px-3 py-1 text-xs rounded-full w-2/3 mt-2 self-start cursor-pointer"
+                    onClick={() => {
+                      window.location.href = `/products/${productCards[indices.left].id}?color=${encodeURIComponent(productCards[indices.left].backgroundColor)}&image=${encodeURIComponent(productCards[indices.left].image)}&title=${encodeURIComponent(productCards[indices.left].title)}&description=${encodeURIComponent(productCards[indices.left].description)}`
+                    }}
+                  >
+                    {productCards[indices.left].buttonText}
+                  </Button>
+                </div>
+                <div className="flex items-center justify-center w-1/3 p-2">
+                  <Image
+                    src={productCards[indices.left].image}
+                    alt={productCards[indices.left].title}
+                    width={80}
+                    height={80}
+                    className="object-contain drop-shadow-lg mx-auto"
+                  />
                 </div>
               </div>
-            </motion.div>
+            </div>
             
             {/* Carte centrale (active) - plus grande que les autres */}
-            <motion.div
-              className="relative z-20 mx-4 md:mx-5" // Espacement égal mais carte plus grande
-              animate={{ 
-                scale: [0.99, 1.02, 0.99],
-                opacity: 1
-              }}
-              transition={{ 
-                scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-              }}
-              key={activeIndex} // Force re-render on change
+            <div
+              className="relative z-20"
+              key={activeIndex}
             >
               <div
-                className={`${productCards[indices.active].backgroundColor} rounded-2xl overflow-hidden shadow-2xl h-[220px] sm:h-[250px] md:h-[280px] w-[300px] sm:w-[350px] md:w-[480px] lg:w-[580px] transition-all duration-300`}
+                className={`${productCards[indices.active].backgroundColor} rounded-2xl overflow-hidden shadow-2xl h-[250px] sm:h-[290px] md:h-[320px] w-[300px] sm:w-[400px] md:w-[520px] lg:w-[600px] flex flex-row items-stretch transition-all duration-300`}
               >
-                <div className="grid grid-cols-2 h-full">
-                  {/* Image à gauche */}
-                  <div className="relative flex items-center justify-center p-5">
-                    <motion.div
-                      animate={{ 
-                        y: [0, -10, 0],
-                      }}
-                      transition={{ 
-                        duration: 5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <Image
-                        src={productCards[indices.active].image}
-                        alt={productCards[indices.active].title}
-                        width={180} // Plus grande image
-                        height={180}
-                        className="object-contain drop-shadow-xl"
-                      />
-                    </motion.div>
-                  </div>
-                  
-                  {/* Texte à droite */}
-                  <div className="p-6 flex flex-col justify-between">
-                    <div>
-                      <p className="text-white/90 text-sm md:text-base">Discover</p>
-                      <h3 className="text-white text-xl md:text-2xl font-bold">{productCards[indices.active].title}</h3>
-                      <p className="text-white/90 text-sm md:text-base line-clamp-3 mt-2">{productCards[indices.active].description}</p>
-                    </div>
-                    
-                    <Button 
-                      className="bg-black/80 hover:bg-black text-white px-4 py-2 text-sm md:text-base font-medium rounded-full w-full mt-3 group"
-                    >
-                      {productCards[indices.active].buttonText}
-                      <ChevronRight className="ml-1 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    </Button>
-                  </div>
+                <div className="flex flex-col justify-center w-2/3 p-6 gap-3">
+                  <h3 className="text-white text-lg md:text-2xl font-bold text-right w-full">{productCards[indices.active].title}</h3>
+                  <p className="text-white/90 text-sm md:text-base text-right w-full line-clamp-3">{productCards[indices.active].description}</p>
+                  <Button
+                    className="bg-black/80 hover:bg-black text-white px-4 py-2 text-sm md:text-base font-medium rounded-full w-2/3 mt-3 group self-start cursor-pointer"
+                    onClick={() => {
+                      window.location.href = `/products/${productCards[indices.active].id}?color=${encodeURIComponent(productCards[indices.active].backgroundColor)}&image=${encodeURIComponent(productCards[indices.active].image)}&title=${encodeURIComponent(productCards[indices.active].title)}&description=${encodeURIComponent(productCards[indices.active].description)}`
+                    }}
+                  >
+                    {productCards[indices.active].buttonText}
+                    <ChevronRight className="ml-1 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Button>
+                </div>
+                <div className="flex items-center justify-center w-1/3 p-2">
+                  <Image
+                    src={productCards[indices.active].image}
+                    alt={productCards[indices.active].title}
+                    width={110}
+                    height={110}
+                    className="object-contain drop-shadow-xl mx-auto"
+                  />
                 </div>
               </div>
-            </motion.div>
+            </div>
             
             {/* Carte de droite */}
-            <motion.div
-              className="relative mx-2 md:mx-4"
-              animate={{ 
-                scale: [0.98, 1, 0.98],
-                opacity: indices.right === activeIndex ? 1 : 0.85
-              }}
-              transition={{ 
-                scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-              }}
+            <div
+              className="relative scale-75 opacity-80"
               onClick={() => !transitioning && setActiveIndex(indices.right)}
             >
               <div
-                className={`${productCards[indices.right].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[190px] sm:h-[220px] md:h-[240px] w-[260px] sm:w-[320px] md:w-[400px] lg:w-[460px] transition-all duration-300`}
+                className={`${productCards[indices.right].backgroundColor} rounded-2xl overflow-hidden shadow-xl cursor-pointer h-[220px] sm:h-[250px] md:h-[270px] w-[260px] sm:w-[320px] md:w-[380px] lg:w-[420px] flex flex-row items-stretch`}
               >
-                <div className="grid grid-cols-2 h-full">
-                  {/* Image à gauche */}
-                  <div className="relative flex items-center justify-center p-4">
-                    <motion.div
-                      animate={{ 
-                        y: [0, -6, 0],
-                      }}
-                      transition={{ 
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <Image
-                        src={productCards[indices.right].image}
-                        alt={productCards[indices.right].title}
-                        width={140}
-                        height={140}
-                        className="object-contain drop-shadow-lg"
-                      />
-                    </motion.div>
-                  </div>
-                  
-                  {/* Texte à droite */}
-                  <div className="p-4 flex flex-col justify-between">
-                    <div>
-                      <p className="text-white/90 text-xs">Discover</p>
-                      <h3 className="text-white text-lg font-bold">{productCards[indices.right].title}</h3>
-                      <p className="text-white/90 text-xs line-clamp-2 mt-1">{productCards[indices.right].description}</p>
-                    </div>
-                    
-                    <Button 
-                      className="bg-black/80 hover:bg-black text-white px-3 py-1 text-xs rounded-full w-full mt-2"
-                    >
-                      {productCards[indices.right].buttonText}
-                    </Button>
-                  </div>
+                <div className="flex flex-col justify-center w-2/3 p-3 gap-2">
+                  <h3 className="text-white text-base font-bold text-right w-full">{productCards[indices.right].title}</h3>
+                  <p className="text-white/90 text-xs text-right w-full line-clamp-2">{productCards[indices.right].description}</p>
+                  <Button
+                    className="bg-black/80 hover:bg-black text-white px-3 py-1 text-xs rounded-full w-2/3 mt-2 self-start cursor-pointer"
+                    onClick={() => {
+                      window.location.href = `/products/${productCards[indices.right].id}?color=${encodeURIComponent(productCards[indices.right].backgroundColor)}&image=${encodeURIComponent(productCards[indices.right].image)}&title=${encodeURIComponent(productCards[indices.right].title)}&description=${encodeURIComponent(productCards[indices.right].description)}`
+                    }}
+                  >
+                    {productCards[indices.right].buttonText}
+                  </Button>
+                </div>
+                <div className="flex items-center justify-center w-1/3 p-2">
+                  <Image
+                    src={productCards[indices.right].image}
+                    alt={productCards[indices.right].title}
+                    width={80}
+                    height={80}
+                    className="object-contain drop-shadow-lg mx-auto"
+                  />
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
           
           {/* Contrôles de navigation sous forme de flèches */}
           <div className="hidden md:flex justify-between items-center max-w-6xl mx-auto mt-6">

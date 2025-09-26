@@ -14,44 +14,44 @@ import ProductCarouselSection from "@/components/client/product-carousel-section
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background" dir="rtl" lang="ar">
+    <div dir="rtl" lang="ar">
       <Header />
-      <main className="overflow-x-hidden pt-20 md:pt-28">
+      <main className="overflow-x-hidden">
         {/* قسم البطل مع تصميم عصري */}
         <HeroSection />
-        
+
         {/* قسم المنتجات المميزة */}
-        <div className="mt-4 mb-8 md:my-10">
+        <div className="my-4 md:my-8">
           <ModernProducts />
         </div>
-        
+
         {/* قسم كاروسيل المنتجات المميز */}
-        <div className="py-4 md:py-10">
+        <div className="my-4 md:my-8">
           <ProductCarouselSection />
         </div>
-        
+
         {/* قسم الفيديو من يوتيوب */}
-        <div className="py-4 md:py-10 overflow-hidden">
+        <div className="overflow-hidden my-4 md:my-8">
           <ModernVideoSection />
         </div>
-        
+
         {/* قسم المزايا والجودة */}
-        <div className="py-6 md:py-14">
+        <div className="my-4 md:my-8">
           <ModernBenefits />
         </div>
-        
+
         {/* قسم شهادات العملاء العصري */}
-        <div className="py-6 md:py-14">
+        <div className="my-4 md:my-8">
           <ModernTestimonials />
         </div>
-        
+
         {/* قسم الدعوة النهائية للعمل */}
-        <div className="my-6 md:my-16">
+        <div className="my-4 md:my-8">
           <FinalCTA />
         </div>
-        
+
         {/* قسم التواصل */}
-        <div className="mt-6 md:mt-12">
+        <div className="my-4 md:my-8">
           <ContactSection />
         </div>
       </main>

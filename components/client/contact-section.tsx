@@ -54,7 +54,7 @@ export default function ContactSection() {
   ]
 
   return (
-    <section id="contact" className="py-10 md:py-20 bg-gradient-to-b from-white to-gray-50">
+    <section id="contact" className="py-10 md:py-20 bg-gradient-to-b from-white to-gray-50 pt-0">
       <div className="container mx-auto px-3 sm:px-4">
         
         {/* Section Header */}
@@ -82,7 +82,7 @@ export default function ContactSection() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-2 pt-0">
           
           {/* Contact Information */}
           <motion.div
@@ -92,7 +92,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="order-2 lg:order-1"
           >
-            <div className="space-y-8">
+            <div className="">
               <div>
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 md:mb-4" dir="rtl">
                   معلومات الاتصال
@@ -168,9 +168,9 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="order-1 lg:order-2"
           >
-            <Card className="border-0 shadow-lg md:shadow-xl">
-              <CardContent className="p-5 sm:p-6 md:p-8">
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center" dir="rtl">
+            <Card className="border-0 shadow-lg md:shadow-xl pt-0">
+              <CardContent className="p-5 sm:p-6 md:p-8 pt-0">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center pt-0" dir="rtl">
                   أرسل رسالة
                 </h3>
                 

@@ -149,19 +149,14 @@ const sampleProductData: ProductData = {
   },
   ingredients: [
     {
-      name: "خل التفاح الطبيعي",
-      image: "/placeholder.jpg",
-      description: "تفاح طازج يُعصر ويخمر لإنتاج خل التفاح الغني بالفوائد."
+      name: "فيتامين B12",
+      image: "/ing2.png",
+      description: "فيتامين B12 هو فيتامين قابل للذوبان في الماء يلعب دورًا في دعم صحة القلب، الطاقة الخلوية، الجهاز المناعي وتكوين خلايا الدم الحمراء."
     },
     {
-      name: "الشمندر",
-      image: "/placeholder.jpg",
-      description: "يعطي اللون والنكهة المميزة للعلكة."
-    },
-    {
-      name: "الرمان",
-      image: "/placeholder.jpg",
-      description: "يمنح العلكة لونها الأحمر وطعمها الفريد."
+      name: "CoQ10 (مساعد الإنزيم Q10)",
+      image: "/ing1.png",
+      description: "مساعد الإنزيم Q10 هو مضاد أكسدة يوجد في العديد من خلايا الجسم ويساعد في محاربة الجذور الحرة. يلعب دورًا حيويًا داخل جزء الخلية المسؤول عن إنتاج الطاقة الخلوية - الميتوكوندريا."
     }
   ],
   video: {
@@ -325,7 +320,7 @@ export default async function ProductDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-16">
       <Header />
       <main>
         {/* Section 1: Hero avec image produit + description (Étape 2 admin) */}
