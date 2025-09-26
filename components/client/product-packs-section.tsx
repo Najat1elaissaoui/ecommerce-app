@@ -327,11 +327,12 @@ export default function ProductPacksSection({
                     <button
                       type="button"
                       onClick={handleCheckout}
-                      className="flex items-center justify-center p-0 w-14 h-9 rounded-xl bg-black text-white hover:bg-gray-900 transition-colors min-w-0"
+                      className="flex items-center justify-center gap-2 p-0 w-auto h-9 rounded-xl bg-black text-white hover:bg-gray-900 transition-colors min-w-0 px-3"
                       title="Checkout"
                       style={{ minWidth: '3.5rem', minHeight: '2rem' }}
                     >
                       <ShoppingCart className="w-6 h-6" />
+                      <span className="text-sm font-bold">اضف الى السلة</span>
                     </button>
                   </div>
                 </div>

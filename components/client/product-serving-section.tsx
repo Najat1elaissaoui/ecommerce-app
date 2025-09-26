@@ -90,7 +90,7 @@ export default function ProductServingSection({ serving, productColor, image }: 
                   style={{ backgroundColor: colors.light + "20" }}
                 >
                   <h3 className="text-2xl font-bold" style={{ color: colors.main }}>
-                    Each Gummy Contains:
+                    كل علكة تحتوي على:
                   </h3>
                 </div>
 
@@ -113,24 +113,13 @@ export default function ProductServingSection({ serving, productColor, image }: 
               </CardContent>
             </Card>
 
-            {/* Full List of Ingredients */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
-              <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Info className="w-5 h-5" style={{ color: colors.main }} />
-                Full List of Ingredients
-              </h4>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Apple Cider Vinegar Powder, Beetroot, Pomegranate, Vitamin B12, Tapioca Syrup, 
-                Water, Cane Sugar, Pectin, Sodium Citrate, Citric Acid, Malic Acid, 
-                Natural Apple Flavors, fruit and vegetable juice (for color)
-              </p>
-            </div>
+            
 
             {/* Suggested Use */}
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
               <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <Check className="w-5 h-5 text-green-600" />
-                Suggested use
+                طريقة الاستخدام المقترحة
               </h4>
               <p className="text-lg text-gray-700 font-medium">
                 {serving.suggestedUse}
@@ -144,7 +133,7 @@ export default function ProductServingSection({ serving, productColor, image }: 
             >
               <h4 className="font-bold mb-4 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
-                Our Gummies DO NOT Contain:
+                لا تحتوي علكاتنا على:
               </h4>
               <p className="text-sm leading-relaxed">
                 {serving.doesNotContain.join(', ')}
@@ -154,13 +143,13 @@ export default function ProductServingSection({ serving, productColor, image }: 
             {/* Badges de certification */}
             <div className="flex flex-wrap gap-3">
               <Badge className="bg-green-600 text-white px-4 py-2 rounded-full font-semibold">
-                FDA Approved Facility
+                مُصنع في منشأة معتمدة من FDA
               </Badge>
               <Badge className="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold">
-                GMP Certified
+                معتمد GMP
               </Badge>
               <Badge className="bg-purple-600 text-white px-4 py-2 rounded-full font-semibold">
-                Third Party Tested
+                تم اختباره من طرف ثالث
               </Badge>
             </div>
           </div>

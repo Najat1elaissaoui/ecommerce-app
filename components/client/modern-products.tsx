@@ -15,12 +15,11 @@ import type { Product } from "@/lib/types"
 const sampleProducts: Product[] = [
   {
     id: 1,
-    name_ar: "بروتين مصل اللبن المميز",
+    name_ar: "علكة خل التفاح",
     price: 2999,
     quantity: 50,
-    description_ar: "بروتين عالي الجودة لبناء العضلات وزيادة القوة",
-    
-    images: ["/protein-powder-assortment.png"],
+    description_ar: "علكة خل التفاح الأولى عالميًا. غنية بالفيتامينات والعناصر الغذائية لدعم الصحة العامة.",
+    images: ["/goli1.png"],
     low_stock_threshold: 5,
     is_active: true,
     created_at: new Date().toISOString(),
@@ -33,7 +32,7 @@ const sampleProducts: Product[] = [
     quantity: 30,
     description_ar: "بروتين عالي الجودة لبناء العضلات وزيادة القوة",
     
-    images: ["/protein-powder-assortment.png"],
+    images: ["/goli2.png"],
     low_stock_threshold: 5,
     is_active: true,
     created_at: new Date().toISOString(),
@@ -41,30 +40,18 @@ const sampleProducts: Product[] = [
   },
   {
     id: 3,
-    name_ar: "بروتين مصل اللبن المميز",
-    price: 3999,
-    quantity: 25,
+    name_ar: "بروتيبن EXTRA-STRENGTH SLEEP",
+    price: 3499,
+    quantity: 30,
     description_ar: "بروتين عالي الجودة لبناء العضلات وزيادة القوة",
     
-    images: ["/protein-powder-assortment.png"],
+    images: ["/goli3.png"],
     low_stock_threshold: 5,
     is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
-  {
-    id: 4,
-    name_ar: "بروتين مصل اللبن المميز",
-    price: 4499,
-    quantity: 40,
-    description_ar: "بروتين عالي الجودة لبناء العضلات وزيادة القوة",
-   
-    images: ["/protein-powder-assortment.png"],
-    low_stock_threshold: 5,
-    is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
+ 
 ]
 
 export default function ModernProductsSection() {

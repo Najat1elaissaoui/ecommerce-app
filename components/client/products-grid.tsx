@@ -36,11 +36,11 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
   const mockProducts: Product[] = [
     {
       id: 1,
-      name_ar: "بروتين مصل اللبن - شوكولاتة",
+      name_ar: "علكة خل التفاح",
       price: 299.99,
       quantity: 50,
-      description_ar: "بروتين عالي الجودة لبناء العضلات وزيادة القوة",
-      images: ["/creatine-supplement.jpg"],
+      description_ar: "علكة خل التفاح الأولى عالميًا. غنية بالفيتامينات والعناصر الغذائية لدعم الصحة العامة.",
+      images: ["/goli1.png"],
       low_stock_threshold: 5,
       is_active: true,
       created_at: new Date().toISOString(),
@@ -52,7 +52,19 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
       price: 149.99,
       quantity: 30,
       description_ar: "مكمل الكرياتين الأفضل لزيادة الطاقة والقوة",
-      images: ["/creatine-supplement.jpg"],
+      images: ["/goli2.png"],
+      low_stock_threshold: 10,
+      is_active: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
+    {
+      id: 3,
+      name_ar:  "بروتيبن EXTRA-STRENGTH SLEEP",
+      price: 149.99,
+      quantity: 30,
+      description_ar: "مكمل البروتين الأفضل لدعم النوم العميق والاسترخاء",
+      images: ["/goli3.png"],
       low_stock_threshold: 10,
       is_active: true,
       created_at: new Date().toISOString(),
@@ -163,16 +175,26 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
                       </Link>
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{product.description_ar}</p>
                     </div>
-                    <div className="flex items-center gap-3 mt-auto w-full">
-                      <span className="text-2xl font-bold text-primary">{formatPrice(product.price)} DHS</span>
-                      <Button
-                        className="ml-auto bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-6"
-                        onClick={() => handleAddToCart(product)}
-                        disabled={product.quantity === 0}
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
-                      </Button>
+                    <div className="flex flex-col gap-2 mt-auto w-full">
+                      <div className="flex items-center gap-3 w-full">
+                        <span className="text-2xl font-bold text-primary">{formatPrice(product.price)} DHS</span>
+                        <Button
+                          className="ml-auto bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-6 cursor-pointer"
+                          onClick={() => handleAddToCart(product)}
+                          disabled={product.quantity === 0}
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                          {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
+                        </Button>
+                      </div>
+                      <Link href={`/products/${product.id}`} className="w-full mt-1">
+                        <Button className="w-full bg-black text-white font-bold py-2 rounded-xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                          <span className="relative z-10 flex items-center justify-center text-xs sm:text-sm">
+                            <span>عرض التفاصيل</span>
+                            <Eye className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
+                          </span>
+                        </Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
@@ -231,14 +253,24 @@ export default function ProductsGrid({ searchParams, viewMode = "grid" }: Produc
                               {formatPrice(product.price)} DHS
                             </span>
                           </div>
-                          <Button
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-8"
-                            onClick={() => handleAddToCart(product)}
-                            disabled={product.quantity === 0}
-                          >
-                            <ShoppingCart className="w-4 h-4" />
-                            {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
-                          </Button>
+                          <div className="flex flex-col gap-2 w-full">
+                            <Button
+                       className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-8 cursor-pointer"
+                              onClick={() => handleAddToCart(product)}
+                              disabled={product.quantity === 0}
+                            >
+                              <ShoppingCart className="w-4 h-4" />
+                              {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
+                            </Button>
+                            <Link href={`/products/${product.id}`} className="w-full mt-1">
+                              <Button className="w-full bg-black text-white font-bold py-2 rounded-xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                                <span className="relative z-10 flex items-center justify-center text-xs sm:text-sm">
+                                  <span>عرض التفاصيل</span>
+                                  <Eye className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                              </Button>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
