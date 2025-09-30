@@ -28,40 +28,41 @@ interface ProductFormData {
   name: string
   homeImage1: { image: string; description: string }
   homeImage2: { image: string; description: string }
-  
+
   // Step 2: Product Details
   productImage: string
   productDescription: string
   price: number
   quantity: number
-  
+
+  // Step 2.5: Color
+  color: string
+
   // Step 3: Benefits
   benefitsTitle: string
   benefits: Array<{
     id: string
     name: string
     description?: string
- 
   }>
-  
+
   // Step 4: Ingredients
   selectedIngredients: number[]
-  
+
   // Step 5: Video
   videoUrl?: string
-  
+
   // Step 6: Serving info
   servingComponents: Array<{ id: string; name: string; quantity: string }>
   suggestedUse: string
   doesNotContain: string
-  
+
   // Step 7: Reasons
   reasons: Array<{ id: string; title: string; description: string; image?: string }>
-  
+
   // Step 8: Opinions
   opinions: Array<{ id: string; name: string; rating: number; comment: string }>
-  
- }
+}
 
 interface Ingredient {
   id: number
@@ -81,13 +82,13 @@ interface AddProductStepsProps {
 const STEPS = [
   { id: 1, title: "المعلومات الأساسية", description: "اسم المنتج وصور الصفحة الرئيسية" },
   { id: 2, title: "تفاصيل المنتج", description: "صورة المنتج والسعر والكمية" },
-  { id: 3, title: "الفوائد", description: "فوائد المنتج وخصائصه" },
-  { id: 4, title: "المكونات", description: "اختيار مكونات المنتج" },
-  { id: 5, title: "الفيديو", description: "إضافة فيديو توضيحي (اختياري)" },
-  { id: 6, title: "التركيبة", description: "مكونات كل حصة" },
-  { id: 7, title: "أسباب الشراء", description: "الأسباب المقنعة لشراء المنتج" },
-  { id: 8, title: "الآراء", description: "آراء وتقييمات العملاء" },
- 
+  { id: 3, title: "لون المنتج", description: "اختر اللون المرتبط بهذا المنتج" },
+  { id: 4, title: "الفوائد", description: "فوائد المنتج وخصائصه" },
+  { id: 5, title: "المكونات", description: "اختيار مكونات المنتج" },
+  { id: 6, title: "الفيديو", description: "إضافة فيديو توضيحي (اختياري)" },
+  { id: 7, title: "التركيبة", description: "مكونات كل حصة" },
+  { id: 8, title: "أسباب الشراء", description: "الأسباب المقنعة لشراء المنتج" },
+  { id: 9, title: "الآراء", description: "آراء وتقييمات العملاء" },
 ]
 
 export default function AddProductSteps({ 
@@ -110,6 +111,7 @@ export default function AddProductSteps({
     productDescription: "",
     price: 0,
     quantity: 0,
+    color: "#000000",
     benefitsTitle: "",
     benefits: [],
     selectedIngredients: [],
@@ -118,7 +120,6 @@ export default function AddProductSteps({
     doesNotContain: "",
     reasons: [],
     opinions: [],
-    
   })
 
   // Reset form when modal opens/closes
@@ -134,6 +135,7 @@ export default function AddProductSteps({
         productDescription: "",
         price: 0,
         quantity: 0,
+        color: "#000000",
         benefitsTitle: "",
         benefits: [],
         selectedIngredients: [],
@@ -142,7 +144,6 @@ export default function AddProductSteps({
         doesNotContain: "",
         reasons: [],
         opinions: [],
-        
       })
       setCurrentStep(1)
     }
@@ -437,8 +438,42 @@ export default function AddProductSteps({
             </div>
           )}
 
-          {/* Step 3: Benefits */}
+          {/* Step 3: Color */}
           {currentStep === 3 && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>لون المنتج</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="color">اختر اللون المرتبط بالمنتج</Label>
+                    <div className="flex items-center gap-4 mt-2">
+                      <Input
+                        id="color"
+                        type="color"
+                        value={formData.color}
+                        onChange={e => setFormData(prev => ({ ...prev, color: e.target.value }))}
+                        className="w-12 h-12 p-0 border-none bg-transparent cursor-pointer"
+                        style={{ minWidth: 48 }}
+                      />
+                      <Input
+                        type="text"
+                        value={formData.color}
+                        onChange={e => setFormData(prev => ({ ...prev, color: e.target.value }))}
+                        className="w-32"
+                        placeholder="#000000"
+                      />
+                      <span className="text-muted-foreground">مثال: #FF0000</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Step 4: Benefits */}
+          {currentStep === 4 && (
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -523,8 +558,8 @@ export default function AddProductSteps({
             </div>
           )}
 
-          {/* Step 4: Ingredients */}
-          {currentStep === 4 && (
+          {/* Step 5: Ingredients */}
+          {currentStep === 5 && (
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -601,8 +636,8 @@ export default function AddProductSteps({
             </div>
           )}
 
-          {/* Step 5: Video */}
-          {currentStep === 5 && (
+          {/* Step 6: Video */}
+          {currentStep === 6 && (
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -641,8 +676,8 @@ export default function AddProductSteps({
             </div>
           )}
 
-          {/* Step 6: Serving */}
-          {currentStep === 6 && (
+          {/* Step 7: Serving */}
+          {currentStep === 7 && (
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -741,8 +776,8 @@ export default function AddProductSteps({
             </div>
           )}
 
-          {/* Step 7: Reasons */}
-          {currentStep === 7 && (
+          {/* Step 8: Reasons */}
+          {currentStep === 8 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">أسباب شراء هذا المنتج</h3>
@@ -867,8 +902,8 @@ export default function AddProductSteps({
             </div>
           )}
 
-          {/* Step 8: Opinions */}
-          {currentStep === 8 && (
+          {/* Step 9: Opinions */}
+          {currentStep === 9 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">آراء العملاء</h3>
