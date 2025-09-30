@@ -1,86 +1,100 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Plus, 
-  X, 
-  Upload, 
-  Video, 
-  Image as ImageIcon,
-  Trash2,
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import {
   Check,
-  Star
-} from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+  ChevronLeft,
+  ChevronRight,
+  Image as ImageIcon,
+  Plus,
+  Star,
+  Trash2,
+  Upload,
+  Video,
+  X,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 // Simplified interfaces for the product form
 interface ProductFormData {
   // Step 1: Basic Info
-  name: string
-  homeImage1: { image: string; description: string }
-  homeImage2: { image: string; description: string }
+  name: string;
+  homeImage1: { image: string; description: string };
+  homeImage2: { image: string; description: string };
 
   // Step 2: Product Details
-  productImage: string
-  productDescription: string
-  price: number
-  quantity: number
+  productImage: string;
+  productDescription: string;
+  price: number;
+  quantity: number;
 
   // Step 2.5: Color
-  color: string
+  color: string;
 
   // Step 3: Benefits
-  benefitsTitle: string
+  benefitsTitle: string;
   benefits: Array<{
-    id: string
-    name: string
-    description?: string
-  }>
+    id: string;
+    name: string;
+    description?: string;
+  }>;
 
   // Step 4: Ingredients
-  selectedIngredients: number[]
+  selectedIngredients: number[];
 
   // Step 5: Video
-  videoUrl?: string
+  videoUrl?: string;
 
   // Step 6: Serving info
-  servingComponents: Array<{ id: string; name: string; quantity: string }>
-  suggestedUse: string
-  doesNotContain: string
+  servingComponents: Array<{ id: string; name: string; quantity: string }>;
+  suggestedUse: string;
+  doesNotContain: string;
 
   // Step 7: Reasons
-  reasons: Array<{ id: string; title: string; description: string; image?: string }>
+  reasons: Array<{
+    id: string;
+    title: string;
+    description: string;
+    image?: string;
+  }>;
 
   // Step 8: Opinions
-  opinions: Array<{ id: string; name: string; rating: number; comment: string }>
+  opinions: Array<{
+    id: string;
+    name: string;
+    rating: number;
+    comment: string;
+  }>;
 }
 
 interface Ingredient {
-  id: number
-  name: string
-  image?: string
-  description?: string
+  id: number;
+  name: string;
+  image?: string;
+  description?: string;
 }
 
 interface AddProductStepsProps {
-  isOpen: boolean
-  onClose: () => void
-  onSave: (productData: ProductFormData) => void
-  product?: any
-  ingredients: Ingredient[]g
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (productData: ProductFormData) => void;
+  product?: any;
+  ingredients: Ingredient[];
 }
 
 const STEPS = [
-  { id: 1, title: "المعلومات الأساسية", description: "اسم المنتج وصور الصفحة الرئيسية" },
+  {
+    id: 1,
+    title: "المعلومات الأساسية",
+    description: "اسم المنتج وصور الصفحة الرئيسية",
+  },
   { id: 2, title: "تفاصيل المنتج", description: "صورة المنتج والسعر والكمية" },
   { id: 3, title: "لون المنتج", description: "اختر اللون المرتبط بهذا المنتج" },
   { id: 4, title: "الفوائد", description: "فوائد المنتج وخصائصه" },
@@ -89,18 +103,18 @@ const STEPS = [
   { id: 7, title: "التركيبة", description: "مكونات كل حصة" },
   { id: 8, title: "أسباب الشراء", description: "الأسباب المقنعة لشراء المنتج" },
   { id: 9, title: "الآراء", description: "آراء وتقييمات العملاء" },
-]
+];
 
-export default function AddProductSteps({ 
-  isOpen, 
-  onClose, 
-  onSave, 
-  product, 
-  ingredients 
+export default function AddProductSteps({
+  isOpen,
+  onClose,
+  onSave,
+  product,
+  ingredients,
 }: AddProductStepsProps) {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
+  const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   // Initialize form data
   const [formData, setFormData] = useState<ProductFormData>({
@@ -120,12 +134,12 @@ export default function AddProductSteps({
     doesNotContain: "",
     reasons: [],
     opinions: [],
-  })
+  });
 
   // Reset form when modal opens/closes
   useEffect(() => {
     if (product && isOpen) {
-      setFormData(product)
+      setFormData(product);
     } else if (isOpen) {
       setFormData({
         name: "",
@@ -144,47 +158,47 @@ export default function AddProductSteps({
         doesNotContain: "",
         reasons: [],
         opinions: [],
-      })
-      setCurrentStep(1)
+      });
+      setCurrentStep(1);
     }
-  }, [product, isOpen])
+  }, [product, isOpen]);
 
   const nextStep = () => {
     if (currentStep < STEPS.length) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const prevStep = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      onSave(formData)
+      onSave(formData);
       toast({
         title: "تم حفظ المنتج بنجاح",
-        description: "تم إنشاء المنتج بكل تفاصيله"
-      })
+        description: "تم إنشاء المنتج بكل تفاصيله",
+      });
     } catch (error) {
       toast({
         title: "خطأ",
         description: "حدث خطأ أثناء حفظ المنتج",
-        variant: "destructive"
-      })
+        variant: "destructive",
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleImageUpload = (file: File): string => {
-    return URL.createObjectURL(file)
-  }
+    return URL.createObjectURL(file);
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-2 sm:p-4">
@@ -204,7 +218,7 @@ export default function AddProductSteps({
               <X className="w-4 h-4" />
             </Button>
           </div>
-          
+
           {/* Progress Steps */}
           <div className="mt-4 sm:mt-6">
             <div className="flex items-center justify-between mb-2">
@@ -216,7 +230,7 @@ export default function AddProductSteps({
               </span>
             </div>
             <div className="w-full bg-muted rounded-full h-2">
-              <div 
+              <div
                 className="bg-primary h-2 rounded-full transition-all"
                 style={{ width: `${(currentStep / STEPS.length) * 100}%` }}
               />
@@ -239,7 +253,12 @@ export default function AddProductSteps({
                     <Input
                       id="productName"
                       value={formData.name}
-                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
                       placeholder="أدخل اسم المنتج"
                     />
                   </div>
@@ -258,8 +277,21 @@ export default function AddProductSteps({
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center">
                         {formData.homeImage1.image ? (
                           <div className="space-y-2">
-                            <img src={formData.homeImage1.image} alt="Preview" className="w-full h-32 object-cover rounded" />
-                            <Button variant="outline" size="sm" onClick={() => setFormData(prev => ({ ...prev, homeImage1: { ...prev.homeImage1, image: "" } }))}>
+                            <img
+                              src={formData.homeImage1.image}
+                              alt="Preview"
+                              className="w-full h-32 object-cover rounded"
+                            />
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  homeImage1: { ...prev.homeImage1, image: "" },
+                                }))
+                              }
+                            >
                               <X className="w-4 h-4 mr-2" />
                               إزالة
                             </Button>
@@ -267,7 +299,10 @@ export default function AddProductSteps({
                         ) : (
                           <div>
                             <ImageIcon className="w-12 h-12 mx-auto text-muted-foreground mb-2" />
-                            <Label htmlFor="homeImage1Upload" className="cursor-pointer">
+                            <Label
+                              htmlFor="homeImage1Upload"
+                              className="cursor-pointer"
+                            >
                               <Button variant="outline" className="gap-2">
                                 <Upload className="w-4 h-4" />
                                 اختر صورة
@@ -277,10 +312,16 @@ export default function AddProductSteps({
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => {
-                                  const file = e.target.files?.[0]
+                                  const file = e.target.files?.[0];
                                   if (file) {
-                                    const url = handleImageUpload(file)
-                                    setFormData(prev => ({ ...prev, homeImage1: { ...prev.homeImage1, image: url } }))
+                                    const url = handleImageUpload(file);
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      homeImage1: {
+                                        ...prev.homeImage1,
+                                        image: url,
+                                      },
+                                    }));
                                   }
                                 }}
                                 className="sr-only"
@@ -294,7 +335,15 @@ export default function AddProductSteps({
                       <Label>الوصف</Label>
                       <Textarea
                         value={formData.homeImage1.description}
-                        onChange={(e) => setFormData(prev => ({ ...prev, homeImage1: { ...prev.homeImage1, description: e.target.value } }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            homeImage1: {
+                              ...prev.homeImage1,
+                              description: e.target.value,
+                            },
+                          }))
+                        }
                         placeholder="وصف الصورة الأولى"
                       />
                     </div>
@@ -311,8 +360,21 @@ export default function AddProductSteps({
                       <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center">
                         {formData.homeImage2.image ? (
                           <div className="space-y-2">
-                            <img src={formData.homeImage2.image} alt="Preview" className="w-full h-32 object-cover rounded" />
-                            <Button variant="outline" size="sm" onClick={() => setFormData(prev => ({ ...prev, homeImage2: { ...prev.homeImage2, image: "" } }))}>
+                            <img
+                              src={formData.homeImage2.image}
+                              alt="Preview"
+                              className="w-full h-32 object-cover rounded"
+                            />
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  homeImage2: { ...prev.homeImage2, image: "" },
+                                }))
+                              }
+                            >
                               <X className="w-4 h-4 mr-2" />
                               إزالة
                             </Button>
@@ -320,7 +382,10 @@ export default function AddProductSteps({
                         ) : (
                           <div>
                             <ImageIcon className="w-12 h-12 mx-auto text-muted-foreground mb-2" />
-                            <Label htmlFor="homeImage2Upload" className="cursor-pointer">
+                            <Label
+                              htmlFor="homeImage2Upload"
+                              className="cursor-pointer"
+                            >
                               <Button variant="outline" className="gap-2">
                                 <Upload className="w-4 h-4" />
                                 اختر صورة
@@ -330,10 +395,16 @@ export default function AddProductSteps({
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => {
-                                  const file = e.target.files?.[0]
+                                  const file = e.target.files?.[0];
                                   if (file) {
-                                    const url = handleImageUpload(file)
-                                    setFormData(prev => ({ ...prev, homeImage2: { ...prev.homeImage2, image: url } }))
+                                    const url = handleImageUpload(file);
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      homeImage2: {
+                                        ...prev.homeImage2,
+                                        image: url,
+                                      },
+                                    }));
                                   }
                                 }}
                                 className="sr-only"
@@ -347,7 +418,15 @@ export default function AddProductSteps({
                       <Label>الوصف</Label>
                       <Textarea
                         value={formData.homeImage2.description}
-                        onChange={(e) => setFormData(prev => ({ ...prev, homeImage2: { ...prev.homeImage2, description: e.target.value } }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            homeImage2: {
+                              ...prev.homeImage2,
+                              description: e.target.value,
+                            },
+                          }))
+                        }
                         placeholder="وصف الصورة الثانية"
                       />
                     </div>
@@ -370,8 +449,21 @@ export default function AddProductSteps({
                     <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center">
                       {formData.productImage ? (
                         <div className="space-y-2">
-                          <img src={formData.productImage} alt="Product" className="w-full max-w-md mx-auto h-48 object-cover rounded" />
-                          <Button variant="outline" size="sm" onClick={() => setFormData(prev => ({ ...prev, productImage: "" }))}>
+                          <img
+                            src={formData.productImage}
+                            alt="Product"
+                            className="w-full max-w-md mx-auto h-48 object-cover rounded"
+                          />
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                productImage: "",
+                              }))
+                            }
+                          >
                             <X className="w-4 h-4 mr-2" />
                             إزالة الصورة
                           </Button>
@@ -379,7 +471,10 @@ export default function AddProductSteps({
                       ) : (
                         <div>
                           <ImageIcon className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                          <Label htmlFor="productImageUpload" className="cursor-pointer">
+                          <Label
+                            htmlFor="productImageUpload"
+                            className="cursor-pointer"
+                          >
                             <Button variant="outline" className="gap-2">
                               <Upload className="w-4 h-4" />
                               اختر صورة المنتج
@@ -389,10 +484,13 @@ export default function AddProductSteps({
                               type="file"
                               accept="image/*"
                               onChange={(e) => {
-                                const file = e.target.files?.[0]
+                                const file = e.target.files?.[0];
                                 if (file) {
-                                  const url = handleImageUpload(file)
-                                  setFormData(prev => ({ ...prev, productImage: url }))
+                                  const url = handleImageUpload(file);
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    productImage: url,
+                                  }));
                                 }
                               }}
                               className="sr-only"
@@ -402,12 +500,17 @@ export default function AddProductSteps({
                       )}
                     </div>
                   </div>
-                  
+
                   <div>
                     <Label>وصف المنتج</Label>
                     <Textarea
                       value={formData.productDescription}
-                      onChange={(e) => setFormData(prev => ({ ...prev, productDescription: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          productDescription: e.target.value,
+                        }))
+                      }
                       placeholder="وصف تفصيلي للمنتج"
                       rows={4}
                     />
@@ -419,7 +522,12 @@ export default function AddProductSteps({
                       <Input
                         type="number"
                         value={formData.price}
-                        onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            price: parseFloat(e.target.value) || 0,
+                          }))
+                        }
                         placeholder="0.00"
                       />
                     </div>
@@ -428,7 +536,12 @@ export default function AddProductSteps({
                       <Input
                         type="number"
                         value={formData.quantity}
-                        onChange={(e) => setFormData(prev => ({ ...prev, quantity: parseInt(e.target.value) || 0 }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            quantity: parseInt(e.target.value) || 0,
+                          }))
+                        }
                         placeholder="0"
                       />
                     </div>
@@ -453,18 +566,30 @@ export default function AddProductSteps({
                         id="color"
                         type="color"
                         value={formData.color}
-                        onChange={e => setFormData(prev => ({ ...prev, color: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            color: e.target.value,
+                          }))
+                        }
                         className="w-12 h-12 p-0 border-none bg-transparent cursor-pointer"
                         style={{ minWidth: 48 }}
                       />
                       <Input
                         type="text"
                         value={formData.color}
-                        onChange={e => setFormData(prev => ({ ...prev, color: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            color: e.target.value,
+                          }))
+                        }
                         className="w-32"
                         placeholder="#000000"
                       />
-                      <span className="text-muted-foreground">مثال: #FF0000</span>
+                      <span className="text-muted-foreground">
+                        مثال: #FF0000
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -479,20 +604,25 @@ export default function AddProductSteps({
                 <CardHeader>
                   <CardTitle>قسم الفوائد</CardTitle>
                 </CardHeader>
-               
               </Card>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">الفوائد</h3>
-                  <Button onClick={() => {
-                    const newBenefit = {
-                      id: Date.now().toString(),
-                      name: "",
-                      description: ""
-                    }
-                    setFormData(prev => ({ ...prev, benefits: [...prev.benefits, newBenefit] }))
-                  }} className="gap-2">
+                  <Button
+                    onClick={() => {
+                      const newBenefit = {
+                        id: Date.now().toString(),
+                        name: "",
+                        description: "",
+                      };
+                      setFormData((prev) => ({
+                        ...prev,
+                        benefits: [...prev.benefits, newBenefit],
+                      }));
+                    }}
+                    className="gap-2"
+                  >
                     <Plus className="w-4 h-4" />
                     إضافة فائدة
                   </Button>
@@ -503,13 +633,17 @@ export default function AddProductSteps({
                     <CardContent className="pt-4 space-y-4">
                       <div className="flex items-center justify-between">
                         <Label>الفائدة {index + 1}</Label>
-                        <Button 
-                          variant="destructive" 
-                          size="sm" 
-                          onClick={() => setFormData(prev => ({
-                            ...prev,
-                            benefits: prev.benefits.filter(b => b.id !== benefit.id)
-                          }))}
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              benefits: prev.benefits.filter(
+                                (b) => b.id !== benefit.id
+                              ),
+                            }))
+                          }
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
@@ -519,12 +653,16 @@ export default function AddProductSteps({
                         <Label>اسم الفائدة</Label>
                         <Input
                           value={benefit.name}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            benefits: prev.benefits.map(b => 
-                              b.id === benefit.id ? { ...b, name: e.target.value } : b
-                            )
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              benefits: prev.benefits.map((b) =>
+                                b.id === benefit.id
+                                  ? { ...b, name: e.target.value }
+                                  : b
+                              ),
+                            }))
+                          }
                           placeholder="اسم الفائدة"
                         />
                       </div>
@@ -533,25 +671,28 @@ export default function AddProductSteps({
                         <Label>وصف الفائدة (اختياري)</Label>
                         <Textarea
                           value={benefit.description || ""}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            benefits: prev.benefits.map(b => 
-                              b.id === benefit.id ? { ...b, description: e.target.value } : b
-                            )
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              benefits: prev.benefits.map((b) =>
+                                b.id === benefit.id
+                                  ? { ...b, description: e.target.value }
+                                  : b
+                              ),
+                            }))
+                          }
                           placeholder="وصف تفصيلي للفائدة"
                           rows={2}
                         />
                       </div>
-
-                     
                     </CardContent>
                   </Card>
                 ))}
 
                 {formData.benefits.length === 0 && (
                   <div className="text-center py-8 text-muted-foreground">
-                    لا توجد فوائد مضافة بعد. اضغط على "إضافة فائدة" لبدء الإضافة.
+                    لا توجد فوائد مضافة بعد. اضغط على "إضافة فائدة" لبدء
+                    الإضافة.
                   </div>
                 )}
               </div>
@@ -568,24 +709,43 @@ export default function AddProductSteps({
                 <CardContent>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {ingredients.map((ingredient) => (
-                      <Card key={ingredient.id} className={`cursor-pointer transition-colors ${formData.selectedIngredients.includes(ingredient.id) ? 'ring-2 ring-primary' : ''}`}>
+                      <Card
+                        key={ingredient.id}
+                        className={`cursor-pointer transition-colors ${
+                          formData.selectedIngredients.includes(ingredient.id)
+                            ? "ring-2 ring-primary"
+                            : ""
+                        }`}
+                      >
                         <CardContent className="p-4">
                           <div className="flex items-start gap-3">
                             <Checkbox
-                              checked={formData.selectedIngredients.includes(ingredient.id)}
+                              checked={formData.selectedIngredients.includes(
+                                ingredient.id
+                              )}
                               onCheckedChange={() => {
-                                setFormData(prev => ({
+                                setFormData((prev) => ({
                                   ...prev,
-                                  selectedIngredients: prev.selectedIngredients.includes(ingredient.id)
-                                    ? prev.selectedIngredients.filter(id => id !== ingredient.id)
-                                    : [...prev.selectedIngredients, ingredient.id]
-                                }))
+                                  selectedIngredients:
+                                    prev.selectedIngredients.includes(
+                                      ingredient.id
+                                    )
+                                      ? prev.selectedIngredients.filter(
+                                          (id) => id !== ingredient.id
+                                        )
+                                      : [
+                                          ...prev.selectedIngredients,
+                                          ingredient.id,
+                                        ],
+                                }));
                               }}
                             />
                             <div className="flex-1">
                               <h4 className="font-medium">{ingredient.name}</h4>
                               {ingredient.description && (
-                                <p className="text-sm text-muted-foreground mt-1">{ingredient.description}</p>
+                                <p className="text-sm text-muted-foreground mt-1">
+                                  {ingredient.description}
+                                </p>
                               )}
                               {ingredient.image && (
                                 <Badge variant="secondary" className="mt-2">
@@ -598,10 +758,11 @@ export default function AddProductSteps({
                       </Card>
                     ))}
                   </div>
-                  
+
                   {ingredients.length === 0 && (
                     <div className="text-center py-8 text-muted-foreground">
-                      لا توجد مكونات متاحة. يرجى إضافة مكونات أولاً من قسم إدارة المكونات.
+                      لا توجد مكونات متاحة. يرجى إضافة مكونات أولاً من قسم إدارة
+                      المكونات.
                     </div>
                   )}
                 </CardContent>
@@ -615,19 +776,30 @@ export default function AddProductSteps({
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
                       {formData.selectedIngredients.map((ingredientId) => {
-                        const ingredient = ingredients.find(i => i.id === ingredientId)
+                        const ingredient = ingredients.find(
+                          (i) => i.id === ingredientId
+                        );
                         return ingredient ? (
-                          <Badge key={ingredient.id} variant="default" className="gap-2">
+                          <Badge
+                            key={ingredient.id}
+                            variant="default"
+                            className="gap-2"
+                          >
                             {ingredient.name}
-                            <X 
-                              className="w-3 h-3 cursor-pointer" 
-                              onClick={() => setFormData(prev => ({
-                                ...prev,
-                                selectedIngredients: prev.selectedIngredients.filter(id => id !== ingredient.id)
-                              }))}
+                            <X
+                              className="w-3 h-3 cursor-pointer"
+                              onClick={() =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  selectedIngredients:
+                                    prev.selectedIngredients.filter(
+                                      (id) => id !== ingredient.id
+                                    ),
+                                }))
+                              }
                             />
                           </Badge>
-                        ) : null
+                        ) : null;
                       })}
                     </div>
                   </CardContent>
@@ -648,14 +820,19 @@ export default function AddProductSteps({
                     <Label>رابط الفيديو</Label>
                     <Input
                       value={formData.videoUrl || ""}
-                      onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          videoUrl: e.target.value,
+                        }))
+                      }
                       placeholder="مثال: https://youtube.com/watch?v=..."
                     />
                     <p className="text-sm text-muted-foreground mt-1">
                       يمكنك إضافة رابط من YouTube، Vimeo، أو أي منصة فيديو أخرى
                     </p>
                   </div>
-                  
+
                   {formData.videoUrl && (
                     <div className="border rounded-lg p-4 bg-muted/50">
                       <div className="flex items-center gap-2 mb-2">
@@ -665,8 +842,12 @@ export default function AddProductSteps({
                       <div className="bg-gray-200 rounded h-48 flex items-center justify-center">
                         <div className="text-center">
                           <Video className="w-12 h-12 mx-auto text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-500">سيتم عرض الفيديو هنا</p>
-                          <p className="text-xs text-gray-400 mt-1">{formData.videoUrl}</p>
+                          <p className="text-sm text-gray-500">
+                            سيتم عرض الفيديو هنا
+                          </p>
+                          <p className="text-xs text-gray-400 mt-1">
+                            {formData.videoUrl}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -686,14 +867,24 @@ export default function AddProductSteps({
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label>مكونات كل حصة</Label>
-                    <Button onClick={() => {
-                      const newComponent = {
-                        id: Date.now().toString(),
-                        name: "",
-                        quantity: ""
-                      }
-                      setFormData(prev => ({ ...prev, servingComponents: [...prev.servingComponents, newComponent] }))
-                    }} size="sm" className="gap-2">
+                    <Button
+                      onClick={() => {
+                        const newComponent = {
+                          id: Date.now().toString(),
+                          name: "",
+                          quantity: "",
+                        };
+                        setFormData((prev) => ({
+                          ...prev,
+                          servingComponents: [
+                            ...prev.servingComponents,
+                            newComponent,
+                          ],
+                        }));
+                      }}
+                      size="sm"
+                      className="gap-2"
+                    >
                       <Plus className="w-4 h-4" />
                       إضافة مكون
                     </Button>
@@ -701,36 +892,53 @@ export default function AddProductSteps({
 
                   <div className="space-y-3">
                     {formData.servingComponents.map((component) => (
-                      <div key={component.id} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+                      <div
+                        key={component.id}
+                        className="flex flex-col sm:flex-row gap-2 items-start sm:items-center"
+                      >
                         <Input
                           value={component.name}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            servingComponents: prev.servingComponents.map(c => 
-                              c.id === component.id ? { ...c, name: e.target.value } : c
-                            )
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              servingComponents: prev.servingComponents.map(
+                                (c) =>
+                                  c.id === component.id
+                                    ? { ...c, name: e.target.value }
+                                    : c
+                              ),
+                            }))
+                          }
                           placeholder="اسم المكون (مثال: صوديوم)"
                           className="flex-1"
                         />
                         <Input
                           value={component.quantity}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            servingComponents: prev.servingComponents.map(c => 
-                              c.id === component.id ? { ...c, quantity: e.target.value } : c
-                            )
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              servingComponents: prev.servingComponents.map(
+                                (c) =>
+                                  c.id === component.id
+                                    ? { ...c, quantity: e.target.value }
+                                    : c
+                              ),
+                            }))
+                          }
                           placeholder="الكمية (مثال: 10 ملغ)"
                           className="sm:w-32 w-full"
                         />
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => setFormData(prev => ({
-                            ...prev,
-                            servingComponents: prev.servingComponents.filter(c => c.id !== component.id)
-                          }))}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              servingComponents: prev.servingComponents.filter(
+                                (c) => c.id !== component.id
+                              ),
+                            }))
+                          }
                           className="w-full sm:w-auto"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -757,7 +965,12 @@ export default function AddProductSteps({
                     <Label>طريقة الاستعمال المقترحة</Label>
                     <Textarea
                       value={formData.suggestedUse}
-                      onChange={(e) => setFormData(prev => ({ ...prev, suggestedUse: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          suggestedUse: e.target.value,
+                        }))
+                      }
                       placeholder="طريقة الاستخدام المقترحة"
                       rows={3}
                     />
@@ -766,7 +979,12 @@ export default function AddProductSteps({
                     <Label>لا يحتوي المنتج على</Label>
                     <Textarea
                       value={formData.doesNotContain}
-                      onChange={(e) => setFormData(prev => ({ ...prev, doesNotContain: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          doesNotContain: e.target.value,
+                        }))
+                      }
                       placeholder="ما لا يحتويه المنتج"
                       rows={2}
                     />
@@ -781,14 +999,20 @@ export default function AddProductSteps({
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">أسباب شراء هذا المنتج</h3>
-                <Button onClick={() => {
-                  const newReason = {
-                    id: Date.now().toString(),
-                    title: "",
-                    description: ""
-                  }
-                  setFormData(prev => ({ ...prev, reasons: [...prev.reasons, newReason] }))
-                }} className="gap-2">
+                <Button
+                  onClick={() => {
+                    const newReason = {
+                      id: Date.now().toString(),
+                      title: "",
+                      description: "",
+                    };
+                    setFormData((prev) => ({
+                      ...prev,
+                      reasons: [...prev.reasons, newReason],
+                    }));
+                  }}
+                  className="gap-2"
+                >
                   <Plus className="w-4 h-4" />
                   إضافة سبب
                 </Button>
@@ -800,13 +1024,17 @@ export default function AddProductSteps({
                     <CardContent className="pt-4 space-y-4">
                       <div className="flex items-center justify-between">
                         <Label>السبب {index + 1}</Label>
-                        <Button 
-                          variant="destructive" 
-                          size="sm" 
-                          onClick={() => setFormData(prev => ({
-                            ...prev,
-                            reasons: prev.reasons.filter(r => r.id !== reason.id)
-                          }))}
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              reasons: prev.reasons.filter(
+                                (r) => r.id !== reason.id
+                              ),
+                            }))
+                          }
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
@@ -816,12 +1044,16 @@ export default function AddProductSteps({
                         <Label>العنوان</Label>
                         <Input
                           value={reason.title}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            reasons: prev.reasons.map(r => 
-                              r.id === reason.id ? { ...r, title: e.target.value } : r
-                            )
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              reasons: prev.reasons.map((r) =>
+                                r.id === reason.id
+                                  ? { ...r, title: e.target.value }
+                                  : r
+                              ),
+                            }))
+                          }
                           placeholder="عنوان السبب"
                         />
                       </div>
@@ -830,12 +1062,16 @@ export default function AddProductSteps({
                         <Label>الوصف</Label>
                         <Textarea
                           value={reason.description}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            reasons: prev.reasons.map(r => 
-                              r.id === reason.id ? { ...r, description: e.target.value } : r
-                            )
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              reasons: prev.reasons.map((r) =>
+                                r.id === reason.id
+                                  ? { ...r, description: e.target.value }
+                                  : r
+                              ),
+                            }))
+                          }
                           placeholder="وصف تفصيلي للسبب"
                           rows={3}
                         />
@@ -846,24 +1082,39 @@ export default function AddProductSteps({
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center">
                           {reason.image ? (
                             <div className="space-y-2">
-                              <img src={reason.image} alt="Reason" className="w-full h-32 object-cover rounded" />
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => setFormData(prev => ({
-                                  ...prev,
-                                  reasons: prev.reasons.map(r => 
-                                    r.id === reason.id ? { ...r, image: undefined } : r
-                                  )
-                                }))}
+                              <img
+                                src={reason.image}
+                                alt="Reason"
+                                className="w-full h-32 object-cover rounded"
+                              />
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    reasons: prev.reasons.map((r) =>
+                                      r.id === reason.id
+                                        ? { ...r, image: undefined }
+                                        : r
+                                    ),
+                                  }))
+                                }
                               >
                                 <X className="w-4 h-4 mr-2" />
                                 إزالة الصورة
                               </Button>
                             </div>
                           ) : (
-                            <Label htmlFor={`reason-image-${reason.id}`} className="cursor-pointer">
-                              <Button variant="outline" size="sm" className="gap-2">
+                            <Label
+                              htmlFor={`reason-image-${reason.id}`}
+                              className="cursor-pointer"
+                            >
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2"
+                              >
                                 <Upload className="w-4 h-4" />
                                 إضافة صورة
                               </Button>
@@ -872,15 +1123,17 @@ export default function AddProductSteps({
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => {
-                                  const file = e.target.files?.[0]
+                                  const file = e.target.files?.[0];
                                   if (file) {
-                                    const url = handleImageUpload(file)
-                                    setFormData(prev => ({
+                                    const url = handleImageUpload(file);
+                                    setFormData((prev) => ({
                                       ...prev,
-                                      reasons: prev.reasons.map(r => 
-                                        r.id === reason.id ? { ...r, image: url } : r
-                                      )
-                                    }))
+                                      reasons: prev.reasons.map((r) =>
+                                        r.id === reason.id
+                                          ? { ...r, image: url }
+                                          : r
+                                      ),
+                                    }));
                                   }
                                 }}
                                 className="sr-only"
@@ -907,15 +1160,21 @@ export default function AddProductSteps({
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">آراء العملاء</h3>
-                <Button onClick={() => {
-                  const newOpinion = {
-                    id: Date.now().toString(),
-                    name: "",
-                    rating: 5,
-                    comment: ""
-                  }
-                  setFormData(prev => ({ ...prev, opinions: [...prev.opinions, newOpinion] }))
-                }} className="gap-2">
+                <Button
+                  onClick={() => {
+                    const newOpinion = {
+                      id: Date.now().toString(),
+                      name: "",
+                      rating: 5,
+                      comment: "",
+                    };
+                    setFormData((prev) => ({
+                      ...prev,
+                      opinions: [...prev.opinions, newOpinion],
+                    }));
+                  }}
+                  className="gap-2"
+                >
                   <Plus className="w-4 h-4" />
                   إضافة رأي
                 </Button>
@@ -927,13 +1186,17 @@ export default function AddProductSteps({
                     <CardContent className="pt-4 space-y-4">
                       <div className="flex items-center justify-between">
                         <Label>الرأي {index + 1}</Label>
-                        <Button 
-                          variant="destructive" 
-                          size="sm" 
-                          onClick={() => setFormData(prev => ({
-                            ...prev,
-                            opinions: prev.opinions.filter(o => o.id !== opinion.id)
-                          }))}
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              opinions: prev.opinions.filter(
+                                (o) => o.id !== opinion.id
+                              ),
+                            }))
+                          }
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
@@ -944,12 +1207,16 @@ export default function AddProductSteps({
                           <Label>اسم العميل</Label>
                           <Input
                             value={opinion.name}
-                            onChange={(e) => setFormData(prev => ({
-                              ...prev,
-                              opinions: prev.opinions.map(o => 
-                                o.id === opinion.id ? { ...o, name: e.target.value } : o
-                              )
-                            }))}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                opinions: prev.opinions.map((o) =>
+                                  o.id === opinion.id
+                                    ? { ...o, name: e.target.value }
+                                    : o
+                                ),
+                              }))
+                            }
                             placeholder="اسم العميل"
                           />
                         </div>
@@ -960,14 +1227,20 @@ export default function AddProductSteps({
                               <Star
                                 key={star}
                                 className={`w-5 h-5 cursor-pointer ${
-                                  star <= opinion.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                                  star <= opinion.rating
+                                    ? "text-yellow-400 fill-yellow-400"
+                                    : "text-gray-300"
                                 }`}
-                                onClick={() => setFormData(prev => ({
-                                  ...prev,
-                                  opinions: prev.opinions.map(o => 
-                                    o.id === opinion.id ? { ...o, rating: star } : o
-                                  )
-                                }))}
+                                onClick={() =>
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    opinions: prev.opinions.map((o) =>
+                                      o.id === opinion.id
+                                        ? { ...o, rating: star }
+                                        : o
+                                    ),
+                                  }))
+                                }
                               />
                             ))}
                           </div>
@@ -978,12 +1251,16 @@ export default function AddProductSteps({
                         <Label>التعليق</Label>
                         <Textarea
                           value={opinion.comment}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            opinions: prev.opinions.map(o => 
-                              o.id === opinion.id ? { ...o, comment: e.target.value } : o
-                            )
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              opinions: prev.opinions.map((o) =>
+                                o.id === opinion.id
+                                  ? { ...o, comment: e.target.value }
+                                  : o
+                              ),
+                            }))
+                          }
                           placeholder="تعليق العميل"
                           rows={3}
                         />
@@ -1001,15 +1278,15 @@ export default function AddProductSteps({
             </div>
           )}
 
-         
-
-         
-
           {/* Placeholder for future steps */}
           {currentStep > 8 && (
             <div className="text-center py-12">
-              <h3 className="text-lg font-semibold mb-2">{STEPS[currentStep - 1]?.title}</h3>
-              <p className="text-muted-foreground mb-4">{STEPS[currentStep - 1]?.description}</p>
+              <h3 className="text-lg font-semibold mb-2">
+                {STEPS[currentStep - 1]?.title}
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                {STEPS[currentStep - 1]?.description}
+              </p>
               <div className="bg-muted rounded-lg p-8">
                 <p className="text-muted-foreground">
                   هذه الخطوة قيد التطوير...
@@ -1031,7 +1308,7 @@ export default function AddProductSteps({
               <ChevronRight className="w-4 h-4" />
               <span className="hidden sm:inline">السابق</span>
             </Button>
-            
+
             <div className="flex gap-2 flex-shrink-0">
               {currentStep < STEPS.length ? (
                 <Button onClick={nextStep} className="gap-2">
@@ -1040,7 +1317,11 @@ export default function AddProductSteps({
                   <ChevronLeft className="w-4 h-4" />
                 </Button>
               ) : (
-                <Button onClick={handleSubmit} disabled={loading} className="gap-2">
+                <Button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="gap-2"
+                >
                   {loading ? (
                     <>
                       <span className="hidden sm:inline">جاري الحفظ...</span>
@@ -1060,5 +1341,5 @@ export default function AddProductSteps({
         </div>
       </div>
     </div>
-  )
+  );
 }
