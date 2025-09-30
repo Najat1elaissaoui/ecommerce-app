@@ -76,7 +76,7 @@ interface AddProductStepsProps {
   onClose: () => void
   onSave: (productData: ProductFormData) => void
   product?: any
-  ingredients: Ingredient[]
+  ingredients: Ingredient[]g
 }
 
 const STEPS = [
