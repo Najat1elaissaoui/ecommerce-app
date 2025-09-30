@@ -5,7 +5,7 @@ import { GeistMono } from "geist/font/mono"
 import { Suspense } from "react"
 import { CartProvider } from "@/lib/cart-context"
 import "./globals.css"
-import SlidingAnnouncements from "@/components/client/sliding-announcements"
+import AnnouncementsWrapper from "@/components/client/announcements-wrapper"
 
 export const metadata: Metadata = {
   title: "متجر المكملات الغذائية",
@@ -18,15 +18,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
-    <html lang="ar" dir="rtl">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <CartProvider>
-          <SlidingAnnouncements />
-          <Suspense fallback={null}>{children}</Suspense>
-        </CartProvider>
-        {/* Analytics component removed */}
-      </body>
-    </html>
-  )
+    return (
+      <html lang="ar" dir="rtl">
+        <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+          <CartProvider>
+            <AnnouncementsWrapper />
+            <Suspense fallback={null}>{children}</Suspense>
+          </CartProvider>
+          {/* Analytics component removed */}
+        </body>
+      </html>
+    )
 }

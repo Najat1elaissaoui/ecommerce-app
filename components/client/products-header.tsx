@@ -143,7 +143,7 @@ export default function ProductsHeader({
         />
         
         <motion.h1 
-          className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-6 relative z-10"
+          className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-foreground mb-6 relative z-20 leading-tight p-2"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ 
@@ -154,7 +154,7 @@ export default function ProductsHeader({
           }}
         >
           <motion.span
-            className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+            className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-extrabold drop-shadow-md px-2"
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
@@ -164,14 +164,15 @@ export default function ProductsHeader({
               ease: "linear"
             }}
             style={{
-              backgroundSize: "200% 200%"
+              backgroundSize: "200% 200%",
+              overflow: "visible"
             }}
           >
             كتالوج المنتجات
           </motion.span>
           
           <motion.div
-            className="absolute -top-4 -right-4"
+            className="absolute -top-4 -right-4 z-30"
             animate={{ 
               rotate: [0, 10, -10, 0],
               scale: [1, 1.2, 1]
@@ -233,182 +234,8 @@ export default function ProductsHeader({
           </motion.div>
         </motion.div>
 
-        {/* Filters and Controls - Organized Cards */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
-          variants={containerVariants}
-        >
-          
-          {/* Sort Card */}
-          <motion.div variants={itemVariants} whileHover={cardHoverVariants.hover}>
-            <Card 
-              className="shadow-lg hover:shadow-2xl transition-all duration-300 relative overflow-hidden bg-white/80 backdrop-blur-sm border-0"
-            >
-              {/* Card glow effect */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100"
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              <CardHeader className="pb-3 relative z-10">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
-                  <motion.div
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <List className="w-4 h-4 text-blue-500" />
-                  </motion.div>
-                  ترتيب حسب
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="relative z-10">
-                <Select defaultValue="newest">
-                  <SelectTrigger className="w-full border-gray-200 focus:border-blue-400 transition-colors">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="newest">الأحدث</SelectItem>
-                    <SelectItem value="price-low">السعر: من الأقل للأعلى</SelectItem>
-                    <SelectItem value="price-high">السعر: من الأعلى للأقل</SelectItem>
-                    <SelectItem value="name">الاسم</SelectItem>
-                    <SelectItem value="rating">التقييم</SelectItem>
-                  </SelectContent>
-                </Select>
-              </CardContent>
-            </Card>
-          </motion.div>
+       
 
-          {/* Price Range Card */}
-          <motion.div variants={itemVariants} whileHover={cardHoverVariants.hover}>
-            <Card 
-              className="shadow-lg hover:shadow-2xl transition-all duration-300 relative overflow-hidden bg-white/80 backdrop-blur-sm border-0"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-teal-500/10 opacity-0"
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              <CardHeader className="pb-3 relative z-10">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <Filter className="w-4 h-4 text-green-500" />
-                  </motion.div>
-                  نطاق السعر
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <Slider 
-                  value={priceRange} 
-                  onValueChange={setPriceRange} 
-                  max={1000} 
-                  step={10} 
-                  className="w-full"
-                />
-                <div className="flex items-center justify-between text-sm font-medium">
-                  <motion.div whileHover={{ scale: 1.1 }}>
-                    <Badge variant="outline" className="text-xs bg-green-50 border-green-200">
-                      {priceRange[0]} DH
-                    </Badge>
-                  </motion.div>
-                  <span className="text-muted-foreground">إلى</span>
-                  <motion.div whileHover={{ scale: 1.1 }}>
-                    <Badge variant="outline" className="text-xs bg-green-50 border-green-200">
-                      {priceRange[1]} DH
-                    </Badge>
-                  </motion.div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* View Mode Card */}
-          <motion.div variants={itemVariants} whileHover={cardHoverVariants.hover}>
-            <Card 
-              className="shadow-lg hover:shadow-2xl transition-all duration-300 relative overflow-hidden bg-white/80 backdrop-blur-sm border-0"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10 opacity-0"
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              <CardHeader className="pb-3 relative z-10">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
-                  <motion.div
-                    animate={{ rotate: [0, 90, 180, 270, 360] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  >
-                    <Grid className="w-4 h-4 text-purple-500" />
-                  </motion.div>
-                  نمط العرض
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="relative z-10">
-                <div className="flex gap-2">
-                  <motion.div className="flex-1" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button
-                      variant={viewMode === "grid" ? "default" : "outline"}
-                      size="sm"
-                      className="w-full relative overflow-hidden"
-                      onClick={() => onViewModeChange && onViewModeChange("grid")}
-                    >
-                      <Grid className="w-4 h-4 ml-2" />
-                      شبكة
-                    </Button>
-                  </motion.div>
-                  <motion.div className="flex-1" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button
-                      variant={viewMode === "list" ? "default" : "outline"}
-                      size="sm"
-                      className="w-full relative overflow-hidden"
-                      onClick={() => onViewModeChange && onViewModeChange("list")}
-                    >
-                      <List className="w-4 h-4 ml-2" />
-                      قائمة
-                    </Button>
-                  </motion.div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </motion.div>
-
-        {/* Clear Filters Button */}
-        <motion.div 
-          className="flex justify-center"
-          variants={itemVariants}
-        >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Button 
-              variant="ghost" 
-              onClick={clearAllFilters}
-              className="text-muted-foreground hover:text-foreground relative group overflow-hidden px-6 py-3 rounded-full"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                animate={{
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                }}
-              />
-              <span className="relative z-10 flex items-center gap-2">
-                <Zap className="w-4 h-4" />
-                مسح جميع الفلاتر
-              </span>
-            </Button>
-          </motion.div>
-        </motion.div>
       </motion.div>
     </motion.div>
   )

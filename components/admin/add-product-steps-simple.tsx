@@ -41,7 +41,7 @@ interface ProductFormData {
     id: string
     name: string
     description?: string
-    image?: string
+ 
   }>
   
   // Step 4: Ingredients
@@ -61,17 +61,7 @@ interface ProductFormData {
   // Step 8: Opinions
   opinions: Array<{ id: string; name: string; rating: number; comment: string }>
   
-  // Step 9: Custom sections
-  customSections: Array<{
-    id: string
-    title: string
-    description: string
-    elements: Array<{ id: string; name: string; description: string; image?: string }>
-  }>
-  
-  // Step 10: Packs
-  packs: Array<{ id: string; name: string; price: number; quantity: number }>
-}
+ }
 
 interface Ingredient {
   id: number
@@ -97,8 +87,7 @@ const STEPS = [
   { id: 6, title: "التركيبة", description: "مكونات كل حصة" },
   { id: 7, title: "أسباب الشراء", description: "الأسباب المقنعة لشراء المنتج" },
   { id: 8, title: "الآراء", description: "آراء وتقييمات العملاء" },
-  { id: 9, title: "أقسام مخصصة", description: "أقسام إضافية قابلة للتخصيص" },
-  { id: 10, title: "العبوات", description: "تعريف عبوات وأسعار المنتج" }
+ 
 ]
 
 export default function AddProductSteps({ 
@@ -129,8 +118,7 @@ export default function AddProductSteps({
     doesNotContain: "",
     reasons: [],
     opinions: [],
-    customSections: [],
-    packs: []
+    
   })
 
   // Reset form when modal opens/closes
@@ -154,8 +142,7 @@ export default function AddProductSteps({
         doesNotContain: "",
         reasons: [],
         opinions: [],
-        customSections: [],
-        packs: []
+        
       })
       setCurrentStep(1)
     }
@@ -457,16 +444,7 @@ export default function AddProductSteps({
                 <CardHeader>
                   <CardTitle>قسم الفوائد</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label>عنوان قسم الفوائد</Label>
-                    <Input
-                      value={formData.benefitsTitle}
-                      onChange={(e) => setFormData(prev => ({ ...prev, benefitsTitle: e.target.value }))}
-                      placeholder="مثال: فوائد المنتج"
-                    />
-                  </div>
-                </CardContent>
+               
               </Card>
 
               <div className="space-y-4">
@@ -531,54 +509,7 @@ export default function AddProductSteps({
                         />
                       </div>
 
-                      <div>
-                        <Label>صورة الفائدة (اختياري)</Label>
-                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 text-center">
-                          {benefit.image ? (
-                            <div className="space-y-2">
-                              <img src={benefit.image} alt="Benefit" className="w-full h-24 object-cover rounded" />
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => setFormData(prev => ({
-                                  ...prev,
-                                  benefits: prev.benefits.map(b => 
-                                    b.id === benefit.id ? { ...b, image: undefined } : b
-                                  )
-                                }))}
-                              >
-                                <X className="w-4 h-4 mr-2" />
-                                إزالة
-                              </Button>
-                            </div>
-                          ) : (
-                            <Label htmlFor={`benefit-image-${benefit.id}`} className="cursor-pointer">
-                              <Button variant="outline" size="sm" className="gap-2">
-                                <Upload className="w-4 h-4" />
-                                إضافة صورة
-                              </Button>
-                              <Input
-                                id={`benefit-image-${benefit.id}`}
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0]
-                                  if (file) {
-                                    const url = handleImageUpload(file)
-                                    setFormData(prev => ({
-                                      ...prev,
-                                      benefits: prev.benefits.map(b => 
-                                        b.id === benefit.id ? { ...b, image: url } : b
-                                      )
-                                    }))
-                                  }
-                                }}
-                                className="sr-only"
-                              />
-                            </Label>
-                          )}
-                        </div>
-                      </div>
+                     
                     </CardContent>
                   </Card>
                 ))}
@@ -1035,270 +966,12 @@ export default function AddProductSteps({
             </div>
           )}
 
-          {/* Step 9: Custom Sections */}
-          {currentStep === 9 && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold">الأقسام المخصصة</h3>
-                <Button onClick={() => {
-                  const newSection = {
-                    id: Date.now().toString(),
-                    title: "",
-                    description: "",
-                    elements: []
-                  }
-                  setFormData(prev => ({ ...prev, customSections: [...prev.customSections, newSection] }))
-                }} className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  إضافة قسم
-                </Button>
-              </div>
+         
 
-              <div className="space-y-6">
-                {formData.customSections.map((section, sectionIndex) => (
-                  <Card key={section.id}>
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle>القسم {sectionIndex + 1}</CardTitle>
-                        <Button 
-                          variant="destructive" 
-                          size="sm" 
-                          onClick={() => setFormData(prev => ({
-                            ...prev,
-                            customSections: prev.customSections.filter(s => s.id !== section.id)
-                          }))}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <Label>عنوان القسم</Label>
-                        <Input
-                          value={section.title}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            customSections: prev.customSections.map(s => 
-                              s.id === section.id ? { ...s, title: e.target.value } : s
-                            )
-                          }))}
-                          placeholder="عنوان القسم"
-                        />
-                      </div>
-
-                      <div>
-                        <Label>وصف القسم</Label>
-                        <Textarea
-                          value={section.description}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            customSections: prev.customSections.map(s => 
-                              s.id === section.id ? { ...s, description: e.target.value } : s
-                            )
-                          }))}
-                          placeholder="وصف القسم"
-                          rows={2}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <Label>عناصر القسم</Label>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            onClick={() => {
-                              const newElement = {
-                                id: Date.now().toString(),
-                                name: "",
-                                description: ""
-                              }
-                              setFormData(prev => ({
-                                ...prev,
-                                customSections: prev.customSections.map(s => 
-                                  s.id === section.id ? { ...s, elements: [...s.elements, newElement] } : s
-                                )
-                              }))
-                            }}
-                            className="gap-2"
-                          >
-                            <Plus className="w-4 h-4" />
-                            إضافة عنصر
-                          </Button>
-                        </div>
-
-                        {section.elements.map((element, elementIndex) => (
-                          <div key={element.id} className="border rounded-lg p-4 space-y-3">
-                            <div className="flex items-center justify-between">
-                              <Label>العنصر {elementIndex + 1}</Label>
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => setFormData(prev => ({
-                                  ...prev,
-                                  customSections: prev.customSections.map(s => 
-                                    s.id === section.id ? { 
-                                      ...s, 
-                                      elements: s.elements.filter(e => e.id !== element.id) 
-                                    } : s
-                                  )
-                                }))}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              <div>
-                                <Label>اسم العنصر</Label>
-                                <Input
-                                  value={element.name}
-                                  onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    customSections: prev.customSections.map(s => 
-                                      s.id === section.id ? {
-                                        ...s,
-                                        elements: s.elements.map(el => 
-                                          el.id === element.id ? { ...el, name: e.target.value } : el
-                                        )
-                                      } : s
-                                    )
-                                  }))}
-                                  placeholder="اسم العنصر"
-                                />
-                              </div>
-                              <div>
-                                <Label>وصف العنصر</Label>
-                                <Input
-                                  value={element.description}
-                                  onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    customSections: prev.customSections.map(s => 
-                                      s.id === section.id ? {
-                                        ...s,
-                                        elements: s.elements.map(el => 
-                                          el.id === element.id ? { ...el, description: e.target.value } : el
-                                        )
-                                      } : s
-                                    )
-                                  }))}
-                                  placeholder="وصف العنصر"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-
-                {formData.customSections.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    لا توجد أقسام مخصصة بعد. اضغط على "إضافة قسم" لبدء الإضافة.
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Step 10: Packs */}
-          {currentStep === 10 && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold">عبوات المنتج</h3>
-                <Button onClick={() => {
-                  const newPack = {
-                    id: Date.now().toString(),
-                    name: "",
-                    price: 0,
-                    quantity: 1
-                  }
-                  setFormData(prev => ({ ...prev, packs: [...prev.packs, newPack] }))
-                }} className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  إضافة عبوة
-                </Button>
-              </div>
-
-              <div className="space-y-4">
-                {formData.packs.map((pack, index) => (
-                  <Card key={pack.id}>
-                    <CardContent className="pt-4 space-y-4">
-                      <div className="flex items-center justify-between">
-                        <Label>العبوة {index + 1}</Label>
-                        <Button 
-                          variant="destructive" 
-                          size="sm" 
-                          onClick={() => setFormData(prev => ({
-                            ...prev,
-                            packs: prev.packs.filter(p => p.id !== pack.id)
-                          }))}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-
-                      <div>
-                        <Label>اسم العبوة</Label>
-                        <Input
-                          value={pack.name}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            packs: prev.packs.map(p => 
-                              p.id === pack.id ? { ...p, name: e.target.value } : p
-                            )
-                          }))}
-                          placeholder="مثال: عبوة شهر واحد"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <Label>السعر</Label>
-                          <Input
-                            type="number"
-                            value={pack.price}
-                            onChange={(e) => setFormData(prev => ({
-                              ...prev,
-                              packs: prev.packs.map(p => 
-                                p.id === pack.id ? { ...p, price: parseFloat(e.target.value) || 0 } : p
-                              )
-                            }))}
-                            placeholder="0.00"
-                          />
-                        </div>
-                        <div>
-                          <Label>الكمية</Label>
-                          <Input
-                            type="number"
-                            value={pack.quantity}
-                            onChange={(e) => setFormData(prev => ({
-                              ...prev,
-                              packs: prev.packs.map(p => 
-                                p.id === pack.id ? { ...p, quantity: parseInt(e.target.value) || 1 } : p
-                              )
-                            }))}
-                            placeholder="1"
-                          />
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-
-                {formData.packs.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    لا توجد عبوات مضافة بعد. اضغط على "إضافة عبوة" لبدء الإضافة.
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+         
 
           {/* Placeholder for future steps */}
-          {currentStep > 10 && (
+          {currentStep > 8 && (
             <div className="text-center py-12">
               <h3 className="text-lg font-semibold mb-2">{STEPS[currentStep - 1]?.title}</h3>
               <p className="text-muted-foreground mb-4">{STEPS[currentStep - 1]?.description}</p>

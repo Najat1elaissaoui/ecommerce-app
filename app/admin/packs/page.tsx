@@ -49,9 +49,10 @@ export default function PacksPage() {
   // Form state
   const [formData, setFormData] = useState({
     name_ar: "",
-    description_ar: "",
     pack_price: "",
-    selectedProducts: [] as { productId: number; quantity: number }[]
+    quantity: 1,
+    productId: 0,
+    image: null as File | null,
   })
 
   // Mock data - replace with API calls
@@ -141,9 +142,10 @@ export default function PacksPage() {
   const resetForm = () => {
     setFormData({
       name_ar: "",
-      description_ar: "",
       pack_price: "",
-      selectedProducts: []
+      quantity: 1,
+      productId: 0,
+      image: null,
     })
     setEditingPack(null)
   }
@@ -153,12 +155,10 @@ export default function PacksPage() {
       setEditingPack(pack)
       setFormData({
         name_ar: pack.name_ar,
-        description_ar: pack.description_ar || "",
         pack_price: pack.pack_price.toString(),
-        selectedProducts: pack.products?.map(p => ({
-          productId: p.product_id,
-          quantity: p.quantity
-        })) || []
+        quantity: pack.products?.[0]?.quantity || 1,
+        productId: pack.products?.[0]?.product_id || 0,
+        image: null,
       })
     } else {
       resetForm()
@@ -171,82 +171,48 @@ export default function PacksPage() {
     resetForm()
   }
 
-  const addProduct = () => {
-    setFormData(prev => ({
-      ...prev,
-      selectedProducts: [...prev.selectedProducts, { productId: 0, quantity: 1 }]
-    }))
-  }
-
-  const removeProduct = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      selectedProducts: prev.selectedProducts.filter((_, i) => i !== index)
-    }))
-  }
-
-  const updateSelectedProduct = (index: number, field: 'productId' | 'quantity', value: number) => {
-    setFormData(prev => ({
-      ...prev,
-      selectedProducts: prev.selectedProducts.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
-    }))
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (formData.selectedProducts.length === 0) {
+    if (!formData.productId || !formData.name_ar || !formData.pack_price) {
       toast({
         title: "خطأ",
-        description: "يجب إضافة منتج واحد على الأقل للحزمة",
+        description: "يرجى ملء جميع الحقول المطلوبة",
         variant: "destructive"
       })
       return
     }
-
     setLoading(true)
-
     try {
       const packData = {
         name_ar: formData.name_ar,
-        description_ar: formData.description_ar,
         pack_price: parseFloat(formData.pack_price),
         is_active: true,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-        products: formData.selectedProducts.map((item, index) => ({
-          id: index + 1,
-          pack_id: editingPack?.id || Date.now(),
-          product_id: item.productId,
-          quantity: item.quantity,
-          product: products.find(p => p.id === item.productId)
-        }))
+        products: [
+          {
+            id: Date.now(),
+            pack_id: Date.now(),
+            product_id: formData.productId,
+            quantity: formData.quantity,
+            product: products.find(p => p.id === formData.productId)
+          }
+        ],
+        image: formData.image,
       }
-
-      if (editingPack) {
-        // Update existing pack
-        const updatedPack = { ...editingPack, ...packData }
-        setPacks(prev => prev.map(p => p.id === editingPack.id ? updatedPack : p))
-        toast({
-          title: "تم تحديث الحزمة بنجاح",
-          description: "تم حفظ التغييرات"
-        })
-      } else {
-        // Add new pack
-        const newPack: Pack = {
-          id: Date.now(),
-          ...packData
-        }
-        setPacks(prev => [...prev, newPack])
-        toast({
-          title: "تم إضافة الحزمة بنجاح",
-          description: "تم إنشاء حزمة جديدة"
-        })
+      // Add new pack
+      const newPack: Pack = {
+        id: Date.now(),
+        ...packData
       }
-
-      closeDialog()
+      setPacks(prev => [...prev, newPack])
+      toast({
+        title: "تم إضافة الحزمة بنجاح",
+        description: "تم إنشاء حزمة جديدة"
+      })
+      resetForm()
+      setIsDialogOpen(true) // keep dialog open for next pack
     } catch (error) {
       toast({
         title: "خطأ",
@@ -294,100 +260,68 @@ export default function PacksPage() {
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name_ar">اسم الحزمة (عربي)</Label>
+                <Label htmlFor="productId">اختر منتج من القائمة</Label>
+                <Select
+                  value={formData.productId ? formData.productId.toString() : ""}
+                  onValueChange={value => setFormData(prev => ({ ...prev, productId: parseInt(value) }))}
+                  required
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="اختر منتج" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {products.map(product => (
+                      <SelectItem key={product.id} value={product.id.toString()}>
+                        {product.name_ar} - {product.price} DHS
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="name_ar">اسم الحزمة</Label>
                 <Input
                   id="name_ar"
                   value={formData.name_ar}
-                  onChange={(e) => setFormData(prev => ({...prev, name_ar: e.target.value}))}
+                  onChange={e => setFormData(prev => ({ ...prev, name_ar: e.target.value }))}
                   placeholder="أدخل اسم الحزمة"
                   required
                 />
               </div>
-              
               <div className="space-y-2">
-                <Label htmlFor="description_ar">وصف الحزمة (اختياري)</Label>
-                <Textarea
-                  id="description_ar"
-                  value={formData.description_ar}
-                  onChange={(e) => setFormData(prev => ({...prev, description_ar: e.target.value}))}
-                  placeholder="وصف الحزمة ومميزاتها"
-                  rows={3}
+                <Label htmlFor="quantity">الكمية</Label>
+                <Input
+                  id="quantity"
+                  type="number"
+                  min="1"
+                  value={formData.quantity}
+                  onChange={e => setFormData(prev => ({ ...prev, quantity: parseInt(e.target.value) }))}
+                  placeholder="الكمية"
+                  required
+                  className="w-32"
                 />
               </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label>المنتجات في الحزمة</Label>
-                  <Button type="button" size="sm" onClick={addProduct}>
-                    <Plus className="w-4 h-4" />
-                    إضافة منتج
-                  </Button>
-                </div>
-                
-                {formData.selectedProducts.map((item, index) => (
-                  <div key={index} className="flex items-center gap-2 p-4 border rounded-lg">
-                    <Select
-                      value={item.productId.toString()}
-                      onValueChange={(value) => updateSelectedProduct(index, 'productId', parseInt(value))}
-                    >
-                      <SelectTrigger className="flex-1">
-                        <SelectValue placeholder="اختر منتج" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {products.map(product => (
-                          <SelectItem key={product.id} value={product.id.toString()}>
-                            {product.name_ar} - {product.price} DHS
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Input
-                      type="number"
-                      min="1"
-                      value={item.quantity}
-                      onChange={(e) => updateSelectedProduct(index, 'quantity', parseInt(e.target.value))}
-                      placeholder="الكمية"
-                      className="w-20"
-                    />
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      onClick={() => removeProduct(index)}
-                    >
-                      <Minus className="w-4 h-4" />
-                    </Button>
-                  </div>
-                ))}
+              <div className="space-y-2">
+                <Label htmlFor="pack_price">سعر الحزمة</Label>
+                <Input
+                  id="pack_price"
+                  type="number"
+                  step="0.01"
+                  value={formData.pack_price}
+                  onChange={e => setFormData(prev => ({ ...prev, pack_price: e.target.value }))}
+                  placeholder="0.00"
+                  required
+                />
               </div>
-
-              {formData.selectedProducts.length > 0 && (
-                <div className="bg-muted p-4 rounded-lg space-y-2">
-                  <p className="text-sm font-medium">ملخص السعر:</p>
-                  {/* <p className="text-sm">
-                    السعر الأصلي: {calculateOriginalPrice(formData.selectedProducts).toFixed(2)} ر.س
-                  </p> */}
-                  <div className="space-y-2">
-                    <Label htmlFor="pack_price">سعر الحزمة</Label>
-                    <Input
-                      id="pack_price"
-                      type="number"
-                      step="0.01"
-                      value={formData.pack_price}
-                      onChange={(e) => setFormData(prev => ({...prev, pack_price: e.target.value}))}
-                      placeholder="0.00"
-                      required
-                    />
-                    {formData.pack_price && (
-                      <p className="text-sm text-green-600">
-                        توفير: {(calculateOriginalPrice(formData.selectedProducts) - parseFloat(formData.pack_price)).toFixed(2)} ر.س
-                        ({((1 - parseFloat(formData.pack_price) / calculateOriginalPrice(formData.selectedProducts)) * 100).toFixed(1)}% خصم)
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
-
+              <div className="space-y-2">
+                <Label htmlFor="image">صورة الحزمة</Label>
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={e => setFormData(prev => ({ ...prev, image: e.target.files?.[0] || null }))}
+                />
+              </div>
               <div className="flex gap-2 justify-end">
                 <Button type="button" variant="outline" onClick={closeDialog}>
                   إلغاء

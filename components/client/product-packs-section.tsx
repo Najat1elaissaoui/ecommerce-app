@@ -12,102 +12,43 @@ import { useCart } from "@/lib/cart-context"
 import { useToast } from "../ui/use-toast"
 import { Product } from "@/lib/types"
 
-interface Pack {
-  id: number
-  name: string
-  image: string
-  price: number
-  originalPrice?: number
-  quantity: number
-  discount?: string
-  popular?: boolean
+interface ProductPackSectionProps {
+  packs: Array<{ id: number; name: string; price: number; quantity: number; image: string }>;
+  productName: string;
+  productColor: { main: string; light: string; contrastText?: string };
 }
 
-interface ProductPacksSectionProps {
-  packs: Pack[]
-  productName: string
-  productColor?: {
-    main: string   // Couleur principale du produit
-    light: string  // Version plus claire
-    dark: string   // Version plus foncée
-    contrastText: string // Texte contrasté qui se lit bien sur la couleur principale
-  }
-}
-
-export default function ProductPacksSection({ 
-  packs, 
-  productName,
-  productColor = {
-    main: "#AE3131",      // Rouge par défaut
-    light: "#D15858",     // Version plus claire
-    dark: "#8C1E1E",      // Version plus foncée
-    contrastText: "#FFFFFF" // Texte blanc pour contraste
-  }
-}: ProductPacksSectionProps) {
-  const [selectedPack, setSelectedPack] = useState<number>(packs.find(p => p.popular)?.id || packs[0]?.id)
-  const [isAddingToCart, setIsAddingToCart] = useState(false)
-  const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+export default function ProductPacksSection({ packs, productName, productColor }: ProductPackSectionProps) {
+  const [selectedPack, setSelectedPack] = useState(packs[0]?.id || 0);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isSubmittingForm, setIsSubmittingForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     address: ""
   });
-  // Show/hide fixed button based on form visibility
   const [showFixedButton, setShowFixedButton] = useState(true);
   const formRef = useRef<HTMLDivElement>(null);
+  const { addItem } = useCart();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!formRef.current) return;
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        setShowFixedButton(!entry.isIntersecting);
-      },
-      {
-        root: null,
-        threshold: 0.2,
-      }
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowFixedButton(!entry.isIntersecting),
+      { threshold: 0.1 }
     );
     observer.observe(formRef.current);
     return () => observer.disconnect();
   }, []);
 
-  const handleCheckout = () => {
-    const pack = packs.find(p => p.id === selectedPack)
-    if (!pack) return;
-    addItem({
-      id: pack.id,
-      name_ar: productName + ' - ' + pack.name,
-      price: pack.price,
-      type: "pack",
-      image: pack.image,
-    });
-    toast({
-      title: "تم إضافة الباقة للسلة",
-      description: `تم إضافة ${productName} - ${pack.name} إلى سلة التسوق`,
-    });
-  }
-  
-  const handleDirectOrder = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmittingForm(true)
-    
-    // Simulation d'une soumission de formulaire
-    const pack = packs.find(p => p.id === selectedPack)
-    console.log("Commande directe:", { pack, userData: formData })
-    
-    setTimeout(() => {
-      setIsSubmittingForm(false)
-      setFormData({ name: "", phone: "", address: "" })
-      // Vous pouvez ajouter un message de succès ici
-    }, 2000)
-  }
-  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
-    }))
-  }
+    }));
+  };
+
   const handleAddToCart = (product: Product) => {
     addItem({
       id: product.id,
@@ -115,19 +56,37 @@ export default function ProductPacksSection({
       price: product.price,
       type: "product",
       image: product.images?.[0],
-    })
+    });
     toast({
       title: "تم إضافة المنتج للسلة",
       description: `تم إضافة ${product.name_ar} إلى سلة التسوق`,
-    })
-  }
-  const { addItem } = useCart()
-  const { toast } = useToast()
+    });
+  };
 
-  const selectedPackData = packs.find(p => p.id === selectedPack)
+  const handleCheckout = () => {
+    // Implement checkout logic here
+    toast({
+      title: "تم إضافة الباقة للسلة",
+  description: `تم إضافة ${productName} - ${packs.find((p: {id: number; name: string}) => p.id === selectedPack)?.name} إلى سلة التسوق`,
+    });
+  };
+
+  const handleDirectOrder = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmittingForm(true);
+    setTimeout(() => {
+      setIsSubmittingForm(false);
+      toast({
+        title: "تم إرسال الطلب",
+        description: "سيتم التواصل معك قريبًا لتأكيد الطلب.",
+      });
+    }, 2000);
+  };
+  // Remove stray bracket and ensure hooks are at the top
+  const selectedPackData = packs.find((p: {id: number}) => p.id === selectedPack);
 
   return (
-    <section className="w-full py-20" id="product-packs" style={{
+    <section className="w-full py-20 pt-4" id="product-packs" style={{
       background: `linear-gradient(to bottom right, ${productColor.light}20, white, ${productColor.light}20)`
     }}>
       <div className="container mx-auto px-4">
@@ -157,49 +116,52 @@ export default function ProductPacksSection({
         {/* Mobile layout - Only significant info: pack name, quantity, price */}
         <div className="md:hidden max-w-6xl mx-auto mb-8">
           <div className="flex flex-row items-center gap-4 rounded-lg p-4">
-            {/* Image du pack */}
-            <div className="w-1/3 relative">
+            {/* Image du pack - same size as card */}
+            <div className="w-1/2 flex items-center justify-center">
               <Image
                 src={selectedPackData?.image || packs[0].image}
                 alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
-                width={100}
-                height={100}
-                className="object-contain h-24 w-full"
+                width={140}
+                height={140}
+                className="object-contain h-32 w-32"
               />
             </div>
             {/* Info significative */}
-            <div className="w-2/3 rounded-lg p-3 flex flex-col items-center justify-center text-center" dir="rtl" style={{
+            <div className="w-1/2 rounded-lg p-3 flex flex-col items-center justify-center text-center" dir="rtl" style={{
               backgroundColor: productColor.main,
-              color: 'white'
+              color: 'white',
+              minHeight: '128px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
             }}>
               <div className="text-lg font-bold mb-1 w-full">{selectedPackData?.name}</div>
-              <div className="text-sm mb-1 w-full">الكمية: {selectedPackData?.quantity}</div>
               <div className="text-2xl font-extrabold w-full">{((selectedPackData?.price || 0)).toFixed(2)} د.م.</div>
             </div>
           </div>
           
-          {/* Pack selection buttons - mobile */}
-          <div className="flex flex-row items-center justify-between mt-3 gap-2" dir="rtl">
+          {/* Pack selection buttons - mobile, show pack name, scrollable if needed */}
+          <div className="flex flex-row flex-wrap items-center justify-start mt-3 gap-2 overflow-x-auto md:overflow-x-visible" dir="rtl" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {packs.map((pack) => (
               <Button
                 key={pack.id}
                 variant={selectedPack === pack.id ? "default" : "outline"}
                 onClick={() => setSelectedPack(pack.id)}
-                className="px-3 py-1 text-xs rounded-md flex-1 text-center transition-all duration-300"
+                  className="px-4 py-2 text-xs rounded-md min-w-[100px] text-center transition-all duration-300 font-bold whitespace-nowrap cursor-pointer flex-shrink-0"
                 style={{
                   backgroundColor: selectedPack === pack.id ? productColor.main : 'white',
                   borderColor: productColor.main,
                   color: selectedPack === pack.id ? 'white' : productColor.main
                 }}
               >
-                {`PACK-${pack.quantity}`}
+                {pack.name}
               </Button>
             ))}
           </div>
         </div>
 
         {/* Desktop layout - Only significant info: pack name, quantity, price */}
-        <div className="hidden md:block max-w-6xl mx-auto">
+  <div className="hidden md:block max-w-6xl mx-auto">
           <div className="flex flex-row gap-8">
             {/* Left side - Card with pricing info and buttons */}
             <div className="w-1/2 flex flex-col justify-center">
@@ -217,7 +179,7 @@ export default function ProductPacksSection({
                     key={pack.id}
                     variant={selectedPack === pack.id ? "default" : "outline"}
                     onClick={() => setSelectedPack(pack.id)}
-                    className="py-2 px-5 flex-1 text-center transition-all duration-300"
+                     className="py-2 px-5 flex-1 text-center transition-all duration-300 cursor-pointer"
                     style={{
                       backgroundColor: selectedPack === pack.id ? productColor.main : 'white',
                       borderColor: productColor.main,
@@ -243,7 +205,7 @@ export default function ProductPacksSection({
         </div>
         
         {/* Form at the bottom for all views */}
-  <div className="max-w-6xl mx-auto mt-10 mb-20" id="order-form-section" ref={formRef}>
+  <div className="max-w-6xl mx-auto mt-10" id="order-form-section" ref={formRef}>
           <Card className="border-2 shadow-xl rounded-2xl overflow-hidden" style={{
             borderColor: `${productColor.light}33`
           }}>
@@ -266,6 +228,8 @@ export default function ProductPacksSection({
                     required
                     className="w-full text-right"
                     dir="rtl"
+                    onInvalid={e => e.currentTarget.setCustomValidity('يرجى إدخال الاسم الكامل')}
+                    onInput={e => e.currentTarget.setCustomValidity('')}
                   />
                 </div>
 
@@ -282,6 +246,8 @@ export default function ProductPacksSection({
                     required
                     className="w-full text-right"
                     dir="rtl"
+                    onInvalid={e => e.currentTarget.setCustomValidity('يرجى إدخال رقم الهاتف')}
+                    onInput={e => e.currentTarget.setCustomValidity('')}
                   />
                 </div>
 
@@ -298,6 +264,8 @@ export default function ProductPacksSection({
                     required
                     className="w-full text-right"
                     dir="rtl"
+                    onInvalid={e => e.currentTarget.setCustomValidity('يرجى إدخال عنوان التوصيل')}
+                    onInput={e => e.currentTarget.setCustomValidity('')}
                   />
                 </div>
 
@@ -306,9 +274,11 @@ export default function ProductPacksSection({
                     <Button
                       type="submit"
                       size="lg"
-                      className="flex-1 py-4 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-lg min-w-0"
+                      className="flex-1 py-4 text-lg font-bold rounded text-white transition-all duration-300 shadow-lg min-w-0 cursor-pointer"
                       style={{
-                        backgroundColor: productColor.main
+                        backgroundColor: productColor.main,
+                        minHeight: '3.5rem',
+                        borderRadius: '0.5rem'
                       }}
                       disabled={isSubmittingForm}
                     >
@@ -327,12 +297,12 @@ export default function ProductPacksSection({
                     <button
                       type="button"
                       onClick={handleCheckout}
-                      className="flex items-center justify-center gap-2 p-0 w-auto h-9 rounded-xl bg-black text-white hover:bg-gray-900 transition-colors min-w-0 px-3"
+                      className="flex items-center justify-center gap-2 rounded bg-black text-white hover:bg-gray-900 transition-colors min-w-0 ml-2 px-4 py-2 cursor-pointer"
                       title="Checkout"
-                      style={{ minWidth: '3.5rem', minHeight: '2rem' }}
+                      style={{ minWidth: '3.5rem', minHeight: '3.5rem', height: '3.5rem', borderRadius: '0.5rem' }}
                     >
                       <ShoppingCart className="w-6 h-6" />
-                      <span className="text-sm font-bold">اضف الى السلة</span>
+                      <span className="text-sm font-bold hidden md:inline">اضف الى السلة</span>
                     </button>
                   </div>
                 </div>
@@ -352,10 +322,11 @@ export default function ProductPacksSection({
                   formSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="w-full py-4 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-md"
+              className="w-full py-4 text-lg font-bold rounded text-white transition-all duration-300 shadow-md cursor-pointer"
               style={{
                 backgroundColor: productColor.main,
-                color: productColor.contrastText
+                color: productColor.contrastText,
+                borderRadius: '0.5rem'
               }}
             >
                 <div className="flex items-center justify-center gap-2" dir="rtl">

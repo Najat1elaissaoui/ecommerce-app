@@ -1,296 +1,153 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Heart, Eye } from "lucide-react"
-import Link from "next/link"
-import type { Product } from "@/lib/types"
 import { useCart } from "@/lib/cart-context"
 import { useToast } from "@/hooks/use-toast"
+import Image from "next/image"
 
-interface ProductsGridProps {
-  searchParams: {
-    search?: string
-    category?: string
-    sort?: string
-    page?: string
+interface Pack {
+  id: number
+  name: string
+  image: string
+  price: number
+  originalPrice?: number
+  
+  popular?: boolean
+  productName: string
+  productColor?: {
+    main: string
+    light: string
+    dark: string
+    contrastText: string
   }
-  viewMode?: "grid" | "list"
 }
 
-export default function ProductsGrid({ searchParams, viewMode = "grid" }: ProductsGridProps) {
-  const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
-  const { addItem } = useCart()
-  const { toast } = useToast()
+  // Packs globaux (extrait de product/[id]/page.tsx)
+  const globalPacks: Pack[] = [
+    // Produit 1
+    { id: 1, name: "عبوة واحدة", image: "/pack1.png", price: 19.32, originalPrice: 26.00, productName: "علكة خل التفاح", productColor: { main: "#AE3131", light: "#D15858", dark: "#8C1E1E", contrastText: "#FFFFFF" } },
+    { id: 2, name: "3 عبوات", image: "/pack3.png", price: 17.39, originalPrice: 25.00, productName: "علكة خل التفاح", productColor: { main: "#AE3131", light: "#D15858", dark: "#8C1E1E", contrastText: "#FFFFFF" } },
+    { id: 3, name: "5 عبوات", image: "/pack5.png", price: 15.99, originalPrice: 23.00, productName: "علكة خل التفاح", productColor: { main: "#AE3131", light: "#D15858", dark: "#8C1E1E", contrastText: "#FFFFFF" } },
+    // Produit 2
+    { id: 4, name: "عبوة واحدة", image: "/pack21.png", price: 19.32, originalPrice: 26.00, productName: "بروتين مصل اللبن المميز", productColor: { main: "#0088CC", light: "#4AAFDF", dark: "#006699", contrastText: "#FFFFFF" } },
+    { id: 5, name: "3 عبوات", image: "/pack23.png", price: 17.39, originalPrice: 25.00, productName: "بروتين مصل اللبن المميز", productColor: { main: "#0088CC", light: "#4AAFDF", dark: "#006699", contrastText: "#FFFFFF" } },
+    { id: 6, name: "5 عبوات", image: "/pack25.png", price: 15.99, originalPrice: 23.00, productName: "بروتين مصل اللبن المميز", productColor: { main: "#0088CC", light: "#4AAFDF", dark: "#006699", contrastText: "#FFFFFF" } },
+    // Produit 3
+    { id: 7, name: "عبوة واحدة", image: "/pack31.png", price: 19.32, originalPrice: 26.00, productName: "بروتيبن EXTRA-STRENGTH SLEEP", productColor: { main: "#7a30cf", light: "#52255b", dark: "#2a0d3e", contrastText: "#FFFFFF" } },
+    { id: 8, name: "3 عبوات", image: "/pack33.png", price: 17.39, originalPrice: 25.00, productName: "بروتيبن EXTRA-STRENGTH SLEEP", productColor: { main: "#7a30cf", light: "#52255b", dark: "#2a0d3e", contrastText: "#FFFFFF" } },
+    { id: 9, name: "5 عبوات", image: "/pack35.png", price: 15.99, originalPrice: 23.00, productName: "بروتيبن EXTRA-STRENGTH SLEEP", productColor: { main: "#7a30cf", light: "#52255b", dark: "#2a0d3e", contrastText: "#FFFFFF" } },
+  ];
 
-  // Helper to format price in Moroccan Dirhams (DHS) with Western (Latin) digits
-  const formatPrice = (value: number) => {
-    // Round to nearest whole number; adapt if fractional part should be shown
-    return Math.round(value).toLocaleString('en-US')
-  }
+export default function ProductsGrid() {
+  const { addItem } = useCart();
+  const { toast } = useToast();
 
-  // Mock products data
-  const mockProducts: Product[] = [
-    {
-      id: 1,
-      name_ar: "علكة خل التفاح",
-      price: 299.99,
-      quantity: 50,
-      description_ar: "علكة خل التفاح الأولى عالميًا. غنية بالفيتامينات والعناصر الغذائية لدعم الصحة العامة.",
-      images: ["/goli1.png"],
-      low_stock_threshold: 5,
-      is_active: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      name_ar: "كرياتين مونوهيدرات",
-      price: 149.99,
-      quantity: 30,
-      description_ar: "مكمل الكرياتين الأفضل لزيادة الطاقة والقوة",
-      images: ["/goli2.png"],
-      low_stock_threshold: 10,
-      is_active: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: 3,
-      name_ar:  "بروتيبن EXTRA-STRENGTH SLEEP",
-      price: 149.99,
-      quantity: 30,
-      description_ar: "مكمل البروتين الأفضل لدعم النوم العميق والاسترخاء",
-      images: ["/goli3.png"],
-      low_stock_threshold: 10,
-      is_active: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
- 
-  ]
+  // Group packs by product
+  const products = Array.from(
+    globalPacks.reduce((map, pack) => {
+      if (!map.has(pack.productName)) map.set(pack.productName, []);
+      map.get(pack.productName).push(pack);
+      return map;
+    }, new Map())
+  );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setProducts(mockProducts)
-      setLoading(false)
-    }, 1000)
-    return () => clearTimeout(timer)
-  }, [searchParams])
+  // State: selected pack per product
+  const [selectedPackByProduct, setSelectedPackByProduct] = useState<Record<string, number>>(() => {
+    const obj: Record<string, number> = {};
+    products.forEach(([productName, packs]) => {
+      obj[productName] = packs.find((p: Pack) => p.popular)?.id || packs[0].id;
+    });
+    return obj;
+  });
 
-  const handleAddToCart = (product: Product) => {
-    addItem({
-      id: product.id,
-      name_ar: product.name_ar,
-      price: product.price,
-      type: "product",
-      image: product.images?.[0],
-    })
-    toast({
-      title: "تم إضافة المنتج للسلة",
-      description: `تم إضافة ${product.name_ar} إلى سلة التسوق`,
-    })
-  }
-
-  if (loading) {
-    return (
-      <div className="flex justify-center">
-        <div className="w-full max-w-7xl">
-          {viewMode === "grid" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse w-full max-w-sm">
-                  <div className="h-64 bg-muted rounded-t-lg" />
-                  <CardContent className="p-6">
-                    <div className="h-4 bg-muted rounded mb-2" />
-                    <div className="h-4 bg-muted rounded w-3/4 mb-4" />
-                    <div className="h-10 bg-muted rounded" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-4 max-w-5xl mx-auto">
-              {[...Array(4)].map((_, i) => (
-                <Card key={i} className="animate-pulse">
-                  <div className="flex gap-6 p-6">
-                    <div className="h-48 w-48 bg-muted rounded-lg flex-shrink-0" />
-                    <div className="flex-1 space-y-4">
-                      <div className="h-6 bg-muted rounded w-3/4" />
-                      <div className="h-4 bg-muted rounded w-full" />
-                      <div className="h-4 bg-muted rounded w-5/6" />
-                      <div className="h-4 bg-muted rounded w-2/3" />
-                      <div className="flex justify-between items-center">
-                        <div className="h-8 bg-muted rounded w-24" />
-                        <div className="h-10 bg-muted rounded w-32" />
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    )
-  }
+  const handleSwitchPack = (productName: any, packId: number) => {
+    setSelectedPackByProduct(prev => ({ ...prev, [productName]: packId }));
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <p className="text-muted-foreground">
-          عرض {products.length} من أصل {products.length} منتج
-        </p>
-      </div>
-
-      <div className="flex justify-center">
-        <div className="w-full max-w-7xl">
-          {viewMode === "grid" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-              {products.map((product, index) => (
-                <Card
-                  key={product.id}
-                  className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg animate-slide-in-left w-full max-w-sm flex flex-col min-h-[420px]"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <CardHeader className="relative p-0">
-                    <div className="relative overflow-hidden rounded-t-lg">
-                      <img
-                        src={product.images?.[0] || "/placeholder.svg"}
-                        alt={product.name_ar}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {/* Icons removed */}
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-6 flex flex-col flex-1 justify-between">
-                    <div>
-                      <Link href={`/products/${product.id}`}>
-                        <h3 className="text-lg font-semibold text-foreground mb-2 hover:text-primary transition-colors line-clamp-2">
-                          {product.name_ar}
-                        </h3>
-                      </Link>
-                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{product.description_ar}</p>
-                    </div>
-                    <div className="flex flex-col gap-2 mt-auto w-full">
-                      <div className="flex items-center gap-3 w-full">
-                        <span className="text-2xl font-bold text-primary">{formatPrice(product.price)} DHS</span>
-                        <Button
-                          className="ml-auto bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-6 cursor-pointer"
-                          onClick={() => handleAddToCart(product)}
-                          disabled={product.quantity === 0}
+    <div className="py-10 px-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {products.map(([productName, packs]) => {
+          const selectedPack = packs.find((p: Pack) => p.id === selectedPackByProduct[productName]);
+          return (
+            <div key={productName} className="rounded-2xl shadow-xl border-2 overflow-hidden flex flex-col bg-white items-center justify-between" style={{ borderColor: selectedPack.productColor?.main + '33', minHeight: '400px', width: '420px', maxWidth: '100%' }}>
+              <div className="flex flex-col items-center justify-center w-full flex-1 p-6" style={{ backgroundColor: selectedPack.productColor?.light + '20' }}>
+                <Image src={selectedPack.image} alt={selectedPack.productName} width={140} height={140} className="object-contain h-32 w-32 mb-4" />
+                <div className="text-xl font-bold mb-2 text-center w-full" style={{ color: selectedPack.productColor?.main }}>{selectedPack.productName}</div>
+                <div className="text-2xl font-black mb-2 text-black text-center w-full">{selectedPack.price.toFixed(2)} درهم</div>
+                <div className="flex flex-col w-full px-2 pb-2">
+                  <div
+                    className="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 md:gap-4 w-full mb-4"
+                  >
+                    {packs.map((pack: Pack) => {
+                      const isSelected = selectedPack.id === pack.id;
+                      const mainColor = selectedPack.productColor?.main || '#00AEEA';
+                      const lightColor = selectedPack.productColor?.light || '#BFD6E2';
+                      return (
+                        <button
+                          key={pack.id}
+                          type="button"
+                          onClick={() => handleSwitchPack(productName, pack.id)}
+                          className={
+                            `px-4 py-2 text-base font-bold min-w-[90px] rounded-full border-4 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer ` +
+                            (isSelected
+                              ? 'shadow-md text-white'
+                              : 'text-[#222]')
+                          }
+                          style={{
+                            background: isSelected ? mainColor : '#fff',
+                            borderColor: mainColor,
+                            color: isSelected ? '#fff' : mainColor,
+                            boxShadow: isSelected ? `0 2px 8px 0 ${mainColor}33` : undefined,
+                          }}
+                          onMouseOver={e => {
+                            if (!isSelected) {
+                              e.currentTarget.style.background = lightColor + '33';
+                              e.currentTarget.style.borderColor = mainColor;
+                              e.currentTarget.style.color = mainColor;
+                            }
+                          }}
+                          onMouseOut={e => {
+                            if (!isSelected) {
+                              e.currentTarget.style.background = '#fff';
+                              e.currentTarget.style.borderColor = mainColor;
+                              e.currentTarget.style.color = mainColor;
+                            }
+                          }}
                         >
-                          <ShoppingCart className="w-4 h-4" />
-                          {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
-                        </Button>
-                      </div>
-                      <Link href={`/products/${product.id}`} className="w-full mt-1">
-                        <Button className="w-full bg-black text-white font-bold py-2 rounded-xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-                          <span className="relative z-10 flex items-center justify-center text-xs sm:text-sm">
-                            <span>عرض التفاصيل</span>
-                            <Eye className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-                          </span>
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-4 max-w-5xl mx-auto">
-              {products.map((product, index) => (
-                <Card
-                  key={product.id}
-                  className="group hover:shadow-lg transition-all duration-300 animate-slide-in-left"
-                  style={{ animationDelay: `${index * 50}ms` }}
+                          {pack.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+                  <Button
+                  className="py-3 px-8 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-lg min-w-0 cursor-pointer"
+                  style={{ backgroundColor: selectedPack.productColor?.main }}
+                  onClick={() => {
+                    addItem({
+                      id: selectedPack.id,
+                      name_ar: selectedPack.productName,
+                      price: selectedPack.price,
+                      type: "pack",
+                      image: selectedPack.image,
+                    });
+                    toast({
+                      title: "تم إضافة الباقة للسلة",
+                      description: `تم إضافة ${selectedPack.productName} إلى سلة التسوق`,
+                    });
+                  }}
                 >
-                  <CardContent className="p-0">
-                    <div className="flex flex-col md:flex-row gap-6 p-6">
-                      <div className="relative flex-shrink-0">
-                        <div className="relative overflow-hidden rounded-lg w-full md:w-48 h-48">
-                          <img
-                            src={product.images?.[0] || "/placeholder.svg"}
-                            alt={product.name_ar}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          {/* Icons removed */}
-                        </div>
-                      </div>
-                      <div className="flex-1 flex flex-col justify-between">
-                        <div>
-                          <Link href={`/products/${product.id}`}>
-                            <h3 className="text-xl font-semibold text-foreground mb-3 hover:text-primary transition-colors">
-                              {product.name_ar}
-                            </h3>
-                          </Link>
-                          <p className="text-muted-foreground mb-4 leading-relaxed line-clamp-3">
-                            {product.description_ar}
-                          </p>
-                          <div className="flex items-center gap-4 mb-4">
-                            <Badge 
-                              variant={product.quantity > product.low_stock_threshold ? "secondary" : "destructive"}
-                              className="text-xs"
-                            >
-                              {product.quantity > product.low_stock_threshold 
-                                ? "متوفر" 
-                                : product.quantity > 0 
-                                  ? "كمية محدودة" 
-                                  : "غير متوفر"
-                              }
-                            </Badge>
-                            <span className="text-sm text-muted-foreground">
-                              الكمية المتاحة: {product.quantity}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                          <div className="flex items-center gap-3">
-                            <span className="text-2xl font-bold text-primary">
-                              {formatPrice(product.price)} DHS
-                            </span>
-                          </div>
-                          <div className="flex flex-col gap-2 w-full">
-                            <Button
-                       className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-8 cursor-pointer"
-                              onClick={() => handleAddToCart(product)}
-                              disabled={product.quantity === 0}
-                            >
-                              <ShoppingCart className="w-4 h-4" />
-                              {product.quantity === 0 ? "غير متوفر" : "أضف للسلة"}
-                            </Button>
-                            <Link href={`/products/${product.id}`} className="w-full mt-1">
-                              <Button className="w-full bg-black text-white font-bold py-2 rounded-xl group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-                                <span className="relative z-10 flex items-center justify-center text-xs sm:text-sm">
-                                  <span>عرض التفاصيل</span>
-                                  <Eye className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                              </Button>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  أضف للسلة
+                </Button>
+              </div>
+              {/* Pack switch buttons at the bottom, above add-to-cart */}
+             
             </div>
-          )}
-        </div>
-      </div>
-
-      <div className="flex items-center justify-center gap-2 mt-12">
-        <Button variant="outline" disabled>
-          السابق
-        </Button>
-        <Button variant="default">1</Button>
-        <Button variant="outline">2</Button>
-        <Button variant="outline">3</Button>
-        <Button variant="outline">التالي</Button>
+          );
+        })}
       </div>
     </div>
-  )
+  );
 }

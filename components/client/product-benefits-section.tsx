@@ -60,7 +60,7 @@ export default function ProductBenefitsSection({
 
   return (
     <section 
-      className="w-full py-20 relative overflow-hidden"
+      className="w-full py-20 relative overflow-hidden pt-4"
       style={{ background: `linear-gradient(135deg, ${productColor.light} 0%, ${productColor.main} 50%, ${productColor.dark} 100%)` }}
     >
       {/* Background decoration */}
@@ -80,50 +80,38 @@ export default function ProductBenefitsSection({
             {benefits.title || "Health Benefits"}
           </h2>
           
-          <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Our patented formula is made with Vitamin B12 to help support:
-          </p>
+          
         </div>
 
         {/* Grid des bénéfices - Style de l'image 3 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
           {benefits.items.map((benefit, index) => (
             <Card 
               key={index}
-              className="bg-white/95 backdrop-blur-sm border-0 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
+              className="bg-white/95 backdrop-blur-sm border-0 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
               onClick={() => benefit.description && toggleBenefit(index)}
             >
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div 
-                      className="p-3 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: productColor.main + "20" }}
-                    >
-                      <div style={{ color: productColor.main }}>
-                        {getBenefitIcon(benefit.name)}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className={`text-xl font-bold text-gray-900 group-hover:text-[${productColor.main}] transition-colors`}>
-                        {benefit.name}
-                        {benefit.name.includes('Production') && (
-                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                        )}
-                        {benefit.name.includes('Function') && (
-                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                        )}
-                        {benefit.name.includes('Health') && (
-                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                        )}
-                        {benefit.name.includes('Metabolism') && (
-                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                        )}
-                        {benefit.name.includes('Support') && (
-                          <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                        )}
-                      </h3>
-                    </div>
+                  <div>
+                    <h3 className={`text-base font-bold text-gray-900 group-hover:text-[${productColor.main}] transition-colors`}>
+                      {benefit.name}
+                      {benefit.name.includes('Production') && (
+                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
+                      )}
+                      {benefit.name.includes('Function') && (
+                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
+                      )}
+                      {benefit.name.includes('Health') && (
+                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
+                      )}
+                      {benefit.name.includes('Metabolism') && (
+                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
+                      )}
+                      {benefit.name.includes('Support') && (
+                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
+                      )}
+                    </h3>
                   </div>
                   
                   {/* Flèche d'expansion si description disponible */}

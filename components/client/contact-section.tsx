@@ -54,15 +54,14 @@ export default function ContactSection() {
   ]
 
   return (
-    <section id="contact" className="py-10 md:py-20 bg-gradient-to-b from-white to-gray-50 pt-0">
-      <div className="container mx-auto px-3 sm:px-4">
+   <section className="py-0 md:py-0 bg-white overflow-hidden w-full pt-0 mt-0">  <div className="container mx-auto px-3 sm:px-4">
         
         {/* Section Header */}
         <motion.div 
           className="text-center mb-8 md:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration:   0.8 }}
           viewport={{ once: true }}
         >
           <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-purple-100 text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-semibold mb-4 md:mb-6">
@@ -141,7 +140,7 @@ export default function ContactSection() {
               <div className="flex gap-3 sm:gap-4 pt-4">
                 <Button 
                   size="default" 
-                  className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white text-xs sm:text-sm h-10 sm:h-12 px-2 sm:px-4"
+                  className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white text-xs sm:text-sm h-10 sm:h-12 px-2 sm:px-4 cursor-pointer"
                   onClick={() => window.open('https://wa.me/971501234567', '_blank')}
                 >
                   <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
@@ -150,7 +149,7 @@ export default function ContactSection() {
                 <Button 
                   size="default" 
                   variant="outline"
-                  className="flex-1 border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white text-xs sm:text-sm h-10 sm:h-12 px-2 sm:px-4"
+                  className="flex-1 border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white text-xs sm:text-sm h-10 sm:h-12 px-2 sm:px-4 cursor-pointer"
                   onClick={() => window.open('tel:+971501234567', '_blank')}
                 >
                   <Phone className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
@@ -189,6 +188,8 @@ export default function ContactSection() {
                         required
                         className="w-full h-9 sm:h-10 text-sm"
                         dir="rtl"
+                        onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('يرجى إدخال الاسم الكامل')}
+                        onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
                       />
                     </div>
                     <div>
@@ -204,6 +205,8 @@ export default function ContactSection() {
                         required
                         className="w-full h-9 sm:h-10 text-sm"
                         dir="rtl"
+                        onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('يرجى إدخال رقم الهاتف')}
+                        onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
                       />
                     </div>
                   </div>
@@ -221,6 +224,8 @@ export default function ContactSection() {
                       required
                       className="w-full h-9 sm:h-10 text-sm"
                       dir="rtl"
+                      onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('يرجى إدخال البريد الإلكتروني')}
+                      onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
                     />
                   </div>
 
@@ -236,13 +241,15 @@ export default function ContactSection() {
                       required
                       className="w-full min-h-[100px] sm:min-h-[120px] text-sm"
                       dir="rtl"
+                      onInvalid={e => (e.target as HTMLTextAreaElement).setCustomValidity('يرجى كتابة الرسالة')}
+                      onInput={e => (e.target as HTMLTextAreaElement).setCustomValidity('')}
                     />
                   </div>
 
                   <Button
                     type="submit"
                     size="default"
-                    className="w-full h-10 sm:h-12 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white text-xs sm:text-sm"
+                    className="w-full h-10 sm:h-12 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white text-xs sm:text-sm cursor-pointer"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (

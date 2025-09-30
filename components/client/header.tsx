@@ -76,9 +76,7 @@ export default function Header() {
 
             {/* Actions */}
             <div className="flex items-center gap-4 opacity-0 animate-[fadeInLeft_0.5s_0.4s_forwards]">
-              <Button variant="ghost" size="sm" className="hidden md:flex hover:bg-primary/10 hover:scale-105 transition-all">
-                <Search className="w-4 h-4" />
-              </Button>
+            
 
               <Button 
                 variant="ghost" 

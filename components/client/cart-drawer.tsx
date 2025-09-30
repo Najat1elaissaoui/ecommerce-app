@@ -25,7 +25,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="left" className="w-full sm:max-w-lg">
+      <SheetContent side="left" className="w-full sm:max-w-lg px-2 md:px-6 py-2 md:py-4 transition-none duration-0 !ease-linear flex flex-col">
         <SheetHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <SheetTitle className="text-xl font-bold">سلة التسوق</SheetTitle>
@@ -35,7 +35,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           </div>
         </SheetHeader>
 
-        <div className="flex flex-col h-full">
+        <div className="flex-1 flex flex-col min-h-0">
           {items.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4">
               <ShoppingBag className="w-16 h-16 text-muted-foreground" />
@@ -49,19 +49,19 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             </div>
           ) : (
             <>
-              {/* Cart Items */}
-              <div className="flex-1 overflow-y-auto py-6 space-y-4">
+              {/* Cart Items (scrollable) */}
+              <div className="flex-1 overflow-y-auto hide-scrollbar py-6 space-y-4">
                 {items.map((item) => (
-                  <div key={`${item.id}-${item.type}`} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
+                  <div key={`${item.id}-${item.type}`} className="flex gap-4 p-4 md:p-5 bg-muted/30 rounded-xl md:rounded-2xl shadow-sm items-center">
                     <img
                       src={item.image || "/placeholder.svg"}
                       alt={item.name_ar}
-                      className="w-16 h-16 object-cover rounded-lg"
+                      className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg border border-border/40 bg-white"
                     />
 
                     <div className="flex-1 space-y-2">
-                      <div className="flex items-start justify-between">
-                        <h4 className="font-semibold text-sm line-clamp-2">{item.name_ar}</h4>
+                      <div className="flex items-start justify-between gap-2">
+                        <h4 className="font-semibold text-sm md:text-base line-clamp-2 pr-1 md:pr-2">{item.name_ar}</h4>
                         <Button
                           variant="ghost"
                           size="sm"
@@ -72,7 +72,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         </Button>
                       </div>
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                           <Button
                             variant="outline"
@@ -93,8 +93,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           </Button>
                         </div>
 
-                        <div className="text-left">
-                          <p className="font-bold text-primary">
+                        <div className="text-left min-w-[70px] md:min-w-[90px]">
+                          <p className="font-bold text-primary text-xs md:text-base">
                             {(item.price * item.quantity).toLocaleString("fr-FR")} د.م.
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -107,32 +107,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 ))}
               </div>
 
-              {/* Cart Summary */}
-              <div className="border-t border-border pt-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={clearCart}
-                    className="text-red-500 border-red-200 bg-transparent"
-                  >
-                    <Trash2 className="w-4 h-4 ml-2" />
-                    مسح السلة
-                  </Button>
-                </div>
-
-                <Separator />
-
+              {/* Cart Summary and Fixed Buttons */}
+              <div className="border-t border-border pt-6 space-y-4 bg-white sticky bottom-0 left-0 right-0 z-10">
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>المجموع الفرعي</span>
-                    <span>{total.toLocaleString("fr-FR")} د.م.</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>الشحن</span>
-                    <span className="text-green-600">مجاني</span>
-                  </div>
-                  <Separator />
                   <div className="flex justify-between text-lg font-bold">
                     <span>المجموع الكلي</span>
                     <span className="text-primary">{total.toLocaleString("fr-FR")} د.م.</span>
@@ -140,14 +117,16 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 </div>
 
                 <div className="space-y-3">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
-                    <Link href="/checkout" onClick={onClose}>
-                      إتمام الطلب
-                    </Link>
-                  </Button>
-                  <Button variant="outline" className="w-full bg-transparent" onClick={onClose} asChild>
-                    <Link href="/products">متابعة التسوق</Link>
-                  </Button>
+                  <div className="flex flex-col items-center gap-2 w-full">
+                    <Button className="w-full max-w-xs block mx-auto h-10 text-base bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
+                      <Link href="/checkout" onClick={onClose} className="w-full flex justify-center">
+                        إتمام الطلب
+                      </Link>
+                    </Button>
+                    <Button variant="outline" className="w-full max-w-xs block mx-auto h-10 text-base bg-transparent justify-center" onClick={onClose} asChild>
+                      <Link href="/products" className="w-full flex justify-center">متابعة التسوق</Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </>

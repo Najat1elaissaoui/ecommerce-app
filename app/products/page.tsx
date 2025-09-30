@@ -99,7 +99,7 @@ export default function ProductsPage({ searchParams }: ProductsPageProps) {
             {/* Grille de produits */}
             <div className="lg:col-span-3 opacity-0 animate-[fadeInUp_0.5s_0.5s_forwards]">
               <Suspense fallback={<ProductsGridSkeleton viewMode={viewMode} />}>
-                <ProductsGrid searchParams={searchParams} viewMode={viewMode} />
+                <ProductsGrid />
               </Suspense>
             </div>
           </div>

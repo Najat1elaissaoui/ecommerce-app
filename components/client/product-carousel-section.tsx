@@ -227,10 +227,15 @@ export default function ProductCarouselSection() {
   const indices = getCardIndices()
 
   return (
-    <section className="py-8 md:py-12 bg-white overflow-hidden w-full pt-0">
-      <div className="w-full px-3 md:px-6 max-w-[90rem] mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-8">اكتشف منتجاتنا</h2>
-        
+  <section className="py-0 md:py-0 bg-white overflow-hidden w-full pt-0 mt-0">
+  <div className="w-full px-3 md:px-6 max-w-[90rem] mx-auto pt-0 mt-0 py-0">
+         
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 md:mb-6 text-center w-full mt-0 pt-0 flex items-center justify-center" style={{lineHeight: '1.1'}}>
+            <span style={{marginLeft: '12px'}}>اكتشف</span>
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" style={{marginRight: '12px'}}>
+              منتجاتنا
+            </span>
+          </h2>
         {/* Nouvelle mise en page du carrousel avec cartes alignées horizontalement */}
         <div 
           className="relative w-full mx-auto"
@@ -280,6 +285,7 @@ export default function ProductCarouselSection() {
                 </div>
               </div>
             </div>
+            
             
             {/* Carte centrale (active) - plus grande que les autres */}
             <div

@@ -25,7 +25,7 @@ export default function GoldenHabitsSection({ habits, sectionTitle, colors }: Go
   // Couleur principale pour le fond et le badge si non précisé dans habit
   const mainColor = (colors?.main && colors.main.startsWith('#')) ? colors.main : undefined;
   return (
-    <section className="py-16" style={mainColor ? { background: mainColor + '10' } : { background: '#FFF7ED' }}>
+    <section className="py-16 pt-8" style={mainColor ? { background: mainColor + '10' } : { background: '#FFF7ED' }}>
       <div className="container mx-auto px-4">
         {sectionTitle && (
           <h2 className="text-center text-xl md:text-2xl font-bold mb-10" style={mainColor ? { color: colors?.main } : { color: '#F97316' }}>

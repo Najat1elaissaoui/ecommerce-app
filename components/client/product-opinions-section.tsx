@@ -20,14 +20,14 @@ export default function ProductOpinionsSection({ opinions }: ProductOpinionsSect
       <div className="container mx-auto px-4">
         
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" dir="rtl">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            Avis Clients
+            آراء العملاء
           </h2>
         </div>
 
         {/* Opinions Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" dir="rtl">
           {opinions.map((opinion, index) => (
             <Card 
               key={index}
@@ -44,11 +44,15 @@ export default function ProductOpinionsSection({ opinions }: ProductOpinionsSect
                     />
                   ))}
                 </div>
-                
                 {/* Opinion Message */}
-                <p className="text-gray-700 leading-relaxed text-center text-lg">
+                <p className="text-gray-700 leading-relaxed text-center text-lg font-bold">
                   "{opinion.comment}"
                 </p>
+                <div className="mt-4 text-sm text-gray-500 text-center">
+                  <span>— {opinion.customerName}</span>
+                  <span className="mx-2">|</span>
+                  <span>{opinion.date}</span>
+                </div>
               </CardContent>
             </Card>
           ))}

@@ -39,27 +39,7 @@ export default function ProductVideoSection({ video }: ProductVideoSectionProps)
     console.log(isMuted ? "Unmute video" : "Mute video")
   }
 
-  // Données inspirées du design "Complete Guide to Delicious Relaxation"
-  const wellnessElements: WellnessElement[] = [
-    {
-      title: "Pure Energy",
-      description: "Experience sustained energy throughout your day with our natural formula. Feel the difference as your body absorbs essential nutrients designed to power your active lifestyle without crashes or jitters.",
-      icon: "⚡",
-      color: "from-yellow-400 to-orange-500"
-    },
-    {
-      title: "Heart Wellness", 
-      description: "Support your cardiovascular health with scientifically-backed ingredients. Our carefully selected compounds work together to promote healthy circulation and overall heart function for long-term wellness.",
-      icon: "❤️",
-      color: "from-pink-400 to-red-500"
-    },
-    {
-      title: "Daily Protection",
-      description: "Shield your body with powerful antioxidants and immune-supporting nutrients. This comprehensive blend helps protect against daily stressors while maintaining your body's natural defense systems.",
-      icon: "🛡️",
-      color: "from-blue-400 to-cyan-500"
-    }
-  ]
+ 
 
   const containerVariants = {
     hidden: { opacity: 0 },

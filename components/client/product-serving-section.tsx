@@ -140,18 +140,7 @@ export default function ProductServingSection({ serving, productColor, image }: 
               </p>
             </div>
 
-            {/* Badges de certification */}
-            <div className="flex flex-wrap gap-3">
-              <Badge className="bg-green-600 text-white px-4 py-2 rounded-full font-semibold">
-                مُصنع في منشأة معتمدة من FDA
-              </Badge>
-              <Badge className="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold">
-                معتمد GMP
-              </Badge>
-              <Badge className="bg-purple-600 text-white px-4 py-2 rounded-full font-semibold">
-                تم اختباره من طرف ثالث
-              </Badge>
-            </div>
+           
           </div>
         </div>
 

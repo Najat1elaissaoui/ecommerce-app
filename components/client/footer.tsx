@@ -70,13 +70,14 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-4">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-14 h-14 bg-transparent rounded-xl flex items-center justify-center shadow-none">
                 <Image
-                  src="/logo.png"
-                  width={30}
-                  height={30}
+                  src="/placeholder-logo.svg"
+                  width={48}
+                  height={48}
                   alt="Logo"
-                  className="object-contain"
+                  className="object-contain drop-shadow-lg"
+                  priority
                 />
               </div>
               <span className="text-2xl font-bold text-white">Tafoukt</span>
