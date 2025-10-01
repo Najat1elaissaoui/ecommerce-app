@@ -1,59 +1,46 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Play, Star, Users, Award } from "lucide-react"
-import { useState } from "react"
+import { Play, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 export default function ModernVideoSection() {
-  const [isPlaying, setIsPlaying] = useState(false)
-  
-  // Extract video ID from YouTube URL
-  const videoId = "HZhgKAdFkrw"
-  
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const videoId = "HZhgKAdFkrw";
+
   const handlePlayClick = () => {
-    setIsPlaying(true)
-  }
+    setIsPlaying(true);
+  };
 
   return (
-    <section className="py-0 md:py-0 bg-white overflow-hidden w-full pt-0 mt-0">
-       <div className="container mx-auto px-3 md:px-4">
-        
+    <section className="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50 overflow-hidden w-full">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Section Header */}
-        <motion.div 
-          className="text-center mb-8 sm:mb-12 md:mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-         
-          
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 md:mb-6">
-            شاهد منتجاتنا
-            <span className="block bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
-              أثناء الاستخدام
-            </span>
-          </h2>
-          
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            اكتشف كيف تُحسّن مكملاتنا المميزة أداء الرياضيين. مشاهدة واحدة تغني عن ألف كلمة.
-          </p>
-        </motion.div>
+        <div className="text-center mb-8 md:mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-100 to-pink-100 mb-4">
+            <Sparkles className="w-4 h-4 text-red-500" />
+            <span className="text-sm font-bold text-red-600">شاهد الآن</span>
+          </div>
 
-        {/* Video Container */}
-        <motion.div 
-          className="max-w-5xl mx-auto px-3 sm:px-4"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          <div className="relative group">
-            
-            {/* Video Player */}
-            <div className="relative aspect-video rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl md:shadow-2xl bg-gray-900">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3">
+            <span className="bg-gradient-to-r from-red-500 to-pink-600 bg-clip-text text-transparent">
+              منتجاتنا
+            </span>{" "}
+            أثناء الاستخدام
+          </h2>
+
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            اكتشف كيف تُحسّن مكملاتنا أداء الرياضيين
+          </p>
+        </div>
+
+        {/* Video Container - Reduced Height */}
+        <div className="relative group max-w-4xl mx-auto">
+          {/* Main Video Card */}
+          <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-2xl">
+            {/* Video Player with reduced aspect ratio */}
+            <div className="relative aspect-[16/9] md:aspect-[21/9]">
               {!isPlaying ? (
-                // Video Thumbnail with Play Button
                 <div className="relative w-full h-full">
                   {/* YouTube Thumbnail */}
                   <img
@@ -61,44 +48,32 @@ export default function ModernVideoSection() {
                     alt="Video thumbnail"
                     className="w-full h-full object-cover"
                   />
-                  
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300" />
-                  
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/40 transition-all duration-300" />
+
                   {/* Play Button */}
-                  <motion.button
-                    className="absolute inset-0 flex items-center justify-center"
+                  <button
+                    className="absolute inset-0 flex items-center justify-center cursor-pointer"
                     onClick={handlePlayClick}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
                     <div className="relative">
-                      {/* Pulsing rings */}
-                      <motion.div
-                        className="absolute inset-0 bg-red-500/30 rounded-full"
-                        animate={{ scale: [1, 1.2, 1], opacity: [1, 0, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      <motion.div
-                        className="absolute inset-0 bg-red-500/20 rounded-full"
-                        animate={{ scale: [1, 1.4, 1], opacity: [1, 0, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                      />
-                      
+                      {/* Animated rings */}
+                      <div className="absolute inset-0 bg-red-500/20 rounded-full animate-ping" />
+
                       {/* Play button */}
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg sm:shadow-xl md:shadow-2xl group-hover:shadow-red-500/25 transition-all duration-300">
-                        <Play className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-white ml-1" fill="white" />
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                        <Play
+                          className="w-8 h-8 md:w-10 md:h-10 text-white ml-1"
+                          fill="white"
+                        />
                       </div>
                     </div>
-                  </motion.button>
-
-                  {/* Video Info Overlay */}
-                 
+                  </button>
                 </div>
               ) : (
-                // YouTube Embed
                 <iframe
-                  src={`https://www.youtube.com/watch?v=D4LYpcDYeEg`}
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
                   title="Product Video"
                   className="w-full h-full"
                   frameBorder="0"
@@ -107,65 +82,39 @@ export default function ModernVideoSection() {
                 />
               )}
             </div>
-
-            {/* Decorative elements */}
-            <motion.div
-              className="absolute -top-2 sm:-top-3 md:-top-4 -right-2 sm:-right-3 md:-right-4 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 bg-gradient-to-br from-red-400 to-pink-500 rounded-full opacity-20 blur-lg md:blur-xl"
-              animate={{ 
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360]
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
-            
-            <motion.div
-              className="absolute -bottom-4 sm:-bottom-6 md:-bottom-8 -left-4 sm:-left-6 md:-left-8 w-20 sm:w-24 md:w-32 h-20 sm:h-24 md:h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full opacity-10 blur-xl md:blur-2xl"
-              animate={{ 
-                scale: [1, 1.3, 1],
-                rotate: [0, -180, -360]
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            />
           </div>
-        </motion.div>
 
-        {/* Video Stats */}
-       
+          {/* Decorative gradient blobs */}
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-red-400/30 to-pink-500/30 rounded-full blur-3xl opacity-60 pointer-events-none" />
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-gradient-to-br from-purple-400/20 to-pink-500/20 rounded-full blur-3xl opacity-60 pointer-events-none" />
+        </div>
 
-        {/* Call to Action */}
-        <motion.div 
-          className="text-center mt-2"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <div className="bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-red-100 shadow-lg">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4">
-              هل أنت مستعد لبدء تحولك؟
-            </h3>
-            <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 max-w-2xl mx-auto">
-              انضم إلى الآلاف من الرياضيين الذين طوروا أداءهم مع مكملاتنا المميزة.
-            </p>
+        {/* CTA Section - Compact */}
+        <div className="text-center mt-8 md:mt-12">
+          <div className="inline-flex flex-col md:flex-row items-center gap-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl p-6 md:p-8 border border-red-100 shadow-lg max-w-3xl mx-auto">
+            <div className="text-right flex-1">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+                هل أنت مستعد لبدء رحلتك؟
+              </h3>
+              <p className="text-sm md:text-base text-gray-600">
+                انضم إلى آلاف الرياضيين الذين طوروا أداءهم
+              </p>
+            </div>
             <a
               href="/products"
-              className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold px-5 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base md:text-lg shadow-lg sm:shadow-xl transition-all duration-300 group cursor-pointer inline-block"
-              style={{ display: 'inline-block' }}
+              className="group relative px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
             >
-              <span className="flex items-center">
-                اكتشف منتجاتنا
-                <motion.span
-                  className="inline-block ml-2"
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <span className="relative flex items-center gap-2">
+                <span>اكتشف المنتجات</span>
+                <span className="group-hover:translate-x-1 transition-transform">
+                  ←
+                </span>
               </span>
             </a>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
-  )
+  );
 }

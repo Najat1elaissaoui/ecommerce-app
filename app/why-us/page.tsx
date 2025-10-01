@@ -1,377 +1,497 @@
-import React from "react";
-import Image from "next/image";
-import { Metadata } from "next";
-import { ChevronLeft, Shield, Heart, Award, Microscope, Star, Clock, Check } from "lucide-react";
-import Link from "next/link";
-import Header from "@/components/client/header";
-import Footer from "@/components/client/footer";
+"use client";
 
-export const metadata: Metadata = {
-  title: "لماذا نحن | Tafoukt",
-  description: "اكتشف ما يميز تافوكت عن غيرها - جودة عالية، منتجات طبيعية، وخبرة متميزة في المكملات الغذائية",
-};
+import Footer from "@/components/client/footer";
+import Header from "@/components/client/header";
+import {
+  ArrowRight,
+  Award,
+  Check,
+  ChevronLeft,
+  Clock,
+  Heart,
+  Microscope,
+  Shield,
+  Sparkles,
+  Star,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function WhyUsPage() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeCard, setActiveCard] = useState(0);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const benefits = [
+    {
+      title: "جودة لا مثيل لها",
+      description:
+        "نختار فقط أفضل المكونات ونتبع أعلى معايير الجودة في تصنيع منتجاتنا",
+      icon: Award,
+      color: "from-blue-500 to-cyan-500",
+      bgColor: "bg-blue-50",
+    },
+    {
+      title: "مدعومة علميًا",
+      description:
+        "كل منتج من منتجاتنا مدعوم بالأبحاث العلمية وتم اختباره للتأكد من فعاليته",
+      icon: Microscope,
+      color: "from-purple-500 to-pink-500",
+      bgColor: "bg-purple-50",
+    },
+    {
+      title: "صحتك أولويتنا",
+      description: "نضع صحتك وأهدافك في المقام الأول، ونقدم منتجات آمنة وفعالة",
+      icon: Heart,
+      color: "from-red-500 to-orange-500",
+      bgColor: "bg-red-50",
+    },
+  ];
+
+  const features = [
+    {
+      title: "منتجات خالية من المواد الضارة",
+      description:
+        "جميع منتجاتنا خالية من المواد الحافظة الضارة والمكونات الاصطناعية",
+    },
+    {
+      title: "اختبار صارم للجودة",
+      description: "تخضع جميع منتجاتنا لاختبارات جودة صارمة قبل وصولها إليك",
+    },
+    {
+      title: "مكونات طبيعية عالية الجودة",
+      description: "نستخدم فقط أفضل المكونات الطبيعية ذات الجودة العالية",
+    },
+    {
+      title: "فعالية مثبتة علمياً",
+      description:
+        "تعتمد تركيباتنا على الأبحاث العلمية وتم اختبارها للتأكد من فعاليتها",
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: "محمد العربي",
+      role: "رياضي محترف",
+      comment:
+        "بعد تجربة العديد من الماركات، تافوكت هي الأفضل من حيث الجودة والفعالية. نتائج ملحوظة خلال فترة قصيرة.",
+      rating: 5,
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      name: "لينا المغربي",
+      role: "مدربة لياقة",
+      comment:
+        "أوصي دائمًا طلابي بمنتجات تافوكت. جودة استثنائية، مكونات نظيفة، ونتائج رائعة.",
+      rating: 5,
+      color: "from-purple-500 to-pink-500",
+    },
+    {
+      name: "كريم الحسني",
+      role: "لاعب كمال أجسام",
+      comment:
+        "منتجات تافوكت ساعدتني في تحقيق أهدافي بشكل أسرع. أفضل مكملات غذائية جربتها على الإطلاق.",
+      rating: 5,
+      color: "from-orange-500 to-red-500",
+    },
+  ];
+
+  const guarantees = [
+    {
+      title: "ضمان الجودة",
+      description: "نضمن لك أعلى مستوى من الجودة في جميع منتجاتنا",
+      icon: Shield,
+      color: "text-blue-600",
+      gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      title: "ضمان استرداد الأموال",
+      description:
+        "إذا لم تكن راضيًا عن منتجاتنا، نضمن لك استرداد أموالك خلال 30 يومًا",
+      icon: Award,
+      color: "text-green-600",
+      gradient: "from-green-500 to-emerald-500",
+    },
+    {
+      title: "توصيل سريع",
+      description: "نضمن وصول منتجاتك في أسرع وقت ممكن وبحالة ممتازة",
+      icon: Clock,
+      color: "text-purple-600",
+      gradient: "from-purple-500 to-pink-500",
+    },
+    {
+      title: "دعم متميز",
+      description: "فريق دعم متخصص للإجابة على جميع استفساراتك وتقديم النصائح",
+      icon: Heart,
+      color: "text-red-600",
+      gradient: "from-red-500 to-orange-500",
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "هل منتجات تافوكت حلال؟",
+      answer: "نعم، جميع منتجاتنا حلال ومعتمدة من الجهات المختصة.",
+    },
+    {
+      question: "هل يمكنني استخدام منتجاتكم إذا كنت مبتدئًا؟",
+      answer:
+        "بالتأكيد! لدينا منتجات مناسبة لجميع المستويات، من المبتدئين إلى المحترفين. نوصي بقراءة التعليمات أو استشارة فريق الدعم لدينا للحصول على أفضل النتائج.",
+    },
+    {
+      question: "كم من الوقت يستغرق التوصيل؟",
+      answer:
+        "عادة ما يستغرق التوصيل من 2-5 أيام عمل داخل المملكة المغربية، وقد يختلف ذلك حسب موقعك. نسعى دائمًا لضمان وصول منتجاتك في أسرع وقت ممكن.",
+    },
+    {
+      question: "هل منتجاتكم آمنة للاستخدام اليومي؟",
+      answer:
+        "نعم، منتجاتنا مصممة للاستخدام اليومي وآمنة تمامًا عند استخدامها وفقًا للتعليمات. نستخدم فقط مكونات عالية الجودة ونتبع أعلى معايير السلامة.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-background" dir="rtl" lang="ar">
+    <div
+      className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50"
+      dir="rtl"
+    >
       <Header />
-      <main className="pt-32 pb-16 overflow-x-hidden">
+
+      {/* Floating Shapes Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div className="absolute top-40 left-10 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-20 right-1/3 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <main className="relative pt-24 pb-16">
         {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-50 to-blue-50">
-        <div className="container mx-auto px-4 py-16 md:py-24">
-          <Link 
-            href="/" 
-            className="inline-flex items-center mb-6 text-primary hover:text-primary/80 transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4 ml-1" />
-            <span>الرئيسية</span>
-          </Link>
-          
-          <div className="flex flex-col items-center max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight animate-[fadeIn_0.8s_0.2s_both]">
-              <span className="text-primary">لماذا</span> تختار <span className="text-primary">تافوكت</span>؟
-            </h1>
-            
-            <p className="text-gray-700 text-lg mb-8 leading-relaxed max-w-3xl animate-[fadeIn_0.8s_0.3s_both]">
-              نحن لا نبيع مجرد منتجات، بل نقدم حلولًا متكاملة تساعدك في تحقيق أهدافك الصحية والرياضية. نتميز بجودة استثنائية، ودعم علمي، والتزام دائم بصحتك ورضاك.
-            </p>
-          </div>
-        </div>
-        
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
-      </section>
+        <section className="relative px-4 py-20">
+          <div className="container mx-auto max-w-6xl">
+            <button
+              className={`inline-flex items-center mb-8 text-purple-600 hover:text-purple-700 transition-all hover:gap-3 gap-2 group ${
+                isVisible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 translate-x-10"
+              } transition-all duration-700`}
+            >
+              <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+              <span className="font-medium">الرئيسية</span>
+            </button>
 
-      {/* Main Benefits Cards */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "جودة لا مثيل لها",
-                description: "نختار فقط أفضل المكونات ونتبع أعلى معايير الجودة في تصنيع منتجاتنا",
-                icon: <Award className="w-12 h-12 text-blue-600" />,
-                image: "/protein-powder-assortment.png"
-              },
-              {
-                title: "مدعومة علميًا",
-                description: "كل منتج من منتجاتنا مدعوم بالأبحاث العلمية وتم اختباره للتأكد من فعاليته",
-                icon: <Microscope className="w-12 h-12 text-purple-600" />,
-                image: "/creatine-supplement.jpg"
-              },
-              {
-                title: "صحتك أولويتنا",
-                description: "نضع صحتك وأهدافك في المقام الأول، ونقدم منتجات آمنة وفعالة",
-                icon: <Heart className="w-12 h-12 text-red-600" />,
-                image: "/muscular-athlete-holding-protein-supplement-bottle.jpg"
-              },
-            ].map((benefit, index) => (
-              <div 
-                key={index} 
-                className="rounded-xl overflow-hidden shadow-lg border border-gray-100 bg-white group hover:shadow-2xl transition-all duration-300"
-                style={{
-                  animationName: "fadeInUp",
-                  animationDuration: "0.8s",
-                  animationDelay: `${0.3 + index * 0.1}s`,
-                  animationFillMode: "both"
-                }}
+            <div className="text-center max-w-4xl mx-auto">
+              <div
+                className={`inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-full mb-6 ${
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                } transition-all duration-700 delay-100`}
               >
-                <div className="relative h-48">
-                  <Image
-                    src={benefit.image}
-                    alt={benefit.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
-                    <div className="p-4 text-white">
-                      <h3 className="text-xl font-bold text-right">{benefit.title}</h3>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="mb-4 w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
-                    {benefit.icon}
-                  </div>
-                  <p className="text-gray-700 text-right leading-relaxed">{benefit.description}</p>
-                </div>
+                <Sparkles className="w-4 h-4" />
+                <span className="text-sm font-medium">التميز في كل منتج</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* What Sets Us Apart */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">ما يميزنا عن الآخرين</h2>
-            <p className="text-gray-700">
-              عندما تختار تافوكت، فأنت تختار التميز والجودة والالتزام
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="space-y-6">
-                {[
-                  {
-                    title: "منتجات خالية من المواد الضارة",
-                    description: "جميع منتجاتنا خالية من المواد الحافظة الضارة والمكونات الاصطناعية"
-                  },
-                  {
-                    title: "اختبار صارم للجودة",
-                    description: "تخضع جميع منتجاتنا لاختبارات جودة صارمة قبل وصولها إليك"
-                  },
-                  {
-                    title: "مكونات طبيعية عالية الجودة",
-                    description: "نستخدم فقط أفضل المكونات الطبيعية ذات الجودة العالية"
-                  },
-                  {
-                    title: "فعالية مثبتة علمياً",
-                    description: "تعتمد تركيباتنا على الأبحاث العلمية وتم اختبارها للتأكد من فعاليتها"
-                  },
-                ].map((item, index) => (
-                  <div 
-                    key={index} 
-                    className="flex gap-4 items-start p-4 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300"
-                    style={{
-                      animationName: "fadeInRight",
-                      animationDuration: "0.8s",
-                      animationDelay: `${0.3 + index * 0.1}s`,
-                      animationFillMode: "both"
-                    }}
-                  >
-                    <div className="bg-primary/10 rounded-full p-2 mt-1">
-                      <Check className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-2 text-right">{item.title}</h3>
-                      <p className="text-gray-700 text-right">{item.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h1
+                className={`text-5xl md:text-7xl font-bold mb-6 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-10"
+                } transition-all duration-700 delay-200`}
+              >
+                <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  لماذا
+                </span>{" "}
+                تختار{" "}
+                <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  تافوكت
+                </span>
+                ؟
+              </h1>
+
+              <p
+                className={`text-gray-600 text-xl leading-relaxed max-w-3xl mx-auto ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-10"
+                } transition-all duration-700 delay-300`}
+              >
+                نحن لا نبيع مجرد منتجات، بل نقدم حلولًا متكاملة تساعدك في تحقيق
+                أهدافك الصحية والرياضية.
+              </p>
             </div>
-            
-            <div className="order-1 lg:order-2">
-              <div className="relative h-96 lg:h-[600px] rounded-2xl overflow-hidden shadow-xl"
-                style={{
-                  animationName: "fadeInLeft",
-                  animationDuration: "0.8s",
-                  animationDelay: "0.3s",
-                  animationFillMode: "both"
-                }}
-              >
-                <Image 
-                  src="/muscular-athlete-holding-protein-supplement-bottle.jpg"
-                  alt="ما يميزنا" 
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
-                  <div className="bg-white/90 backdrop-blur-sm p-6 rounded-xl max-w-md ml-auto">
-                    <h3 className="text-xl font-bold mb-2 text-right">الالتزام بالجودة</h3>
-                    <p className="text-gray-700 text-right">
-                      نلتزم بتقديم منتجات ذات جودة استثنائية تساعدك في تحقيق أهدافك الصحية والرياضية
+          </div>
+        </section>
+
+        {/* Benefits Cards */}
+        <section className="px-4 py-20">
+          <div className="container mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {benefits.map((benefit, index) => {
+                const Icon = benefit.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${
+                      isVisible
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-10"
+                    }`}
+                    style={{ transitionDelay: `${400 + index * 100}ms` }}
+                    onMouseEnter={() => setActiveCard(index)}
+                    onMouseLeave={() => setActiveCard(index)}
+                  >
+                    {/* Gradient Border Effect */}
+                    <div
+                      className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${benefit.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`}
+                    ></div>
+
+                    <div className="relative">
+                      <div
+                        className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${benefit.color} mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}
+                      >
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+
+                      <h3 className="text-2xl font-bold mb-3 text-right group-hover:text-purple-600 transition-colors duration-300">
+                        {benefit.title}
+                      </h3>
+
+                      <p className="text-gray-600 text-right leading-relaxed">
+                        {benefit.description}
+                      </p>
+
+                      <div className="mt-6 flex justify-end opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0">
+                        <ArrowRight className="w-5 h-5 text-purple-600" />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="px-4 py-20 bg-gradient-to-br from-purple-50 via-white to-pink-50">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                ما يميزنا عن الآخرين
+              </h2>
+              <p className="text-gray-600 text-lg">
+                عندما تختار تافوكت، فأنت تختار التميز والجودة والالتزام
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="group bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-purple-200"
+                >
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
+                      <Check className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold mb-2 text-right group-hover:text-purple-600 transition-colors">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600 text-right leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="px-4 py-20">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                ماذا يقول عملاؤنا
+              </h2>
+              <p className="text-gray-600 text-lg">
+                آلاف العملاء السعداء يثقون بمنتجات تافوكت
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-transparent relative overflow-hidden"
+                >
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-r ${testimonial.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                  ></div>
+
+                  <div className="relative">
+                    <div className="flex justify-end mb-4 gap-1">
+                      {Array(testimonial.rating)
+                        .fill(0)
+                        .map((_, i) => (
+                          <Star
+                            key={i}
+                            className="w-5 h-5 text-yellow-400 fill-yellow-400 transform group-hover:scale-110 transition-transform duration-300"
+                            style={{ transitionDelay: `${i * 50}ms` }}
+                          />
+                        ))}
+                    </div>
+
+                    <p className="text-gray-700 mb-6 text-right leading-relaxed italic">
+                      "{testimonial.comment}"
+                    </p>
+
+                    <div className="flex items-center justify-end gap-4">
+                      <div className="text-right">
+                        <p className="font-bold text-lg">{testimonial.name}</p>
+                        <p className="text-sm text-gray-500">
+                          {testimonial.role}
+                        </p>
+                      </div>
+                      <div
+                        className={`w-14 h-14 rounded-full bg-gradient-to-r ${testimonial.color} flex items-center justify-center text-white text-xl font-bold shadow-lg transform group-hover:scale-110 transition-transform duration-300`}
+                      >
+                        {testimonial.name[0]}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Guarantees */}
+        <section className="px-4 py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">ضماناتنا</h2>
+              <p className="text-gray-600 text-lg">
+                نضمن لك الرضا التام عن منتجاتنا وخدماتنا
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {guarantees.map((guarantee, index) => {
+                const Icon = guarantee.icon;
+                return (
+                  <div
+                    key={index}
+                    className="group bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 text-center"
+                  >
+                    <div
+                      className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${guarantee.gradient} mb-4 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}
+                    >
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 group-hover:text-purple-600 transition-colors">
+                      {guarantee.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      {guarantee.description}
                     </p>
                   </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="px-4 py-20">
+          <div className="container mx-auto max-w-3xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                الأسئلة الشائعة
+              </h2>
+              <p className="text-gray-600 text-lg">
+                إليك إجابات على بعض الأسئلة الأكثر شيوعًا
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {faqs.map((faq, index) => (
+                <div
+                  key={index}
+                  className="group bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-purple-200"
+                >
+                  <h3 className="text-xl font-bold mb-3 text-right group-hover:text-purple-600 transition-colors flex items-center justify-end gap-2">
+                    <span>{faq.question}</span>
+                    <div className="w-2 h-2 rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </h3>
+                  <p className="text-gray-600 text-right leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="px-4 py-20">
+          <div className="container mx-auto max-w-4xl">
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 p-12 text-center text-white shadow-2xl">
+              {/* Animated Background Pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.8),transparent_50%)] animate-pulse"></div>
+              </div>
+
+              <div className="relative">
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                  جاهز لتجربة الفرق مع تافوكت؟
+                </h2>
+                <p className="text-xl mb-10 text-white/90 max-w-2xl mx-auto">
+                  انضم إلى آلاف العملاء الراضين واختبر جودة منتجاتنا الاستثنائية
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <button className="group bg-white text-purple-600 hover:bg-gray-50 py-4 px-8 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-2">
+                    <span>تصفح منتجاتنا</span>
+                    <ArrowRight className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
+                  </button>
+                  <button className="bg-transparent border-2 border-white hover:bg-white/10 py-4 px-8 rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1">
+                    تواصل معنا
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Testimonials */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">ماذا يقول عملاؤنا</h2>
-            <p className="text-gray-700">
-              آلاف العملاء السعداء يثقون بمنتجات تافوكت ويحققون نتائج رائعة
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "محمد العربي",
-                role: "رياضي محترف",
-                comment: "بعد تجربة العديد من الماركات، تافوكت هي الأفضل من حيث الجودة والفعالية. نتائج ملحوظة خلال فترة قصيرة.",
-                rating: 5
-              },
-              {
-                name: "لينا المغربي",
-                role: "مدربة لياقة",
-                comment: "أوصي دائمًا طلابي بمنتجات تافوكت. جودة استثنائية، مكونات نظيفة، ونتائج رائعة.",
-                rating: 5
-              },
-              {
-                name: "كريم الحسني",
-                role: "لاعب كمال أجسام",
-                comment: "منتجات تافوكت ساعدتني في تحقيق أهدافي بشكل أسرع. أفضل مكملات غذائية جربتها على الإطلاق.",
-                rating: 5
-              },
-            ].map((testimonial, index) => (
-              <div 
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
-                style={{
-                  animationName: "fadeInUp",
-                  animationDuration: "0.8s",
-                  animationDelay: `${0.3 + index * 0.1}s`,
-                  animationFillMode: "both"
-                }}
-              >
-                <div className="flex justify-end mb-3">
-                  {Array(testimonial.rating).fill(0).map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-4 text-right leading-relaxed">"{testimonial.comment}"</p>
-                <div className="flex items-center justify-end gap-3">
-                  <div>
-                    <p className="font-bold text-right">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600 text-right">{testimonial.role}</p>
-                  </div>
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold text-primary">
-                    {testimonial.name[0]}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Our Guarantees */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">ضماناتنا</h2>
-            <p className="text-gray-700">
-              نضمن لك الرضا التام عن منتجاتنا وخدماتنا
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                title: "ضمان الجودة",
-                description: "نضمن لك أعلى مستوى من الجودة في جميع منتجاتنا",
-                icon: <Shield className="w-8 h-8 text-blue-600" />
-              },
-              {
-                title: "ضمان استرداد الأموال",
-                description: "إذا لم تكن راضيًا عن منتجاتنا، نضمن لك استرداد أموالك خلال 30 يومًا",
-                icon: <Award className="w-8 h-8 text-green-600" />
-              },
-              {
-                title: "توصيل سريع",
-                description: "نضمن وصول منتجاتك في أسرع وقت ممكن وبحالة ممتازة",
-                icon: <Clock className="w-8 h-8 text-purple-600" />
-              },
-              {
-                title: "دعم متميز",
-                description: "فريق دعم متخصص للإجابة على جميع استفساراتك وتقديم النصائح",
-                icon: <Heart className="w-8 h-8 text-red-600" />
-              },
-            ].map((guarantee, index) => (
-              <div 
-                key={index} 
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300"
-                style={{
-                  animationName: "fadeIn",
-                  animationDuration: "0.8s",
-                  animationDelay: `${0.3 + index * 0.1}s`,
-                  animationFillMode: "both"
-                }}
-              >
-                <div className="bg-primary/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4 mx-auto">
-                  {guarantee.icon}
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-center">{guarantee.title}</h3>
-                <p className="text-gray-700 text-center">{guarantee.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* FAQ */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">الأسئلة الشائعة</h2>
-            <p className="text-gray-700">
-              إليك إجابات على بعض الأسئلة الأكثر شيوعًا عن منتجات تافوكت
-            </p>
-          </div>
-          
-          <div className="max-w-3xl mx-auto space-y-6">
-            {[
-              {
-                question: "هل منتجات تافوكت حلال؟",
-                answer: "نعم، جميع منتجاتنا حلال ومعتمدة من الجهات المختصة."
-              },
-              {
-                question: "هل يمكنني استخدام منتجاتكم إذا كنت مبتدئًا؟",
-                answer: "بالتأكيد! لدينا منتجات مناسبة لجميع المستويات، من المبتدئين إلى المحترفين. نوصي بقراءة التعليمات أو استشارة فريق الدعم لدينا للحصول على أفضل النتائج."
-              },
-              {
-                question: "كم من الوقت يستغرق التوصيل؟",
-                answer: "عادة ما يستغرق التوصيل من 2-5 أيام عمل داخل المملكة المغربية، وقد يختلف ذلك حسب موقعك. نسعى دائمًا لضمان وصول منتجاتك في أسرع وقت ممكن."
-              },
-              {
-                question: "هل منتجاتكم آمنة للاستخدام اليومي؟",
-                answer: "نعم، منتجاتنا مصممة للاستخدام اليومي وآمنة تمامًا عند استخدامها وفقًا للتعليمات. نستخدم فقط مكونات عالية الجودة ونتبع أعلى معايير السلامة."
-              },
-            ].map((faq, index) => (
-              <div 
-                key={index} 
-                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
-                style={{
-                  animationName: "fadeInUp",
-                  animationDuration: "0.8s",
-                  animationDelay: `${0.2 + index * 0.1}s`,
-                  animationFillMode: "both"
-                }}
-              >
-                <h3 className="text-xl font-bold mb-3 text-right">{faq.question}</h3>
-                <p className="text-gray-700 text-right">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section className="py-16 md:py-20 bg-gradient-to-r from-primary to-purple-700 text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">جاهز لتجربة الفرق مع تافوكت؟</h2>
-            <p className="text-lg mb-8 text-white/90">
-              انضم إلى آلاف العملاء الراضين واختبر جودة منتجاتنا الاستثنائية
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link 
-                href="/products" 
-                className="bg-white text-primary hover:bg-white/90 py-3 px-8 rounded-full font-medium transition-colors"
-              >
-                تصفح منتجاتنا
-              </Link>
-              <Link 
-                href="/#contact" 
-                className="bg-transparent border-2 border-white hover:bg-white/10 py-3 px-8 rounded-full font-medium transition-colors"
-              >
-                تواصل معنا
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <Footer />
+        </section>
+      </main>
+      <Footer />
+
+      <style jsx>{`
+        @keyframes blob {
+          0%,
+          100% {
+            transform: translate(0, 0) scale(1);
+          }
+          25% {
+            transform: translate(20px, -50px) scale(1.1);
+          }
+          50% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          75% {
+            transform: translate(50px, 50px) scale(1.05);
+          }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 }

@@ -1,176 +1,325 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { colors } from "@/lib/colors"
-import Image from "next/image"
-import { ChevronDown, ChevronUp, Heart, Shield, Zap, Activity, Users, Star } from "lucide-react"
-import { useState } from "react"
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Activity,
+  ChevronDown,
+  Heart,
+  Shield,
+  Sparkles,
+  Star,
+  Users,
+  Zap,
+} from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 interface Benefit {
-  name: string
-  description?: string
-  image?: string
+  name: string;
+  description?: string;
+  image?: string;
 }
 
 interface Benefits {
-  title?: string
-  items: Benefit[]
+  title?: string;
+  items: Benefit[];
 }
 
 interface ProductBenefitsSectionProps {
-  benefits: Benefits
-  image: string
-  productColor?: {
-    main: string   // Couleur principale du produit
-    light: string  // Version plus claire
-    dark: string   // Version plus foncée
-    contrastText: string // Texte contrasté qui se lit bien sur la couleur principale
-  }
+  benefits: Benefits;
+  image: string;
+  productColor: string;
 }
 
-export default function ProductBenefitsSection({ 
-  benefits, 
+export default function ProductBenefitsSection({
+  benefits,
   image,
-  productColor = {
-    main: "#AE3131",      // Rouge par défaut
-    light: "#D15858",     // Version plus claire
-    dark: "#8C1E1E",      // Version plus foncée
-    contrastText: "#FFFFFF" // Texte blanc pour contraste
-  }
+  productColor = "#AE3131",
 }: ProductBenefitsSectionProps) {
-  const [expandedBenefit, setExpandedBenefit] = useState<number | null>(null)
+  const [expandedBenefit, setExpandedBenefit] = useState<number | null>(null);
 
   const toggleBenefit = (index: number) => {
-    setExpandedBenefit(expandedBenefit === index ? null : index)
-  }
+    setExpandedBenefit(expandedBenefit === index ? null : index);
+  };
 
-  // Icônes pour les différents bénéfices
   const getBenefitIcon = (benefitName: string) => {
-    const name = benefitName.toLowerCase()
-    if (name.includes('energy') || name.includes('cellular')) return <Zap className="w-6 h-6" />
-    if (name.includes('immune') || name.includes('immunity')) return <Shield className="w-6 h-6" />
-    if (name.includes('heart') || name.includes('cardiovascular')) return <Heart className="w-6 h-6" />
-    if (name.includes('metabolism') || name.includes('nutrient')) return <Activity className="w-6 h-6" />
-    if (name.includes('antioxidant') || name.includes('support')) return <Star className="w-6 h-6" />
-    if (name.includes('health') || name.includes('overall')) return <Users className="w-6 h-6" />
-    return <Zap className="w-6 h-6" />
-  }
+    const name = benefitName.toLowerCase();
+    if (name.includes("energy") || name.includes("cellular"))
+      return <Zap className="w-5 h-5" />;
+    if (name.includes("immune") || name.includes("immunity"))
+      return <Shield className="w-5 h-5" />;
+    if (name.includes("heart") || name.includes("cardiovascular"))
+      return <Heart className="w-5 h-5" />;
+    if (name.includes("metabolism") || name.includes("nutrient"))
+      return <Activity className="w-5 h-5" />;
+    if (name.includes("antioxidant") || name.includes("support"))
+      return <Star className="w-5 h-5" />;
+    if (name.includes("health") || name.includes("overall"))
+      return <Users className="w-5 h-5" />;
+    return <Zap className="w-5 h-5" />;
+  };
 
   return (
-    <section 
-      className="w-full py-20 relative overflow-hidden pt-4"
-      style={{ background: `linear-gradient(135deg, ${productColor.light} 0%, ${productColor.main} 50%, ${productColor.dark} 100%)` }}
+    <section
+      className="w-full py-12 lg:py-16 relative overflow-hidden"
+      style={{ background: productColor }}
     >
-      {/* Background decoration */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-white rounded-full blur-3xl opacity-0 animate-float" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-white rounded-full blur-3xl opacity-0 animate-float-delayed" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        
-        {/* Header inspiré de l'image 3 */}
-        <div className="text-center mb-16 text-white">
-         
+        <div className="text-center mb-10 lg:mb-14 opacity-0 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 backdrop-blur-sm bg-white/20 border border-white/30">
+            <Sparkles className="w-4 h-4 text-white" />
+            <span className="text-sm font-bold text-white">الفوائد الصحية</span>
+          </div>
 
-          {/* Titre principal */}
-          <h2 className="text-4xl lg:text-5xl font-bold mb-8">
-            {benefits.title || "Health Benefits"}
+          <h2
+            className="text-3xl lg:text-5xl font-black mb-3 text-white"
+            dir="rtl"
+          >
+            {benefits.title || "الفوائد الصحية"}
           </h2>
-          
-          
+          <p
+            className="text-base lg:text-lg text-white/90 max-w-2xl mx-auto"
+            dir="rtl"
+          >
+            اكتشف الفوائد المذهلة لمنتجنا المميز
+          </p>
         </div>
 
-        {/* Grid des bénéfices - Style de l'image 3 */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-          {benefits.items.map((benefit, index) => (
-            <Card 
-              key={index}
-              className="bg-white/95 backdrop-blur-sm border-0 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
-              onClick={() => benefit.description && toggleBenefit(index)}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className={`text-base font-bold text-gray-900 group-hover:text-[${productColor.main}] transition-colors`}>
-                      {benefit.name}
-                      {benefit.name.includes('Production') && (
-                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                      )}
-                      {benefit.name.includes('Function') && (
-                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                      )}
-                      {benefit.name.includes('Health') && (
-                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                      )}
-                      {benefit.name.includes('Metabolism') && (
-                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                      )}
-                      {benefit.name.includes('Support') && (
-                        <sup className="text-sm" style={{ color: productColor.main }}>†</sup>
-                      )}
-                    </h3>
-                  </div>
-                  
-                  {/* Flèche d'expansion si description disponible */}
-                  {benefit.description && (
-                    <div 
-                      className="p-2 rounded-full transition-transform duration-300"
-                      style={{ 
-                        backgroundColor: expandedBenefit === index ? productColor.main + "20" : "transparent",
-                        transform: expandedBenefit === index ? 'rotate(180deg)' : 'rotate(0deg)'
-                      }}
-                    >
-                      <ChevronDown 
-                        className="w-5 h-5"
-                        style={{ color: productColor.main }}
-                      />
-                    </div>
-                  )}
-                </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-5 max-w-5xl mx-auto">
+          {benefits.items.map((benefit, index) => {
+            const isExpanded = expandedBenefit === index;
+            const hasDescription = !!benefit.description;
 
-                {/* Description expandable avec animation */}
-                {benefit.description && expandedBenefit === index && (
-                  <div className="mt-6 pt-6 border-t border-gray-200 animate-in slide-in-from-top duration-300">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                      <div>
-                        <p className="text-gray-700 leading-relaxed">
-                          {benefit.description}
-                        </p>
-                      </div>
-                      {benefit.image && (
-                        <div className="rounded-lg overflow-hidden">
-                          <Image
-                            src={benefit.image}
-                            alt={benefit.name}
-                            width={200}
-                            height={150}
-                            className="w-full h-32 object-cover"
-                          />
+            return (
+              <div
+                key={index}
+                className="opacity-0 animate-fade-in-up h-full"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <Card
+                  className={`relative overflow-hidden border-2 transition-all duration-500 cursor-pointer group h-full flex flex-col ${
+                    isExpanded ? "shadow-2xl" : "shadow-lg hover:shadow-xl"
+                  }`}
+                  style={{
+                    borderColor: isExpanded ? "white" : "rgba(255,255,255,0.3)",
+                    background: "white",
+                    transform: isExpanded ? "scale(1.05)" : "scale(1)",
+                  }}
+                  onClick={() => hasDescription && toggleBenefit(index)}
+                >
+                  <div
+                    className="absolute top-0 left-0 right-0 h-1 transition-all duration-500"
+                    style={{ background: isExpanded ? "white" : "transparent" }}
+                  />
+
+                  <CardContent className="p-5 lg:p-6 flex-1 flex flex-col">
+                    <div className="flex items-start gap-4 min-h-[80px]">
+                      <div
+                        className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300"
+                        style={{
+                          background: isExpanded
+                            ? `linear-gradient(135deg, ${productColor}, ${productColor}dd)`
+                            : `${productColor}15`,
+                        }}
+                      >
+                        <div
+                          style={{ color: isExpanded ? "white" : productColor }}
+                        >
+                          {getBenefitIcon(benefit.name)}
                         </div>
-                      )}
-                    </div>
-                  </div>
-                )}
+                      </div>
 
-                {/* Style spécial pour le premier bénéfice avec description visible */}
-                {index === 0 && benefit.description && !expandedBenefit && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {benefit.description}
-                    </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <h3
+                            className="text-base lg:text-lg font-bold text-gray-900 leading-tight"
+                            dir="rtl"
+                          >
+                            {benefit.name}
+                            {(benefit.name.includes("Production") ||
+                              benefit.name.includes("Function") ||
+                              benefit.name.includes("Health") ||
+                              benefit.name.includes("Metabolism") ||
+                              benefit.name.includes("Support")) && (
+                              <sup
+                                className="text-xs ml-1"
+                                style={{ color: productColor }}
+                              >
+                                †
+                              </sup>
+                            )}
+                          </h3>
+
+                          {hasDescription && (
+                            <div
+                              className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
+                              style={{
+                                background: isExpanded
+                                  ? `${productColor}20`
+                                  : "transparent",
+                                transform: isExpanded
+                                  ? "rotate(180deg)"
+                                  : "rotate(0deg)",
+                              }}
+                            >
+                              <ChevronDown
+                                className="w-4 h-4"
+                                style={{ color: productColor }}
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        {index === 0 && benefit.description && !isExpanded && (
+                          <p
+                            className="text-xs lg:text-sm text-gray-600 leading-relaxed overflow-hidden"
+                            dir="rtl"
+                            style={{
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                            }}
+                          >
+                            {benefit.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {hasDescription && isExpanded && (
+                      <div className="mt-5 pt-5 border-t border-gray-200 animate-fade-in">
+                        <div
+                          className={`grid gap-4 ${
+                            benefit.image ? "md:grid-cols-2" : "grid-cols-1"
+                          } items-center`}
+                        >
+                          <div>
+                            <p
+                              className="text-sm lg:text-base text-gray-700 leading-relaxed"
+                              dir="rtl"
+                            >
+                              {benefit.description}
+                            </p>
+                          </div>
+
+                          {benefit.image && (
+                            <div className="rounded-xl overflow-hidden shadow-md">
+                              <Image
+                                src={benefit.image}
+                                alt={benefit.name}
+                                width={300}
+                                height={200}
+                                className="w-full h-40 object-cover"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {hasDescription && !isExpanded && (
+                      <div
+                        className="mt-3 flex items-center gap-2 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        dir="rtl"
+                      >
+                        <span style={{ color: productColor }}>
+                          اضغط لمعرفة المزيد
+                        </span>
+                        <ChevronDown
+                          className="w-3 h-3"
+                          style={{ color: productColor }}
+                        />
+                      </div>
+                    )}
+                  </CardContent>
+
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: `linear-gradient(135deg, transparent 0%, ${productColor}05 50%, transparent 100%)`,
+                      }}
+                    />
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+                </Card>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Note en bas */}
-       
+        <div
+          className="text-center mt-10 lg:mt-12 opacity-0 animate-fade-in"
+          style={{ animationDelay: "600ms" }}
+        >
+          <p
+            className="text-xs lg:text-sm text-white/80 max-w-3xl mx-auto"
+            dir="rtl"
+          >
+            <span className="font-bold text-white">†</span> هذه المعلومات
+            للأغراض التعليمية فقط. استشر طبيبك قبل استخدام أي مكملات غذائية.
+          </p>
+        </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes float {
+          0%,
+          100% {
+            opacity: 1;
+            transform: translateY(0px) translateX(0px);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(-20px) translateX(10px);
+          }
+        }
+        @keyframes float-delayed {
+          0%,
+          100% {
+            opacity: 1;
+            transform: translateY(0px) translateX(0px);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(20px) translateX(-10px);
+          }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out forwards;
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.6s ease-out forwards;
+        }
+        .animate-float {
+          animation: float 8s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+          animation: float-delayed 10s ease-in-out infinite;
+        }
+      `}</style>
     </section>
-  )
+  );
 }

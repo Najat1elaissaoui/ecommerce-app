@@ -1,31 +1,44 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { colors } from "@/lib/colors"
-import Image from "next/image"
-import { Check, ShoppingCart, Send, MessageCircle } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
-import { useCart } from "@/lib/cart-context"
-import { useToast } from "../ui/use-toast"
-import { Product } from "@/lib/types"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useCart } from "@/lib/cart-context";
+import {
+  Check,
+  Package,
+  Send,
+  ShoppingCart,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { useToast } from "../ui/use-toast";
 
 interface ProductPackSectionProps {
-  packs: Array<{ id: number; name: string; price: number; quantity: number; image: string }>;
+  packs: Array<{
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }>;
   productName: string;
-  productColor: { main: string; light: string; contrastText?: string };
+  productColor: string;
 }
 
-export default function ProductPacksSection({ packs, productName, productColor }: ProductPackSectionProps) {
+export default function ProductPacksSection({
+  packs,
+  productName,
+  productColor,
+}: ProductPackSectionProps) {
   const [selectedPack, setSelectedPack] = useState(packs[0]?.id || 0);
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isSubmittingForm, setIsSubmittingForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    address: ""
+    address: "",
   });
   const [showFixedButton, setShowFixedButton] = useState(true);
   const formRef = useRef<HTMLDivElement>(null);
@@ -42,37 +55,32 @@ export default function ProductPacksSection({ packs, productName, productColor }
     return () => observer.disconnect();
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
-  const handleAddToCart = (product: Product) => {
-    addItem({
-      id: product.id,
-      name_ar: product.name_ar,
-      price: product.price,
-      type: "product",
-      image: product.images?.[0],
-    });
-    toast({
-      title: "تم إضافة المنتج للسلة",
-      description: `تم إضافة ${product.name_ar} إلى سلة التسوق`,
-    });
-  };
-
   const handleCheckout = () => {
-    // Implement checkout logic here
     toast({
       title: "تم إضافة الباقة للسلة",
-  description: `تم إضافة ${productName} - ${packs.find((p: {id: number; name: string}) => p.id === selectedPack)?.name} إلى سلة التسوق`,
+      description: `تم إضافة ${productName} - ${
+        packs.find((p) => p.id === selectedPack)?.name
+      } إلى سلة التسوق`,
     });
   };
 
-  const handleDirectOrder = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleDirectOrder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formData.name || !formData.phone || !formData.address) {
+      toast({
+        title: "خطأ",
+        description: "يرجى ملء جميع الحقول المطلوبة",
+        variant: "destructive",
+      });
+      return;
+    }
     setIsSubmittingForm(true);
     setTimeout(() => {
       setIsSubmittingForm(false);
@@ -80,262 +88,461 @@ export default function ProductPacksSection({ packs, productName, productColor }
         title: "تم إرسال الطلب",
         description: "سيتم التواصل معك قريبًا لتأكيد الطلب.",
       });
+      setFormData({ name: "", phone: "", address: "" });
     }, 2000);
   };
-  // Remove stray bracket and ensure hooks are at the top
-  const selectedPackData = packs.find((p: {id: number}) => p.id === selectedPack);
+
+  const selectedPackData = packs.find((p) => p.id === selectedPack);
+  const mostPopularIndex = Math.floor(packs.length / 2);
 
   return (
-    <section className="w-full py-20 pt-4" id="product-packs" style={{
-      background: `linear-gradient(to bottom right, ${productColor.light}20, white, ${productColor.light}20)`
-    }}>
-      <div className="container mx-auto px-4">
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4" dir="rtl" style={{ color: colors.text.primary }}>
+    <section
+      className="w-full py-8 lg:py-12 relative overflow-hidden"
+      id="product-packs"
+    >
+      <div className="absolute inset-0 opacity-30">
+        <div
+          className="absolute top-0 left-0 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: `${productColor}40` }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: `${productColor}20` }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-8 lg:mb-10 opacity-0 animate-fade-in">
+          <div
+            className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-3"
+            style={{ background: `${productColor}20` }}
+          >
+            <Package className="w-6 h-6" style={{ color: productColor }} />
+          </div>
+          <h2
+            className="text-3xl lg:text-5xl font-black mb-3 bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-transparent"
+            dir="rtl"
+          >
             اختر الباقة المناسبة
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto" dir="rtl">
+          <p
+            className="text-base lg:text-lg text-gray-600 max-w-2xl mx-auto font-light"
+            dir="rtl"
+          >
             احصل على أفضل العروض مع باقتنا المميزة
           </p>
         </div>
-        
-        {/* Badge de réduction */}
-        {/* <div className="relative max-w-6xl mx-auto">
-          <div className="absolute -top-6 -right-6 z-20 lg:block hidden">
-            <div className="text-white rounded-full w-24 h-24 flex flex-col items-center justify-center font-bold shadow-2xl transform rotate-12" style={{
-              backgroundColor: productColor.main
-            }}>
-              <span className="text-2xl">42%</span>
-              <span className="text-xs">خصم</span>
-            </div>
-          </div>
-        </div> */}
-        
-        {/* Mobile layout - Only significant info: pack name, quantity, price */}
-        <div className="md:hidden max-w-6xl mx-auto mb-8">
-          <div className="flex flex-row items-center gap-4 rounded-lg p-4">
-            {/* Image du pack - same size as card */}
-            <div className="w-1/2 flex items-center justify-center">
-              <Image
-                src={selectedPackData?.image || packs[0].image}
-                alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
-                width={140}
-                height={140}
-                className="object-contain h-32 w-32"
-              />
-            </div>
-            {/* Info significative */}
-            <div className="w-1/2 rounded-lg p-3 flex flex-col items-center justify-center text-center" dir="rtl" style={{
-              backgroundColor: productColor.main,
-              color: 'white',
-              minHeight: '128px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <div className="text-lg font-bold mb-1 w-full">{selectedPackData?.name}</div>
-              <div className="text-2xl font-extrabold w-full">{((selectedPackData?.price || 0)).toFixed(2)} د.م.</div>
-            </div>
-          </div>
-          
-          {/* Pack selection buttons - mobile, show pack name, scrollable if needed */}
-          <div className="flex flex-row flex-wrap items-center justify-start mt-3 gap-2 overflow-x-auto md:overflow-x-visible" dir="rtl" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+
+        <div className="hidden lg:grid lg:grid-cols-3 gap-4 max-w-7xl mx-auto mb-10">
+          {packs.map((pack, index) => {
+            const isSelected = selectedPack === pack.id;
+            const isPopular = index === mostPopularIndex;
+
+            return (
+              <div
+                key={pack.id}
+                className={`relative cursor-pointer transition-all duration-500 ${
+                  isSelected ? "scale-105" : "hover:scale-102"
+                }`}
+                onClick={() => setSelectedPack(pack.id)}
+              >
+                {isPopular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <div
+                      className="px-4 py-1.5 rounded-full text-white text-xs font-bold shadow-lg flex items-center gap-1"
+                      style={{ backgroundColor: productColor }}
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      الأكثر مبيعاً
+                    </div>
+                  </div>
+                )}
+
+                <Card
+                  className={`relative overflow-hidden transition-all duration-500 border-2 ${
+                    isSelected ? "shadow-2xl" : "shadow-lg hover:shadow-xl"
+                  }`}
+                  style={{
+                    borderColor: isSelected ? productColor : "#e5e7eb",
+                    transform: isSelected
+                      ? "translateY(-8px)"
+                      : "translateY(0)",
+                  }}
+                >
+                  {isSelected && (
+                    <div
+                      className="absolute top-0 left-0 right-0 h-2"
+                      style={{
+                        background: `linear-gradient(90deg, ${productColor}, ${productColor}dd)`,
+                      }}
+                    />
+                  )}
+
+                  <CardContent className="p-4">
+                    <div className="relative mb-4 flex items-center justify-center h-32">
+                      <Image
+                        src={pack.image}
+                        alt={pack.name}
+                        width={160}
+                        height={160}
+                        className="object-contain hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+
+                    <div className="text-center space-y-2" dir="rtl">
+                      <h3 className="text-xl font-bold text-gray-900">
+                        {pack.name}
+                      </h3>
+
+                      <div className="flex items-center justify-center gap-2 text-gray-600">
+                        <Package className="w-3 h-3" />
+                        <span className="text-xs font-medium">
+                          {pack.quantity} قطعة
+                        </span>
+                      </div>
+
+                      <div className="pt-2 pb-1">
+                        <div
+                          className="text-3xl font-black"
+                          style={{ color: productColor }}
+                        >
+                          {pack.price.toFixed(2)}{" "}
+                          <span className="text-xl">د.م.</span>
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {(pack.price / pack.quantity).toFixed(2)} د.م. للقطعة
+                        </div>
+                      </div>
+
+                      <Button
+                        className={`w-full py-4 rounded-xl font-bold transition-all duration-300 ${
+                          isSelected ? "shadow-lg" : ""
+                        }`}
+                        style={{
+                          backgroundColor: isSelected ? productColor : "white",
+                          color: isSelected ? "white" : productColor,
+                          border: `2px solid ${productColor}`,
+                        }}
+                      >
+                        {isSelected ? (
+                          <span className="flex items-center gap-2">
+                            <Check className="w-5 h-5" />
+                            تم الاختيار
+                          </span>
+                        ) : (
+                          "اختر هذه الباقة"
+                        )}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="lg:hidden max-w-2xl mx-auto mb-8">
+          <Card
+            className="border-2 shadow-xl mb-4 overflow-hidden"
+            style={{ borderColor: productColor }}
+          >
+            <div
+              className="h-1.5 w-full"
+              style={{
+                background: `linear-gradient(90deg, ${productColor}, ${productColor}dd)`,
+              }}
+            />
+            <CardContent className="p-4">
+              <div className="flex gap-4 items-center">
+                <div className="w-24 h-24 flex-shrink-0">
+                  <Image
+                    src={selectedPackData?.image || packs[0].image}
+                    alt={selectedPackData?.name || packs[0].name}
+                    width={96}
+                    height={96}
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+                <div className="flex-1 text-right" dir="rtl">
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">
+                    {selectedPackData?.name}
+                  </h3>
+                  <div className="flex items-center gap-2 text-gray-600 mb-2">
+                    <Package className="w-3 h-3" />
+                    <span className="text-xs">
+                      {selectedPackData?.quantity} قطعة
+                    </span>
+                  </div>
+                  <div
+                    className="text-2xl font-black"
+                    style={{ color: productColor }}
+                  >
+                    {(selectedPackData?.price || 0).toFixed(2)}{" "}
+                    <span className="text-lg">د.م.</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid grid-cols-3 gap-2" dir="rtl">
             {packs.map((pack) => (
               <Button
                 key={pack.id}
-                variant={selectedPack === pack.id ? "default" : "outline"}
                 onClick={() => setSelectedPack(pack.id)}
-                  className="px-4 py-2 text-xs rounded-md min-w-[100px] text-center transition-all duration-300 font-bold whitespace-nowrap cursor-pointer flex-shrink-0"
+                className="relative py-6 rounded-xl font-bold transition-all duration-300"
                 style={{
-                  backgroundColor: selectedPack === pack.id ? productColor.main : 'white',
-                  borderColor: productColor.main,
-                  color: selectedPack === pack.id ? 'white' : productColor.main
+                  backgroundColor:
+                    selectedPack === pack.id ? productColor : "white",
+                  color: selectedPack === pack.id ? "white" : productColor,
+                  border: `2px solid ${productColor}`,
                 }}
               >
-                {pack.name}
+                {selectedPack === pack.id && (
+                  <div
+                    className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: productColor }}
+                  >
+                    <Check className="w-4 h-4 text-white" />
+                  </div>
+                )}
+                <div className="text-center">
+                  <div className="text-sm mb-1">{pack.name}</div>
+                  <div className="text-xs opacity-75">{pack.quantity} قطعة</div>
+                </div>
               </Button>
             ))}
           </div>
         </div>
 
-        {/* Desktop layout - Only significant info: pack name, quantity, price */}
-  <div className="hidden md:block max-w-6xl mx-auto">
-          <div className="flex flex-row gap-8">
-            {/* Left side - Card with pricing info and buttons */}
-            <div className="w-1/2 flex flex-col justify-center">
-              <div className="rounded-lg p-8 text-white flex flex-col items-center justify-center text-center min-h-[200px]" style={{
-                backgroundColor: productColor.main
-              }}>
-                <div className="text-2xl font-extrabold mb-2 w-full">{selectedPackData?.name}</div>
-                <div className="text-lg mb-2 w-full">الكمية: {selectedPackData?.quantity}</div>
-                <div className="text-4xl font-black w-full">{((selectedPackData?.price || 0)).toFixed(2)} د.م.</div>
+        <div
+          className="max-w-3xl mx-auto"
+          id="order-form-section"
+          ref={formRef}
+        >
+          <Card className="border-2 shadow-2xl rounded-3xl overflow-hidden backdrop-blur-sm bg-white/95">
+            <div
+              className="h-2 w-full"
+              style={{
+                background: `linear-gradient(90deg, ${productColor}, ${productColor}dd)`,
+              }}
+            />
+            <CardContent className="p-6 lg:p-8">
+              <div className="text-center mb-6">
+                <div
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-3"
+                  style={{ background: `${productColor}20` }}
+                >
+                  <Send className="w-6 h-6" style={{ color: productColor }} />
+                </div>
+                <h3
+                  className="text-xl lg:text-2xl font-bold text-gray-900 mb-2"
+                  dir="rtl"
+                >
+                  أكمل طلبك الآن
+                </h3>
+                <p className="text-sm text-gray-600" dir="rtl">
+                  املأ البيانات وسنتواصل معك فوراً
+                </p>
               </div>
-              {/* Pack selection buttons directly below card */}
-              <div className="flex flex-row items-center justify-between gap-3 mt-3" dir="rtl">
-                {packs.map((pack) => (
-                  <Button
-                    key={pack.id}
-                    variant={selectedPack === pack.id ? "default" : "outline"}
-                    onClick={() => setSelectedPack(pack.id)}
-                     className="py-2 px-5 flex-1 text-center transition-all duration-300 cursor-pointer"
-                    style={{
-                      backgroundColor: selectedPack === pack.id ? productColor.main : 'white',
-                      borderColor: productColor.main,
-                      color: selectedPack === pack.id ? 'white' : productColor.main
-                    }}
-                  >
-                    {`PACK-${pack.quantity}`}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            {/* Right side - Product image */}
-            <div className="w-1/2 flex items-center justify-center">
-              <Image
-                src={selectedPackData?.image || packs[0].image}
-                alt={`${productName} - ${selectedPackData?.name || packs[0].name}`}
-                width={300}
-                height={300}
-                className="object-contain h-72 w-auto"
-              />
-            </div>
-          </div>
-        </div>
-        
-        {/* Form at the bottom for all views */}
-  <div className="max-w-6xl mx-auto mt-10" id="order-form-section" ref={formRef}>
-          <Card className="border-2 shadow-xl rounded-2xl overflow-hidden" style={{
-            borderColor: `${productColor.light}33`
-          }}>
-            <CardContent className="p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 text-center" dir="rtl">
-                الطلب المباشر
-              </h3>
-              
-              <form onSubmit={handleDirectOrder} className="space-y-4" dir="rtl">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    * الاسم الكامل
+
+              <div className="space-y-4" dir="rtl">
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-gray-700">
+                    الاسم الكامل *
                   </label>
                   <Input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    placeholder="الاسم الكامل"
+                    placeholder="أدخل اسمك الكامل"
                     required
-                    className="w-full text-right"
+                    className="w-full text-right py-5 text-sm rounded-xl border-2 focus:border-current transition-colors"
+                    style={{ borderColor: "#e5e7eb" }}
                     dir="rtl"
-                    onInvalid={e => e.currentTarget.setCustomValidity('يرجى إدخال الاسم الكامل')}
-                    onInput={e => e.currentTarget.setCustomValidity('')}
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    * رقم الهاتف
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-gray-700">
+                    رقم الهاتف *
                   </label>
                   <Input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="0XXXXXXXXX"
+                    placeholder="06XXXXXXXX"
                     required
-                    className="w-full text-right"
+                    className="w-full text-right py-5 text-sm rounded-xl border-2 focus:border-current transition-colors"
+                    style={{ borderColor: "#e5e7eb" }}
                     dir="rtl"
-                    onInvalid={e => e.currentTarget.setCustomValidity('يرجى إدخال رقم الهاتف')}
-                    onInput={e => e.currentTarget.setCustomValidity('')}
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    * عنوان التوصيل
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-gray-700">
+                    عنوان التوصيل *
                   </label>
                   <Input
                     type="text"
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    placeholder="العنوان الكامل"
+                    placeholder="المدينة، الحي، الشارع..."
                     required
-                    className="w-full text-right"
+                    className="w-full text-right py-5 text-sm rounded-xl border-2 focus:border-current transition-colors"
+                    style={{ borderColor: "#e5e7eb" }}
                     dir="rtl"
-                    onInvalid={e => e.currentTarget.setCustomValidity('يرجى إدخال عنوان التوصيل')}
-                    onInput={e => e.currentTarget.setCustomValidity('')}
                   />
                 </div>
 
-                <div className="pt-4">
-                  <div className="flex flex-row gap-2 w-full">
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="flex-1 py-4 text-lg font-bold rounded text-white transition-all duration-300 shadow-lg min-w-0 cursor-pointer"
-                      style={{
-                        backgroundColor: productColor.main,
-                        minHeight: '3.5rem',
-                        borderRadius: '0.5rem'
-                      }}
-                      disabled={isSubmittingForm}
+                <div className="flex flex-col sm:flex-row gap-2 pt-2">
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDirectOrder(e as any);
+                    }}
+                    size="lg"
+                    className="flex-1 py-5 text-base font-bold rounded-xl text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                    style={{ backgroundColor: productColor }}
+                    disabled={isSubmittingForm}
+                  >
+                    {isSubmittingForm ? (
+                      <div
+                        className="flex items-center justify-center gap-3"
+                        dir="rtl"
+                      >
+                        <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+                        جاري المعالجة...
+                      </div>
+                    ) : (
+                      <div
+                        className="flex items-center justify-center gap-3"
+                        dir="rtl"
+                      >
+                        <Send className="w-5 h-5" />
+                        اطلب الآن - توصيل مجاني
+                      </div>
+                    )}
+                  </Button>
+
+                  <Button
+                    type="button"
+                    onClick={handleCheckout}
+                    size="lg"
+                    className="sm:w-auto py-5 px-6 rounded-xl font-bold bg-gray-900 hover:bg-gray-800 text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                  >
+                    <div className="flex items-center gap-2">
+                      <ShoppingCart className="w-4 h-4" />
+                      <span className="hidden sm:inline text-sm">
+                        اضف للسلة
+                      </span>
+                    </div>
+                  </Button>
+                </div>
+
+                <div
+                  className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-200"
+                  dir="rtl"
+                >
+                  <div className="text-center">
+                    <div
+                      className="text-xl font-bold"
+                      style={{ color: productColor }}
                     >
-                      {isSubmittingForm ? (
-                        <div className="flex items-center justify-center gap-2" dir="rtl">
-                          <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
-                          جاري المعالجة...
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-center gap-2" dir="rtl">
-                          <Send className="w-5 h-5" />
-                          اطلب الآن
-                        </div>
-                      )}
-                    </Button>
-                    <button
-                      type="button"
-                      onClick={handleCheckout}
-                      className="flex items-center justify-center gap-2 rounded bg-black text-white hover:bg-gray-900 transition-colors min-w-0 ml-2 px-4 py-2 cursor-pointer"
-                      title="Checkout"
-                      style={{ minWidth: '3.5rem', minHeight: '3.5rem', height: '3.5rem', borderRadius: '0.5rem' }}
+                      ✓
+                    </div>
+                    <div className="text-[10px] text-gray-600 mt-0.5">
+                      توصيل سريع
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div
+                      className="text-xl font-bold"
+                      style={{ color: productColor }}
                     >
-                      <ShoppingCart className="w-6 h-6" />
-                      <span className="text-sm font-bold hidden md:inline">اضف الى السلة</span>
-                    </button>
+                      ✓
+                    </div>
+                    <div className="text-[10px] text-gray-600 mt-0.5">
+                      دفع عند الاستلام
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div
+                      className="text-xl font-bold"
+                      style={{ color: productColor }}
+                    >
+                      ✓
+                    </div>
+                    <div className="text-[10px] text-gray-600 mt-0.5">
+                      ضمان الجودة
+                    </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </CardContent>
           </Card>
         </div>
-        
-        {/* Fixed bottom button for "Add to Cart" that stays visible when scrolling, except when form is in view */}
+
         {showFixedButton && (
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
-            <Button
-              size="lg"
-              onClick={() => {
-                const formSection = document.getElementById('order-form-section');
-                if (formSection) {
-                  formSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className="w-full py-4 text-lg font-bold rounded text-white transition-all duration-300 shadow-md cursor-pointer"
-              style={{
-                backgroundColor: productColor.main,
-                color: productColor.contrastText,
-                borderRadius: '0.5rem'
-              }}
-            >
-                <div className="flex items-center justify-center gap-2" dir="rtl">
-                  اطلب الآن
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl z-[99999999] opacity-0 animate-slide-up">
+            <div className="container mx-auto max-w-3xl">
+              <Button
+                size="lg"
+                onClick={() => {
+                  document
+                    .getElementById("order-form-section")
+                    ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
+                className="w-full py-6 text-lg font-bold rounded-xl text-white transition-all duration-300 shadow-lg hover:scale-105"
+                style={{ backgroundColor: productColor }}
+              >
+                <div
+                  className="flex items-center justify-center gap-3"
+                  dir="rtl"
+                >
+                  <TrendingUp className="w-5 h-5" />
+                  اطلب الآن - عرض خاص
                 </div>
-            </Button>
+              </Button>
+            </div>
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slide-up {
+          from {
+            opacity: 0;
+            transform: translateY(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out forwards;
+        }
+        .animate-slide-up {
+          animation: slide-up 0.3s ease-out forwards;
+        }
+        .hover\\:scale-102:hover {
+          transform: scale(1.02);
+        }
+      `}</style>
     </section>
-  )
+  );
 }

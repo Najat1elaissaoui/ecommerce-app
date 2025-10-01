@@ -1,15 +1,13 @@
-import ModernHero from "@/components/client/modern-hero"
-import ModernProducts from "@/components/client/modern-products"
-import ModernVideoSection from "@/components/client/modern-video-section"
-import ModernBenefits from "@/components/client/modern-benefits"
-import ModernTestimonials from "@/components/client/modern-testimonials"
-import PurposeSection from "@/components/client/purpose-section"
-import FinalCTA from "@/components/client/final-cta"
-import ContactSection from "@/components/client/contact-section"
-import Footer from "@/components/client/footer"
-import Header from "@/components/client/header"
-import HeroSection from "@/components/client/hero-section"
-import ProductCarouselSection from "@/components/client/product-carousel-section"
+import ContactSection from "@/components/client/contact-section";
+import FinalCTA from "@/components/client/final-cta";
+import Footer from "@/components/client/footer";
+import Header from "@/components/client/header";
+import HeroSection from "@/components/client/hero-section";
+import ModernBenefits from "@/components/client/modern-benefits";
+import ModernProducts from "@/components/client/modern-products";
+import ModernTestimonials from "@/components/client/modern-testimonials";
+import ModernVideoSection from "@/components/client/modern-video-section";
+import ProductCarouselSection from "@/components/client/product-carousel-section";
 // Removed SlidingAnnouncement import as it's now in layout.tsx
 
 export default function HomePage() {
@@ -57,5 +55,5 @@ export default function HomePage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
