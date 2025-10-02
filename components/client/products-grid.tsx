@@ -3,6 +3,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/lib/cart-context";
 import { Package, ShoppingCart, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 interface Pack {
@@ -11,7 +12,7 @@ interface Pack {
   image: string;
   price: number;
   originalPrice?: number;
-
+  productId: number;
   popular?: boolean;
   productName: string;
   productColor?: string;
@@ -26,6 +27,7 @@ const globalPacks: Pack[] = [
     image: "/pack1.png",
     price: 19.32,
     originalPrice: 26.0,
+    productId: 1,
     productName: "علكة خل التفاح",
     productColor: "#AE3131",
   },
@@ -35,6 +37,7 @@ const globalPacks: Pack[] = [
     image: "/pack3.png",
     price: 17.39,
     originalPrice: 25.0,
+    productId: 1,
     productName: "علكة خل التفاح",
     productColor: "#AE3131",
   },
@@ -44,6 +47,7 @@ const globalPacks: Pack[] = [
     image: "/pack5.png",
     price: 15.99,
     originalPrice: 23.0,
+    productId: 1,
     productName: "علكة خل التفاح",
     productColor: "#AE3131",
   },
@@ -54,6 +58,7 @@ const globalPacks: Pack[] = [
     image: "/pack21.png",
     price: 19.32,
     originalPrice: 26.0,
+    productId: 2,
     productName: "بروتين مصل اللبن المميز",
     productColor: "#0088CC",
   },
@@ -63,6 +68,7 @@ const globalPacks: Pack[] = [
     image: "/pack23.png",
     price: 17.39,
     originalPrice: 25.0,
+    productId: 2,
     productName: "بروتين مصل اللبن المميز",
     productColor: "#0088CC",
   },
@@ -72,6 +78,7 @@ const globalPacks: Pack[] = [
     image: "/pack25.png",
     price: 15.99,
     originalPrice: 23.0,
+    productId: 2,
     productName: "بروتين مصل اللبن المميز",
     productColor: "#0088CC",
   },
@@ -82,6 +89,7 @@ const globalPacks: Pack[] = [
     image: "/pack31.png",
     price: 19.32,
     originalPrice: 26.0,
+    productId: 3,
     productName: "بروتيبن EXTRA-STRENGTH SLEEP",
     productColor: "#7a30cf",
   },
@@ -91,6 +99,7 @@ const globalPacks: Pack[] = [
     image: "/pack33.png",
     price: 17.39,
     originalPrice: 25.0,
+    productId: 3,
     productName: "بروتيبن EXTRA-STRENGTH SLEEP",
     productColor: "#7a30cf",
   },
@@ -100,8 +109,40 @@ const globalPacks: Pack[] = [
     image: "/pack35.png",
     price: 15.99,
     originalPrice: 23.0,
+    productId: 3,
     productName: "بروتيبن EXTRA-STRENGTH SLEEP",
     productColor: "#7a30cf",
+  },
+  // Produit 4
+  {
+    id: 10,
+    name: "عبوة واحدة",
+    image: "/pack1.png",
+    price: 19.32,
+    originalPrice: 26.0,
+    productId: 4,
+    productName: "علكة خل التفاح",
+    productColor: "#AE3131",
+  },
+  {
+    id: 11,
+    name: "3 عبوات",
+    image: "/pack3.png",
+    price: 17.39,
+    originalPrice: 25.0,
+    productId: 4,
+    productName: "علكة خل التفاح",
+    productColor: "#AE3131",
+  },
+  {
+    id: 12,
+    name: "5 عبوات",
+    image: "/pack5.png",
+    price: 15.99,
+    originalPrice: 23.0,
+    productId: 4,
+    productName: "علكة خل التفاح",
+    productColor: "#AE3131",
   },
 ];
 
@@ -112,8 +153,8 @@ export default function ProductsGrid() {
   // Group packs by product
   const products = Array.from(
     globalPacks.reduce((map, pack) => {
-      if (!map.has(pack.productName)) map.set(pack.productName, []);
-      map.get(pack.productName).push(pack);
+      if (!map.has(pack.productId)) map.set(pack.productId, []);
+      map.get(pack.productId).push(pack);
       return map;
     }, new Map())
   );
@@ -142,7 +183,7 @@ export default function ProductsGrid() {
           onAddToCart={(pack) => {
             // addItem(pack);
             toast({
-              title: "تمإضافة الباقة للسلة",
+              title: "تم إضافة الباقة للسلة",
               description: `تمإضافة ${productName} - ${pack.name} إلى سلة التسوق`,
             });
           }}
@@ -251,9 +292,11 @@ export function ModernProductCard({
         <div className="px-6 -mt-16 relative z-10 flex-1 flex flex-col pb-6">
           {/* Product Title Card */}
           <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 flex-shrink-0">
-            <h2 className="text-2xl font-black text-gray-800 text-center mb-2">
-              {selected.productName}
-            </h2>
+            <Link href={`/products/${selected.productId}`} className="w-full">
+              <h2 className="text-2xl font-black text-gray-800 text-center mb-2">
+                {selected.productName}
+              </h2>
+            </Link>
             <p className="text-sm text-gray-500 text-center">
               مكمل غذائي طبيعي للصحة والعافية
             </p>

@@ -28,19 +28,6 @@ export default function ProductsPage({ searchParams }: ProductsPageProps) {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Fond d'écran subtil et moderne */}
-      <div className="fixed inset-0 pointer-events-none">
-        {/* Gradient de fond */}
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white opacity-70" />
-
-        {/* Pattern subtil */}
-        <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-repeat opacity-5" />
-
-        {/* Orbes gradients */}
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-pink-400/10 to-orange-600/10 rounded-full blur-3xl" />
-      </div>
-
       <Header />
 
       <main className="pt-20 relative z-10">
@@ -62,7 +49,9 @@ export default function ProductsPage({ searchParams }: ProductsPageProps) {
         </div>
       </main>
 
-      <Footer />
+      <div className="z-99999999">
+        <Footer />
+      </div>
     </div>
   );
 }

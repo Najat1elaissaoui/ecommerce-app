@@ -9,6 +9,7 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function FinalCTA() {
@@ -253,7 +254,13 @@ export default function FinalCTA() {
               <div className="relative z-10 animate-float-slow">
                 <div className="w-[400px] h-[500px] bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-3xl backdrop-blur-sm border border-white/10 shadow-2xl flex items-center justify-center overflow-hidden">
                   <div className="text-white/50 text-6xl font-bold">
-                    Product
+                    <Image
+                      src="/goli1.png"
+                      alt="Tafoukt Logo"
+                      width={1000}
+                      height={1000}
+                      className="p-6 object-contain transition-transform duration-300 group-hover:scale-110"
+                    />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 </div>
