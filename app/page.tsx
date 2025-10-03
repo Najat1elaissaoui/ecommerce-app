@@ -34,22 +34,22 @@ export default function HomePage() {
         </div>
 
         {/* قسم المزايا والجودة */}
-        <div className="my-4 md:my-8">
+        <div className="my-4 md:my-4">
           <ModernBenefits />
         </div>
 
         {/* قسم شهادات العملاء العصري */}
-        <div className="my-4 md:my-8">
+        <div className="my-4 md:my-4">
           <ModernTestimonials />
         </div>
 
         {/* قسم الدعوة النهائية للعمل */}
-        <div className="my-4 md:my-8">
+        <div className="">
           <FinalCTA />
         </div>
 
         {/* قسم التواصل */}
-        <div className="my-4 md:my-8">
+        <div className="mb-4">
           <ContactSection />
         </div>
       </main>

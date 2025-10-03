@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  ArrowRight,
-  Award,
-  Check,
-  Sparkles,
-  Star,
-  TrendingUp,
-  Zap,
-} from "lucide-react";
+import { Award, Check, Sparkles, Star, TrendingUp, Zap } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -183,28 +175,6 @@ export default function FinalCTA() {
                   </div>
                 );
               })}
-            </div>
-
-            {/* CTA Buttons */}
-            <div
-              className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-end mb-10 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
-              } transition-all duration-700 delay-500`}
-            >
-              <button className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full font-bold text-white shadow-2xl overflow-hidden transform hover:scale-105 transition-all duration-300">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <span className="relative flex items-center justify-center gap-2 text-lg">
-                  <span>احصل على خصمك الآن</span>
-                  <ArrowRight className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-              </button>
-
-              <button className="px-8 py-4 border-2 border-blue-400/50 text-blue-300 rounded-full font-bold hover:bg-blue-400/10 hover:border-blue-400 transition-all duration-300 backdrop-blur-sm text-lg">
-                اعرف المزيد
-              </button>
             </div>
 
             {/* Stats */}
